@@ -12,11 +12,13 @@ import ChatViewController
 class MessageViewController: ChatViewController {
 
     var viewModel = MessageViewModel()
+    var numberUserTypings = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bindViewModel()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -35,12 +37,23 @@ class MessageViewController: ChatViewController {
     }
 
     func setupUI() {
+        title = "Liliana"
+
+        /// Tableview
         tableView.estimatedRowHeight = 88
         tableView.keyboardDismissMode = .interactive
         tableView.rowHeight = UITableViewAutomaticDimension
-
         tableView.register(MessageTextCell.nib(), forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
 
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: UIImage(named: "ic_typing"),
+                            style: .plain,
+                            target: self,
+                            action: #selector(handleTypingButton))
+        ]
+    }
+
+    func bindViewModel() {
         /// Image Picker Result closure
         imagePickerView.pickImageResult = { image, url, error in
             if error != nil {
@@ -53,6 +66,7 @@ class MessageViewController: ChatViewController {
 
             print("Pick image successfully")
         }
+
     }
 
     override func didPressSendButton(_ sender: Any?) {
@@ -60,6 +74,31 @@ class MessageViewController: ChatViewController {
         viewModel.messages.append(message)
         tableView.insertRows(at: [IndexPath(row: viewModel.messages.count - 1, section: 0)], with: .bottom)
         super.didPressSendButton(sender)
+    }
+
+    @objc func handleTypingButton() {
+
+        switch numberUserTypings {
+        case 0, 1, 2:
+            var user: User
+            switch numberUserTypings {
+            case 0:
+                user = User(id: "1", name: "Harry", image: #imageLiteral(resourceName: "ic_boy"))
+            case 1:
+                user = User(id: "2", name: "Bob", image: #imageLiteral(resourceName: "ic_boy"))
+            default:
+                user = User(id: "3", name: "Liliana", image: #imageLiteral(resourceName: "ic_girl"))
+            }
+            viewModel.users.append(user)
+            typingIndicatorView.insertUser(user)
+            numberUserTypings += 1
+        default:
+            for user in viewModel.users {
+                typingIndicatorView.removeUser(user)
+            }
+            numberUserTypings = 0
+            break
+        }
     }
 }
 

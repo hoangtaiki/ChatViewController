@@ -24,7 +24,7 @@ extension ChatViewController {
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: typingIndicatorView.topAnchor).isActive = true
     }
 
     /// Add tap gesture on ChatBarView to resignFirstResponse for TextView
@@ -78,6 +78,40 @@ extension ChatViewController {
                 self.tableView.scrollToBottomAnimated(false)
         },
             completion: { bool in
+        })
+    }
+
+
+    /// Setup TypingIndicator
+    func setupTypingIndicator() {
+        view.addSubview(typingIndicatorView)
+        typingIndicatorView.isHidden = true
+        observation = typingIndicatorView.observe(\TypingIndicatorView.isVisible) { [weak self] object, change in
+            self?.animateTypeIndicatorView()
+        }
+
+        typingIndicatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        typingIndicatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        typingIndicatorView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor).isActive = true
+        typingIndicatorHeightConstraint = typingIndicatorView.heightAnchor.constraint(equalToConstant: 0.0)
+        typingIndicatorHeightConstraint?.isActive = true
+    }
+
+    func animateTypeIndicatorView() {
+        let height = typingIndicatorView.isVisible ? typingIndicatorView.viewHeight : 0.0
+
+        typingIndicatorHeightConstraint.constant = height
+
+        if typingIndicatorView.isVisible {
+            typingIndicatorView.isHidden = false
+        }
+
+        UIView.animate(withDuration: 0.3, animations: {
+            if !self.typingIndicatorView.isVisible {
+                self.typingIndicatorView.isHidden = true
+            }
+            self.view.layoutIfNeeded()
+            self.tableView.scrollToBottomAnimated(true)
         })
     }
 

@@ -27,17 +27,27 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         return tableView
     }()
 
+    @objc public lazy var typingIndicatorView: TypingIndicatorView = {
+        let typingIndicator = TypingIndicatorView()
+        typingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return typingIndicator
+    }()
+
     /// ChatBarView
     open var chatBarView: ChatBarView!
     /// ImagePickerView
     public var imagePickerView: ImagePickerView!
 
     /// Bottom constraint of ChatBarView and view
-    open var chatBarBottomConstraint: NSLayoutConstraint!
+    public var chatBarBottomConstraint: NSLayoutConstraint!
     /// Height constraint for ChatBarView
-    open var chatBarHeightConstraint: NSLayoutConstraint!
+    public var chatBarHeightConstraint: NSLayoutConstraint!
     /// Top Contraint Between ChatImagePicker and ChatBarView.bottomAnchor
-    open var imagePickerTopContraint: NSLayoutConstraint!
+    public var imagePickerTopContraint: NSLayoutConstraint!
+    /// Observe `isVisible` key for TypingIndicatorView
+    public var observation: NSKeyValueObservation?
+    /// TypingIndicator height contraint
+    public var typingIndicatorHeightConstraint: NSLayoutConstraint!
 
 
     /// YES if the text inputbar is hidden. Default is NO.
@@ -63,6 +73,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
     open func setupSubviews() {
         setupChatBar()
+        setupTypingIndicator()
         initTableView()
         initImagePickerView()
     }
