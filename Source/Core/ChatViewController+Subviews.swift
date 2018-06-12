@@ -47,6 +47,41 @@ extension ChatViewController {
         textView.becomeFirstResponder()
         textView.reloadInputViews()
     }
+
+
+    /// Setup for ImagePicker
+    func initImagePickerView() {
+        imagePickerView = ImagePickerView()
+        imagePickerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imagePickerView)
+
+        imagePickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imagePickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imagePickerTopContraint = imagePickerView.topAnchor.constraint(equalTo: chatBarView.bottomAnchor)
+        imagePickerTopContraint.isActive = true
+        imagePickerView.heightAnchor.constraint(equalToConstant: customKeyboardHeight).isActive = true
+    }
+
+    func animateShowImagePicker() {
+        tableView.stopScrolling()
+        view.bringSubview(toFront: imagePickerView)
+
+        UIView.animate(
+            withDuration: 0.25,
+            delay: 0,
+            options: UIViewAnimationOptions(),
+            animations: {
+                let heightOffset = self.imagePickerView.frame.size.height
+                self.chatBarBottomConstraint.constant = -heightOffset
+
+                self.view.layoutIfNeeded()
+                self.tableView.scrollToBottomAnimated(false)
+        },
+            completion: { bool in
+        })
+    }
+
+
 }
 
 extension ChatViewController: UIGestureRecognizerDelegate {

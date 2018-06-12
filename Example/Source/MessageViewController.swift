@@ -40,6 +40,19 @@ class MessageViewController: ChatViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
 
         tableView.register(MessageTextCell.nib(), forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
+
+        /// Image Picker Result closure
+        imagePickerView.pickImageResult = { image, url, error in
+            if error != nil {
+                return
+            }
+
+            guard let _ = image, let _ = url else {
+                return
+            }
+
+            print("Pick image successfully")
+        }
     }
 
     override func didPressSendButton(_ sender: Any?) {

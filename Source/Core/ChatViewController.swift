@@ -29,11 +29,15 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
     /// ChatBarView
     open var chatBarView: ChatBarView!
+    /// ImagePickerView
+    public var imagePickerView: ImagePickerView!
 
     /// Bottom constraint of ChatBarView and view
     open var chatBarBottomConstraint: NSLayoutConstraint!
     /// Height constraint for ChatBarView
     open var chatBarHeightConstraint: NSLayoutConstraint!
+    /// Top Contraint Between ChatImagePicker and ChatBarView.bottomAnchor
+    open var imagePickerTopContraint: NSLayoutConstraint!
 
 
     /// YES if the text inputbar is hidden. Default is NO.
@@ -60,6 +64,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     open func setupSubviews() {
         setupChatBar()
         initTableView()
+        initImagePickerView()
     }
 
     /// Setup for ChatBarView
@@ -156,6 +161,8 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         chatBarView.keyboardType = .image
         chatBarView.textView.resignFirstResponder()
         chatBarView.textView.isHidden = false
+
+        animateShowImagePicker()
     }
 
     /// Set hide/show for ChatBarView

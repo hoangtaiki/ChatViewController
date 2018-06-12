@@ -17,6 +17,14 @@
 		4D47558E20CE27D7005B9493 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D47558D20CE27D7005B9493 /* Assets.xcassets */; };
 		4D47559020CE292B005B9493 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47558F20CE292B005B9493 /* Bundle.swift */; };
 		4D47559220CE2DBD005B9493 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47559120CE2DBD005B9493 /* PlaceHolderTextView.swift */; };
+		4D4755AA20CE859C005B9493 /* PhotoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755A920CE859C005B9493 /* PhotoDataManager.swift */; };
+		4D4755AC20CE87D4005B9493 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755AB20CE87D4005B9493 /* UIImage+Extensions.swift */; };
+		4D4755AE20CE8E4D005B9493 /* ImagePickerCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755AD20CE8E4D005B9493 /* ImagePickerCollectionViewFlowLayout.swift */; };
+		4D4755B020CE8F33005B9493 /* ImagePickerCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755AF20CE8F33005B9493 /* ImagePickerCollectionHeader.swift */; };
+		4D4755B220CE8F78005B9493 /* ImagePickerCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755B120CE8F78005B9493 /* ImagePickerCollectionCell.swift */; };
+		4D4755B420CE9005005B9493 /* ImagePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755B320CE9005005B9493 /* ImagePickerHelper.swift */; };
+		4D4755B620CE9027005B9493 /* ImagePickerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755B520CE9027005B9493 /* ImagePickerCollectionView.swift */; };
+		4D4755B820CE91C1005B9493 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755B720CE91C1005B9493 /* ImagePickerView.swift */; };
 		4D62994B20ADDBB9008CE39D /* ChatViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D62994920ADDB61008CE39D /* ChatViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DBFF70B20AE8B2200D2799A /* LayoutConstraintSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF70A20AE8B2200D2799A /* LayoutConstraintSet.swift */; };
 		4DBFF70E20AEBDFE00D2799A /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */; };
@@ -38,6 +46,14 @@
 		4D47558D20CE27D7005B9493 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D47558F20CE292B005B9493 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		4D47559120CE2DBD005B9493 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
+		4D4755A920CE859C005B9493 /* PhotoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDataManager.swift; sourceTree = "<group>"; };
+		4D4755AB20CE87D4005B9493 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		4D4755AD20CE8E4D005B9493 /* ImagePickerCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		4D4755AF20CE8F33005B9493 /* ImagePickerCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionHeader.swift; sourceTree = "<group>"; };
+		4D4755B120CE8F78005B9493 /* ImagePickerCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionCell.swift; sourceTree = "<group>"; };
+		4D4755B320CE9005005B9493 /* ImagePickerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerHelper.swift; sourceTree = "<group>"; };
+		4D4755B520CE9027005B9493 /* ImagePickerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionView.swift; sourceTree = "<group>"; };
+		4D4755B720CE91C1005B9493 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		4D62994920ADDB61008CE39D /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		4DBFF70A20AE8B2200D2799A /* LayoutConstraintSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstraintSet.swift; sourceTree = "<group>"; };
 		4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +98,7 @@
 				4D2E8E6B20ADCFE800DC178E /* Info.plist */,
 				4DBFF70C20AEBD8300D2799A /* Core */,
 				4DBFF70820AE895200D2799A /* Extensions */,
+				4D4755A820CE82A4005B9493 /* ImagePicker */,
 				4D47558C20CE26CA005B9493 /* Resources */,
 			);
 			path = Source;
@@ -111,6 +128,21 @@
 				4D47558D20CE27D7005B9493 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		4D4755A820CE82A4005B9493 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				4D4755B120CE8F78005B9493 /* ImagePickerCollectionCell.swift */,
+				4D4755AF20CE8F33005B9493 /* ImagePickerCollectionHeader.swift */,
+				4D4755B520CE9027005B9493 /* ImagePickerCollectionView.swift */,
+				4D4755AD20CE8E4D005B9493 /* ImagePickerCollectionViewFlowLayout.swift */,
+				4D4755B320CE9005005B9493 /* ImagePickerHelper.swift */,
+				4D4755B720CE91C1005B9493 /* ImagePickerView.swift */,
+				4D4755A920CE859C005B9493 /* PhotoDataManager.swift */,
+				4D4755AB20CE87D4005B9493 /* UIImage+Extensions.swift */,
+			);
+			path = ImagePicker;
 			sourceTree = "<group>";
 		};
 		4DBFF70820AE895200D2799A /* Extensions */ = {
@@ -221,13 +253,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D4755AE20CE8E4D005B9493 /* ImagePickerCollectionViewFlowLayout.swift in Sources */,
+				4D4755B220CE8F78005B9493 /* ImagePickerCollectionCell.swift in Sources */,
 				4DBFF70B20AE8B2200D2799A /* LayoutConstraintSet.swift in Sources */,
+				4D4755B620CE9027005B9493 /* ImagePickerCollectionView.swift in Sources */,
+				4D4755B820CE91C1005B9493 /* ImagePickerView.swift in Sources */,
+				4D4755B420CE9005005B9493 /* ImagePickerHelper.swift in Sources */,
 				4D47559020CE292B005B9493 /* Bundle.swift in Sources */,
 				4DBFF71020AEC23B00D2799A /* ChatViewController+Keyboard.swift in Sources */,
+				4D4755B020CE8F33005B9493 /* ImagePickerCollectionHeader.swift in Sources */,
+				4D4755AC20CE87D4005B9493 /* UIImage+Extensions.swift in Sources */,
 				4DBFF71420AECB5E00D2799A /* UIScrollView.swift in Sources */,
 				4D47558A20CE25F0005B9493 /* ChatStackView.swift in Sources */,
 				4D47558B20CE25F0005B9493 /* ChatBarView.swift in Sources */,
 				4D47558920CE25F0005B9493 /* ChatButton.swift in Sources */,
+				4D4755AA20CE859C005B9493 /* PhotoDataManager.swift in Sources */,
 				4DBFF70E20AEBDFE00D2799A /* ChatViewController.swift in Sources */,
 				4DBFF71720AED7E400D2799A /* ChatViewController+Subviews.swift in Sources */,
 				4D47559220CE2DBD005B9493 /* PlaceHolderTextView.swift in Sources */,
