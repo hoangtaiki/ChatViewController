@@ -30,10 +30,22 @@ class MessageViewController: ChatViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCell.reuseIdentifier, for: indexPath) as! MessageTextCell
-        cell.bind(withMessage: viewModel.messages[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCell.reuseIdentifier,
+                                                 for: indexPath) as! MessageTextCell
+        let message = viewModel.messages[indexPath.row]
+        let user = viewModel.getUserFromID(message.sendByID)
+        let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
+    
+        cell.bind(withMessage: viewModel.messages[indexPath.row], user: user, style: style)
 
         return cell
+    }
+
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let textCell = cell as! MessageTextCell
+        textCell.layoutIfNeeded()
+        textCell.updateUIWithStyle(viewModel.getRoundStyleForMessageAtIndex(indexPath.row))
     }
 
     func setupUI() {
@@ -43,7 +55,7 @@ class MessageViewController: ChatViewController {
         tableView.estimatedRowHeight = 88
         tableView.keyboardDismissMode = .interactive
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.register(MessageTextCell.nib(), forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
+        tableView.register(MessageTextCell.self, forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
 
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: UIImage(named: "ic_typing"),
