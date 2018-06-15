@@ -20,7 +20,8 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = 0
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
 

@@ -65,6 +65,47 @@ class MessageViewModel {
                                 text: "Right now or originally?",
                                 isOutgoingMessage: true))
 
+        
+        let fileInfoOne = FileInfo(id: UUID().uuidString,
+                                   type: FileType.image,
+                                   previewURL: URL(string: "https://i.imgur.com/54tGobE.jpg"),
+                                   createdAt: Date(),
+                                   width: 1280,
+                                   height: 1024)
+        let imageMessageOne = Message(type: .file,
+                                      sendByID: currentUser.id,
+                                      createdAt: Date(),
+                                      file: fileInfoOne,
+                                      isOutgoingMessage: true)
+        messages.append(imageMessageOne)
+
+        let fileInfoTwo = FileInfo(id: UUID().uuidString,
+                                   type: FileType.image,
+                                   previewURL: URL(string: "https://i.imgur.com/z1cfSJc.png"),
+                                   createdAt: Date(),
+                                   width: 1024,
+                                   height: 500)
+        let imageMessageTwo = Message(type: .file,
+                                      sendByID: currentUser.id,
+                                      createdAt: Date(),
+                                      file: fileInfoTwo,
+                                      isOutgoingMessage: true)
+        messages.append(imageMessageTwo)
+
+        let fileInfoThree = FileInfo(id: UUID().uuidString,
+                                     type: FileType.image,
+                                     previewURL: URL(string: "https://i.imgur.com/guoLF69.jpg"),
+                                     createdAt: Date(),
+                                     width: 768,
+                                     height: 1024)
+        let imageMessageThree = Message(type: .file,
+                                        sendByID: currentUser.id,
+                                        createdAt: Date(),
+                                        file: fileInfoThree,
+                                        isOutgoingMessage: true)
+        messages.append(imageMessageThree)
+
+
     }
 
     func getUserFromID(_ id: String) -> User {

@@ -10,7 +10,7 @@ import UIKit
 
 enum MessageType: Int {
     case text = 0
-    case image
+    case file
 }
 
 struct Message {
@@ -18,7 +18,7 @@ struct Message {
     var id: String
     var type: MessageType = .text
     var text: String?
-    var image: UIImage?
+    var file: FileInfo?
     var sendByID: String
     var createdAt: Date
     var updatedAt: Date?
@@ -38,9 +38,18 @@ struct Message {
         self.text = text
     }
 
-    /// Initialize image message
-    init(type: MessageType, sendByID: String, createdAt: Date, image: UIImage, isOutgoingMessage: Bool = true) {
+    /// Initialize file message
+    init(type: MessageType, sendByID: String, createdAt: Date, file: FileInfo , isOutgoingMessage: Bool = true) {
         self.init(type: type, sendByID: sendByID, createdAt: createdAt, isOutgoingMessage: isOutgoingMessage)
-        self.image = image
+        self.file = file
+    }
+
+    func cellIdentifer() -> String {
+        switch type {
+        case .text:
+            return MessageTextCell.reuseIdentifier
+        case .file:
+            return MessageImageCell.reuseIdentifier
+        }
     }
 }

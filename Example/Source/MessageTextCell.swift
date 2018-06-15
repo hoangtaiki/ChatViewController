@@ -14,6 +14,8 @@ class MessageTextCell: MessageCell {
     static var reuseIdentifier = "MessageTextCell"
 
     var messageLabel: UILabel!
+    let messageLabelContentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:)")
@@ -26,10 +28,17 @@ class MessageTextCell: MessageCell {
         roundedView.addSubview(messageLabel)
         messageLabel.numberOfLines = 0
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 8).isActive = true
-        messageLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -8).isActive = true
-        messageLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 8).isActive = true
-        messageLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -8).isActive = true
+        messageLabel.topAnchor.constraint(equalTo: roundedView.topAnchor,
+                                          constant: messageLabelContentInset.top).isActive = true
+        messageLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor,
+                                             constant: -messageLabelContentInset.bottom).isActive = true
+        messageLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
+                                              constant: messageLabelContentInset.left).isActive = true
+        messageLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
+                                               constant: -messageLabelContentInset.right).isActive = true
+
+        let maxMessageLabelWidth = maxContentWidth - messageLabelContentInset.left - messageLabelContentInset.right
+        messageLabel.widthAnchor.constraint(lessThanOrEqualToConstant: maxMessageLabelWidth).isActive = true
     }
 
     override func prepareForReuse() {
@@ -42,12 +51,12 @@ class MessageTextCell: MessageCell {
         messageLabel.text = message.text
         avatarImageView.image = user.image
 
-        tranformUIWithMessage(message)
+        tranformUI(message.isOutgoingMessage)
         updateLayoutForGroupMessage(style: style)
     }
 
-    override func tranformUIWithMessage(_ message: Message) {
-        super.tranformUIWithMessage(message)
+    override func tranformUI(_ isOutgoingMessage: Bool) {
+        super.tranformUI(isOutgoingMessage)
 
         messageLabel.transform = contentTranform
     }

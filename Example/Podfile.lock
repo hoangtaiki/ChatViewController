@@ -1,0 +1,23 @@
+PODS:
+  - ChatViewController (0.0.1)
+  - Kingfisher (4.8.0)
+
+DEPENDENCIES:
+  - ChatViewController (from `..`)
+  - Kingfisher
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Kingfisher
+
+EXTERNAL SOURCES:
+  ChatViewController:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  ChatViewController: b2202be39fc65e2c5ca470e0df35b60b51fbc37e
+  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
+
+PODFILE CHECKSUM: db45c5a2ebae7bccc0c9a88ddd8f6480a8463acc
+
+COCOAPODS: 1.5.3

@@ -29,9 +29,12 @@ class MessageCell: UITableViewCell {
     var topAnchorContentView: NSLayoutConstraint!
     var bottomAnchorContentView: NSLayoutConstraint!
 
-    var contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 108)
+    var contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 0)
     let spaceBetweenTwoGroup: CGFloat = 8
     let spaceInsideGroup: CGFloat = 3
+    let maxContentWidth: CGFloat = UIScreen.main.bounds.size.width * 0.6
+    let incomingMessageBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 0.88)
+    let outgoingMessageBubbleColor = UIColor(red: 179/255, green: 145/255, blue: 181/255, alpha: 0.66)
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:)")
@@ -45,7 +48,6 @@ class MessageCell: UITableViewCell {
 
         /// RoundView: Background of Content
         roundedView = UIView()
-        roundedView.backgroundColor = .gray
         roundedView.translatesAutoresizingMaskIntoConstraints = false
 
         /// Status
@@ -82,6 +84,7 @@ class MessageCell: UITableViewCell {
 
         /// Group of avatarContainerView and roundedView
         let innerStackView = UIStackView(arrangedSubviews: [avatarContainerView, roundedView])
+        innerStackView.accessibilityIdentifier = "Inner StackView"
         innerStackView.spacing = 8
         innerStackView.axis = .horizontal
         innerStackView.alignment = .bottom
@@ -101,8 +104,6 @@ class MessageCell: UITableViewCell {
         bottomAnchorContentView.isActive = true
         outerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                 constant: contentInset.left).isActive = true
-        outerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                 constant: -contentInset.right).isActive = true
     }
 
     override func prepareForReuse() {
@@ -114,7 +115,7 @@ class MessageCell: UITableViewCell {
     func bind(withMessage message: Message, user: User, style: RoundedViewType) {
         avatarImageView.image = user.image
 
-        tranformUIWithMessage(message)
+        tranformUI(message.isOutgoingMessage)
         updateLayoutForGroupMessage(style: style)
     }
 
@@ -123,8 +124,8 @@ class MessageCell: UITableViewCell {
         showHideUIWithStyle(style)
     }
 
-    func tranformUIWithMessage(_ message: Message) {
-        if message.isOutgoingMessage {
+    func tranformUI(_ isOutgoingMessage: Bool) {
+        if isOutgoingMessage {
             layoutForOutgoingMessage()
             contentTranform = CGAffineTransform(scaleX: -1, y: 1)
             statusLabel.textAlignment = .right
@@ -141,18 +142,25 @@ class MessageCell: UITableViewCell {
 
 extension MessageCell {
 
+    /// Layout for Incoming message
+    /// With Incoming message we don't want to show status
     fileprivate func layoutForIncomingMessage() {
         statusStackView.isHidden = true
         statusSpaceView.isHidden = false
         avatarContainerView.isHidden = false
+        roundedView.backgroundColor = incomingMessageBubbleColor
     }
 
+    /// Layout for Outgoing message
+    /// With Incoming message we don't want to show status, avatar
     fileprivate func layoutForOutgoingMessage() {
         statusStackView.isHidden  = true
         statusSpaceView.isHidden = true
         avatarContainerView.isHidden = true
+        roundedView.backgroundColor = outgoingMessageBubbleColor
     }
 
+    /// Mask `roundedView` by an CAShapeLayer with a rectangle
     fileprivate func roundViewWithStyle( _ style: RoundedViewType) {
         layoutIfNeeded()
 
@@ -172,6 +180,7 @@ extension MessageCell {
         roundedView.layer.mask = maskLayer
     }
 
+    /// Get radius value for four corners
     fileprivate func getRoundRadiusForStyle(_ style: RoundedViewType) -> (CGFloat, CGFloat, CGFloat, CGFloat) {
         switch style {
         case .topGroup:
@@ -185,8 +194,9 @@ extension MessageCell {
         }
     }
 
+    /// Update UI depend on RoundedViewType
+    /// With Facebook Messenger they only show avatar for .bottomGroup and .single
     fileprivate func showHideUIWithStyle(_ style: RoundedViewType) {
-        // Only show avatar for .bottomGroup and .single
         switch style {
         case .bottomGroup, .single:
             avatarImageView.isHidden = false
@@ -195,6 +205,8 @@ extension MessageCell {
         }
     }
 
+    /// Update space between message inside a group.
+    /// Message in group should be closer
     func updateLayoutForGroupMessage(style: RoundedViewType) {
         switch style {
         case .topGroup:

@@ -30,12 +30,13 @@ class MessageViewController: ChatViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCell.reuseIdentifier,
-                                                 for: indexPath) as! MessageTextCell
         let message = viewModel.messages[indexPath.row]
+        let cellIdentifer = message.cellIdentifer()
         let user = viewModel.getUserFromID(message.sendByID)
         let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
-    
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifer,
+                                                 for: indexPath) as! MessageCell
         cell.bind(withMessage: viewModel.messages[indexPath.row], user: user, style: style)
 
         return cell
@@ -43,7 +44,7 @@ class MessageViewController: ChatViewController {
 
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let textCell = cell as! MessageTextCell
+        let textCell = cell as! MessageCell
         textCell.layoutIfNeeded()
         textCell.updateUIWithStyle(viewModel.getRoundStyleForMessageAtIndex(indexPath.row))
     }
@@ -54,8 +55,8 @@ class MessageViewController: ChatViewController {
         /// Tableview
         tableView.estimatedRowHeight = 88
         tableView.keyboardDismissMode = .interactive
-        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.register(MessageTextCell.self, forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
+        tableView.register(MessageImageCell.self, forCellReuseIdentifier: MessageImageCell.reuseIdentifier)
 
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: UIImage(named: "ic_typing"),
@@ -67,24 +68,43 @@ class MessageViewController: ChatViewController {
 
     func bindViewModel() {
         /// Image Picker Result closure
-        imagePickerView.pickImageResult = { image, url, error in
+        imagePickerView.pickImageResult = { [weak self] image, url, error in
             if error != nil {
                 return
             }
 
-            guard let _ = image, let _ = url else {
+            guard let im = image, let _ = url else {
                 return
             }
 
-            print("Pick image successfully")
+            guard let strongSelf = self else {
+                return
+            }
+
+            let fileInfo = FileInfo(id: UUID().uuidString,
+                                    type: FileType.image,
+                                    previewURL: nil,
+                                    createdAt: Date(),
+                                    width: im.size.width,
+                                    height: im.size.height,
+                                    image: im)
+            let message = Message(type: .file,
+                                  sendByID: strongSelf.viewModel.currentUser.id,
+                                  createdAt: Date(),
+                                  file: fileInfo,
+                                  isOutgoingMessage: true)
+
+            DispatchQueue.main.async {
+                strongSelf.addMessage(message)
+                print("Pick image successfully")
+            }
         }
 
     }
 
     override func didPressSendButton(_ sender: Any?) {
-        let message = Message(type: .text, sendByID: "", createdAt: Date(), text: chatBarView.textView.text)
-        viewModel.messages.append(message)
-        tableView.insertRows(at: [IndexPath(row: viewModel.messages.count - 1, section: 0)], with: .bottom)
+        let message = Message(type: .text, sendByID: viewModel.currentUser.id, createdAt: Date(), text: chatBarView.textView.text)
+        addMessage(message)
         super.didPressSendButton(sender)
     }
 
@@ -114,3 +134,12 @@ class MessageViewController: ChatViewController {
     }
 }
 
+extension MessageViewController {
+
+    func addMessage(_ message: Message) {
+        viewModel.messages.append(message)
+        tableView.beginUpdates()
+        tableView.insertRows(at: [IndexPath(row: viewModel.messages.count - 1, section: 0)], with: .bottom)
+        tableView.endUpdates()
+    }
+}
