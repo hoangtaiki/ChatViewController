@@ -1,5 +1,5 @@
 //
-//  PlaceHolderTextView.swift
+//  PlaceholderTextView.swift
 //  ChatViewController
 //
 //  Created by Hoangtaiki on 6/11/18.
@@ -8,9 +8,11 @@
 
 import UIKit
 
-open class PlaceHolderTextView: UITextView {
+open class PlaceholderTextView: UITextView {
 
     // MARK: - Properties
+    public var resignFirstResponderTimeAnimate: TimeInterval = 0.25
+    public var becomeFirstResponderTimeAnimate: TimeInterval = 0.25
 
     override open var text: String! {
         didSet {
@@ -90,7 +92,6 @@ open class PlaceHolderTextView: UITextView {
     /// The constraints of the placeholderLabel
     private var placeholderLabelConstraintSet: LayoutConstraintSet?
 
-    // MARK: - Initializers
 
     public convenience init() {
         self.init(frame: .zero)
@@ -101,19 +102,42 @@ open class PlaceHolderTextView: UITextView {
         setup()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+    }
+
+    open override func becomeFirstResponder() -> Bool {
+        if !canBecomeFirstResponder { return false }
+
+        UIView.animate(withDuration: becomeFirstResponderTimeAnimate, animations: {
+            super.becomeFirstResponder()
+        })
+
+        return true
+
+    }
+
+    // Override resignFirstResponder to set animation duration to zero
+    open override func resignFirstResponder() -> Bool {
+        if !canResignFirstResponder { return false }
+
+        UIView.animate(withDuration: resignFirstResponderTimeAnimate, animations: {
+            super.resignFirstResponder()
+        })
+
+        return true
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextViewTextDidChange, object: nil)
     }
+}
 
-    // MARK: - Setup
+extension PlaceholderTextView {
 
     /// Sets up the default properties
-    open func setup() {
+    fileprivate func setup() {
         isEditable = true
         isSelectable = true
         isScrollEnabled = true
@@ -137,7 +161,7 @@ open class PlaceHolderTextView: UITextView {
     }
 
     /// Adds the placeholderLabel to the view and sets up its initial constraints
-    private func setupPlaceholderLabel() {
+    fileprivate func setupPlaceholderLabel() {
         addSubview(placeholderLabel)
         placeholderLabelConstraintSet = LayoutConstraintSet(
             top: placeholderLabel.topAnchor.constraint(equalTo: topAnchor, constant: placeholderLabelInsets.top),
@@ -151,11 +175,10 @@ open class PlaceHolderTextView: UITextView {
     }
 
     /// Updates the placeholderLabels constraint constants to match the placeholderLabelInsets
-    private func updatePlaceholderLabelConstraints() {
+    fileprivate func updatePlaceholderLabelConstraints() {
         placeholderLabelConstraintSet?.top?.constant = placeholderLabelInsets.top
         placeholderLabelConstraintSet?.bottom?.constant = -placeholderLabelInsets.bottom
         placeholderLabelConstraintSet?.leading?.constant = placeholderLabelInsets.left
         placeholderLabelConstraintSet?.trailing?.constant = -placeholderLabelInsets.right
     }
-
 }

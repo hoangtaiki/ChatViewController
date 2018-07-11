@@ -35,16 +35,21 @@ public final class ImagePickerView: UIView {
     }
 
     func setUI() {
-        collectionView = ImagePickerCollectionView(frame: .zero, collectionViewLayout: ImagePickerCollectionViewFlowLayout())
+        backgroundColor = UIColor.black.withAlphaComponent(0.87)
+
+        collectionView = ImagePickerCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.black.withAlphaComponent(0.87)
         collectionView.pickerDelegate = self
         addSubview(collectionView)
 
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        if #available(iOS 11, *) {
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+        } else {
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        }
 
         imagePickerHelper = ImagePickerHelper()
         collectionView.takePhoto = { [weak self] in

@@ -8,10 +8,23 @@
 
 import UIKit
 
+public enum KeyboardType {
+    case image
+    case `default`
+    case none
+}
+
 open class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     open var minimumChatBarHeight: CGFloat = 80
-    open let customKeyboardHeight: CGFloat = 216
+    open var customKeyboardHeight: CGFloat = 0
+
+    public var currentKeyboardType: KeyboardType = .none {
+        willSet {
+            lastKeyboardType = currentKeyboardType
+        }
+    }
+    public var lastKeyboardType: KeyboardType = .none
 
     /// Tableview
     public lazy var tableView: UITableView = {
@@ -43,13 +56,16 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     public var chatBarBottomConstraint: NSLayoutConstraint!
     /// Height constraint for ChatBarView
     public var chatBarHeightConstraint: NSLayoutConstraint!
-    /// Top Contraint Between ChatImagePicker and ChatBarView.bottomAnchor
+    /// Top contraint between ChatImagePicker and ChatBarView.bottomAnchor
     public var imagePickerTopContraint: NSLayoutConstraint!
+    /// Height contraint of ImagePickerView
+    public var imagePickerHeightContraint: NSLayoutConstraint!
     /// Observe `isVisible` key for TypingIndicatorView
     public var observation: NSKeyValueObservation?
     /// TypingIndicator height contraint
     public var typingIndicatorHeightConstraint: NSLayoutConstraint!
-
+    /// At bottom tableview
+    public var isAtBottomTable: Bool = true
 
     /// YES if the text inputbar is hidden. Default is NO.
     open var isCharBarHidden: Bool {
@@ -67,15 +83,24 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        automaticallyAdjustsScrollViewInsets = false
+        customKeyboardHeight = Utils.shared.getCacheKeyboardHeight()
 
         setupSubviews()
         observerKeyboardEvents()
     }
 
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        imagePickerHeightContraint.constant = customKeyboardHeight
+        imagePickerView.collectionView.updateUI()
+    }
+
     open func setupSubviews() {
         setupChatBar()
-        setupTypingIndicator()
         initTableView()
+        setupTypingIndicator()
         initImagePickerView()
     }
 
@@ -132,7 +157,11 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
         chatBarHeightConstraint = chatBarView.heightAnchor.constraint(equalToConstant: minimumChatBarHeight)
         chatBarHeightConstraint?.isActive = true
-        chatBarBottomConstraint = chatBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        if #available(iOS 11.0, *) {
+            chatBarBottomConstraint = chatBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        } else {
+            chatBarBottomConstraint = chatBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        }
         chatBarBottomConstraint?.isActive = true
         chatBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         chatBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -140,9 +169,6 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
     /// Keyboard
     open func keyboardControl(notification: Notification, isShowing: Bool) {
-        if chatBarView.keyboardType != .text {
-            return
-        }
         animateKeyboard(notification: notification, isShowing: isShowing)
     }
 
@@ -165,18 +191,9 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
         chatBarView.textViewCurrentHeight = minimumChatBarHeight - chatBarView.getAdditionalHeight()
         chatBarView.textViewDidChange(chatBarView.textView)
-        controlExpandableInputView(showExpandable: true)
+        controlExpandableInputView(showExpandable: true, from: 0, to: 0)
     }
-
-    /// Gallery button
-    @objc open func didPressGalleryButton(_ sender: Any?) {
-        chatBarView.keyboardType = .image
-        chatBarView.textView.resignFirstResponder()
-        chatBarView.textView.isHidden = false
-
-        animateShowImagePicker()
-    }
-
+    
     /// Set hide/show for ChatBarView
     open func setChatBarHidden(_ hidden: Bool, animated: Bool) {
         if _isChatBarHidden == hidden { return }
@@ -191,7 +208,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
         let completion = { [weak self] (finished: Bool) in
             if hidden {
-                self?.dismissKeyboard(animated: true)
+                //self?.dismissKeyboard(animated: true)
             }
         }
 
@@ -207,11 +224,4 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         removeObserverKeyboardEvents()
     }
 
-}
-
-extension ChatViewController: ChatBarViewDelegate {
-
-    public func didChangeBarHeight() {
-        controlExpandableInputView(showExpandable: true)
-    }
 }

@@ -20,6 +20,10 @@ final class ImagePickerCollectionView: UICollectionView {
 
     weak var pickerDelegate: ImagePickerCollectionViewDelegate?
 
+    fileprivate var nColumns = 1
+    fileprivate var spacing: CGFloat = 2
+    fileprivate var cellSize: CGSize = .zero
+    fileprivate var lastHeight: CGFloat = 0
     fileprivate var photoDataManager: PhotoDataManager!
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -38,7 +42,22 @@ final class ImagePickerCollectionView: UICollectionView {
         commonInit()
     }
 
-    func commonInit() {
+    func resetUI() {
+        if photoDataManager.photoCount() > 0 {
+            scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        }
+    }
+
+    func updateUI() {
+        if lastHeight != bounds.height {
+            lastHeight = bounds.height
+            calculateProperties()
+            layoutSubviews()
+            reloadData()
+        }
+    }
+
+    fileprivate func commonInit() {
         delegate = self
         dataSource = self
 
@@ -49,7 +68,9 @@ final class ImagePickerCollectionView: UICollectionView {
         backgroundColor = UIColor.black
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-
+        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
 
         register(ImagePickerCollectionCell.self,
                  forCellWithReuseIdentifier: ImagePickerCollectionCell.reuseIdentifier)
@@ -60,7 +81,7 @@ final class ImagePickerCollectionView: UICollectionView {
         createPhotoManager()
     }
 
-    func createPhotoManager() {
+    fileprivate func createPhotoManager() {
         let options = PhotoDataManagerOptions(contentMode: .aspectFill,
                                               requestOption: nil,
                                               preloadLength: 5)
@@ -93,6 +114,7 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
 
         headerView.delegate = self
         headerView.spaceBetweenButtons = 60
+        headerView.layoutIfNeeded()
 
         return headerView
     }
@@ -100,11 +122,30 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         photoDataManager.requestImage(for: indexPath) { (image, indexPath) in
             guard let image = image else { return }
-            guard collectionView.indexPathsForVisibleItems.contains(indexPath) else { return }
             guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
 
             cell.imageView.image = image
         }
+    }
+
+}
+
+extension ImagePickerCollectionView: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return cellSize
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: 90, height: bounds.height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return nColumns == 2 ? spacing : 0
     }
 
 }
@@ -171,3 +212,18 @@ extension ImagePickerCollectionView: ImagePickerCollectionHeaderDelegate {
     }
 
 }
+
+extension ImagePickerCollectionView {
+
+    fileprivate func calculateProperties() {
+        if Utils.shared.isGreaterThanMaxHeight {
+            nColumns = 2
+            let cellWidth = (bounds.height - spacing) / CGFloat(nColumns)
+            cellSize = CGSize(width: cellWidth, height: cellWidth)
+        } else {
+            nColumns = 1
+            cellSize = CGSize(width: bounds.height, height: bounds.height)
+        }
+    }
+}
+

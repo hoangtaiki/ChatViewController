@@ -19,7 +19,6 @@ class ImagePickerCollectionHeader: UICollectionReusableView {
 
     var takePhotoButton: UIButton!
     var showCollectionButton: UIButton!
-    var stackView: UIStackView!
     var delegate: ImagePickerCollectionHeaderDelegate?
     var topLayoutContraint: NSLayoutConstraint!
     var bottomLayoutContraint: NSLayoutConstraint!
@@ -61,36 +60,36 @@ class ImagePickerCollectionHeader: UICollectionReusableView {
         showCollectionButton.addTarget(self, action: #selector(showCollection(_:)), for: .touchUpInside)
         showCollectionButton.imageView?.contentMode = .scaleAspectFit
 
-        stackView = UIStackView(arrangedSubviews: [takePhotoButton, showCollectionButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 24.0
-        stackView.alignment = .center
-        stackView.distribution = .fill
 
-        addSubview(stackView)
+        addSubview(takePhotoButton)
+        addSubview(showCollectionButton)
 
-        topLayoutContraint = stackView.topAnchor.constraint(equalTo: topAnchor)
+        takePhotoButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        topLayoutContraint = takePhotoButton.topAnchor.constraint(equalTo: topAnchor)
         topLayoutContraint.isActive = true
-        stackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        bottomLayoutContraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        bottomLayoutContraint.isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-
         takePhotoButtonHeightContraint = takePhotoButton.heightAnchor.constraint(equalToConstant: buttonHeight)
         takePhotoButtonHeightContraint.isActive = true
+
+        showCollectionButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         showCollectionButtonHeightContraint = showCollectionButton.heightAnchor.constraint(equalToConstant: buttonHeight)
         showCollectionButtonHeightContraint.isActive = true
+        bottomLayoutContraint = showCollectionButton.bottomAnchor.constraint(equalTo: bottomAnchor)
+        bottomLayoutContraint.isActive = true
     }
 
     fileprivate func updateContraints() {
         let inset = bounds.height - buttonHeight * 2 - spaceBetweenButtons
-        stackView.spacing = spaceBetweenButtons
         topLayoutContraint.constant = inset * 0.5
         bottomLayoutContraint.constant = -inset * 0.5
 
         takePhotoButtonHeightContraint.constant = buttonHeight
         showCollectionButtonHeightContraint.constant = buttonHeight
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updateContraints()
     }
 
     @objc fileprivate func takePhotoTapped(_ sender: Any) {

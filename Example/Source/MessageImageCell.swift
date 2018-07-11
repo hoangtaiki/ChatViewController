@@ -26,7 +26,7 @@ class MessageImageCell: MessageCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         attachImageView = UIImageView()
-        attachImageView.contentMode = .scaleAspectFit
+        attachImageView.contentMode = .scaleAspectFill
         attachImageView.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         attachImageView.translatesAutoresizingMaskIntoConstraints = false
         roundedView.addSubview(attachImageView)

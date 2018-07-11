@@ -34,6 +34,8 @@ public final class ImagePickerCollectionCell: UICollectionViewCell {
 
     public func setupUI() {
         imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)
 

@@ -19,6 +19,10 @@ class MessageViewController: ChatViewController {
 
         setupUI()
         bindViewModel()
+
+        tableView.reloadData { [unowned self] in
+            self.tableView.scrollToLastCell()
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -54,7 +58,7 @@ class MessageViewController: ChatViewController {
 
         /// Tableview
         tableView.estimatedRowHeight = 88
-        tableView.keyboardDismissMode = .interactive
+        tableView.keyboardDismissMode = .none
         tableView.register(MessageTextCell.self, forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
         tableView.register(MessageImageCell.self, forCellReuseIdentifier: MessageImageCell.reuseIdentifier)
 
@@ -73,7 +77,7 @@ class MessageViewController: ChatViewController {
                 return
             }
 
-            guard let im = image, let _ = url else {
+            guard let _ = image, let _ = url else {
                 return
             }
 
@@ -81,21 +85,20 @@ class MessageViewController: ChatViewController {
                 return
             }
 
-            let fileInfo = FileInfo(id: UUID().uuidString,
-                                    type: FileType.image,
-                                    previewURL: nil,
-                                    createdAt: Date(),
-                                    width: im.size.width,
-                                    height: im.size.height,
-                                    image: im)
-            let message = Message(type: .file,
-                                  sendByID: strongSelf.viewModel.currentUser.id,
-                                  createdAt: Date(),
-                                  file: fileInfo,
-                                  isOutgoingMessage: true)
+            let fileInfoThree = FileInfo(id: UUID().uuidString,
+                                         type: FileType.image,
+                                         previewURL: URL(string: "https://i.imgur.com/guoLF69.jpg"),
+                                         createdAt: Date(),
+                                         width: 768,
+                                         height: 1024)
+            let imageMessageThree = Message(type: .file,
+                                            sendByID: 2.description,
+                                            createdAt: Date(),
+                                            file: fileInfoThree,
+                                            isOutgoingMessage: true)
 
             DispatchQueue.main.async {
-                strongSelf.addMessage(message)
+                strongSelf.addMessage(imageMessageThree)
                 print("Pick image successfully")
             }
         }
@@ -132,14 +135,18 @@ class MessageViewController: ChatViewController {
             break
         }
     }
+    
 }
 
 extension MessageViewController {
 
     func addMessage(_ message: Message) {
         viewModel.messages.append(message)
-        tableView.beginUpdates()
-        tableView.insertRows(at: [IndexPath(row: viewModel.messages.count - 1, section: 0)], with: .bottom)
-        tableView.endUpdates()
+        let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
+        let needReloadLastCell = viewModel.messages.count > 0
+
+        tableView.insertNewCell(atIndexPath: indexPath, isNeedReloadLastItem: needReloadLastCell) { [unowned self] in
+            self.tableView.scrollToLastCell()
+        }
     }
 }

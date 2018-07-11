@@ -8,22 +8,14 @@
 
 import UIKit
 
-public enum KeyboardType {
-    case text
-    case image
-    case `default`
-}
-
 public protocol ChatBarViewDelegate {
-    func didChangeBarHeight()
+    func didChangeBarHeight(from: CGFloat, to: CGFloat)
+    func showDefaultKeyboard()
 }
 
 open class ChatBarView: UIView {
 
     public var delegate: ChatBarViewDelegate?
-
-
-    var keyboardType: KeyboardType = .default
 
     /// Height of TextView
     public var textViewCurrentHeight: CGFloat = 0
@@ -47,8 +39,8 @@ open class ChatBarView: UIView {
     /// Bottom constraint constant value for bottomStackView
     open var bottomConstant: CGFloat = 6.0
 
-    open lazy var textView: PlaceHolderTextView = {
-        let textView = PlaceHolderTextView()
+    open lazy var textView: PlaceholderTextView = {
+        let textView = PlaceholderTextView()
         textView.font = UIFont.systemFont(ofSize: 15)
         textView.returnKeyType = .send
         textView.isHidden = false
@@ -159,17 +151,6 @@ open class ChatBarView: UIView {
         }
     }
 
-    open func resignKeyboard() {
-        keyboardType = .text
-        textView.resignFirstResponder()
-    }
-
-    open func inputTextViewCallKeyboard() {
-        keyboardType = .text
-        textView.isHidden = false
-        textView.resignFirstResponder()
-    }
-
     /// Perform layout change with animations
     public func performLayout(_ animated: Bool, _ animations: @escaping () -> Void) {
         deactivateConstraints()
@@ -221,8 +202,10 @@ open class ChatBarView: UIView {
 extension ChatBarView {
 
     fileprivate func setUI() {
+        backgroundColor = .white
+
         textView.delegate = self
-        textViewCurrentHeight = textViewHeightForLines(1)
+        textView.keyboardType = .default
         topBorderLine.backgroundColor = UIColor.lightGray
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
@@ -317,15 +300,18 @@ extension ChatBarView: UITextViewDelegate {
         // Handle text change to expand chat bar view
         let contentHeight = textView.contentSize.height
         if contentHeight < maxTextViewHeight && textViewCurrentHeight != contentHeight {
+            let oldHeight = textViewCurrentHeight
             textViewCurrentHeight = contentHeight
-            delegate?.didChangeBarHeight()
+            if oldHeight != 0 {
+                delegate?.didChangeBarHeight(from: oldHeight, to: contentHeight)
+            }
         }
 
         sendButton.isEnabled = !textView.text.isEmpty
     }
 
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        inputTextViewCallKeyboard()
+        delegate?.showDefaultKeyboard()
 
         UIView.setAnimationsEnabled(false)
         let range = NSMakeRange(textView.text.count - 1, 1)
