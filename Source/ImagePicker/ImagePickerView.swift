@@ -45,11 +45,7 @@ public final class ImagePickerView: UIView {
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        if #available(iOS 11, *) {
-            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-        } else {
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        }
+        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 
         imagePickerHelper = ImagePickerHelper()
         collectionView.takePhoto = { [weak self] in

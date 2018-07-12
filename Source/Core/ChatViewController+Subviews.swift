@@ -63,6 +63,7 @@ extension ChatViewController {
             currentKeyboardType = .none
         case .image:
             animateHideImagePicker(isNeedScrollTable: true)
+            currentKeyboardType = .none
         default:
 
             break
@@ -229,23 +230,26 @@ extension ChatViewController: ChatBarViewDelegate {
             animateShowImagePicker(isNeedScrollTable: true)
         }
     }
-    
+
+    /// Update image picker height. We always try make image picker has size same with keyboard
+    /// So that we will has different layout for different height
+    /// We will cache keyboard height and update everytime keyboard change height (show/hide predictive bar)
+    ///
+    /// - parameter: keyboardHeight: current keyboard height
     func updateHeightForImagePicker(keyboardHeight: CGFloat) {
         var imagePickerContainerHeight = keyboardHeight
-        var tempHeight: CGFloat
 
         if #available(iOS 11.0, *) {
             imagePickerContainerHeight -= view.safeAreaInsets.bottom
-            tempHeight = imagePickerContainerHeight + view.safeAreaInsets.bottom
-        } else {
-            tempHeight = imagePickerContainerHeight
         }
 
-        if tempHeight == customKeyboardHeight {
+        // If current keyboard height is equal with last cached keyboard we will not
+        // update image picker height and layout
+        if imagePickerContainerHeight == customKeyboardHeight {
             return
         }
 
-        customKeyboardHeight = tempHeight
+        customKeyboardHeight = imagePickerContainerHeight
 
         /// Store keyboardheight into cache
         Utils.shared.cacheKeyboardHeight(customKeyboardHeight)
@@ -258,17 +262,15 @@ extension ChatViewController: ChatBarViewDelegate {
         }
     }
 
+    /// Animate show image picker
+    ///
+    /// -parameter isNeedScrollTable: Need update tableview content offset or not
     func animateShowImagePicker(isNeedScrollTable: Bool) {
         tableView.stopScrolling()
         imagePickerView.isHidden = false
         imagePickerView.collectionView.resetUI()
 
-        var heightAnimate: CGFloat
-        if #available(iOS 11.0, *) {
-            heightAnimate = -self.customKeyboardHeight + self.view.safeAreaInsets.bottom
-        } else {
-            heightAnimate = -self.customKeyboardHeight
-        }
+        let heightAnimate = -customKeyboardHeight
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = -self.customKeyboardHeight
@@ -281,26 +283,27 @@ extension ChatViewController: ChatBarViewDelegate {
 
     func animateHideImagePicker(isNeedScrollTable: Bool) {
         tableView.stopScrolling()
-        var tableViewOffsetChange: CGFloat
-        var heightAnimate: CGFloat
 
+        var tableViewOffsetChange = -customKeyboardHeight
+        let contentOffset = tableView.contentOffset.y
 
-        if #available(iOS 11.0, *) {
-            heightAnimate = self.view.safeAreaInsets.bottom
-            tableViewOffsetChange = -self.customKeyboardHeight + self.view.safeAreaInsets.bottom
-        } else {
-            heightAnimate = 0
-            tableViewOffsetChange = -self.customKeyboardHeight
+        // When keyboard hide if keyboard height more than current content offset
+        // We will assign detail by contentOffset
+        if abs(tableViewOffsetChange) > contentOffset {
+            tableViewOffsetChange = -contentOffset
         }
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: {
-            self.chatBarBottomConstraint.constant = heightAnimate
+            self.chatBarBottomConstraint.constant = 0
+            self.imagePickerView.alpha = 0.0
+
             if isNeedScrollTable {
                 self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y + tableViewOffsetChange)
             }
             self.view.layoutIfNeeded()
         }, completion: { _ in
             self.imagePickerView.isHidden = true
+            self.imagePickerView.alpha = 1.0
         })
     }
 }
