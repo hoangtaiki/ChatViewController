@@ -129,10 +129,24 @@ extension ChatViewController {
 
         let contentOffset = tableView.contentOffset.y
 
+        // The height offset we need update constraint for chat bar to make it always above keyboard
+        if isShowing {
+            if #available(iOS 11.0, *) {
+                heightOffset -= view.safeAreaInsets.bottom
+            }
+        } else {
+            heightOffset = 0
+        }
+
+        // In case showing image picker view and switch to default keyboard
+        // If image picker and keyboard has same height so that we don't need
+        // animate chatbarview
         if lastKeyboardType == .image && heightOffset == customKeyboardHeight {
             return
         }
 
+        // In case showing default keyboard and user touch gallery button and need
+        // to show image picker.
         if currentKeyboardType == .image && !isShowing {
             return
         }
@@ -159,14 +173,6 @@ extension ChatViewController {
             updateHeightForImagePicker(keyboardHeight: heightOffset)
         }
 
-        // The height offset we need update constraint for chat bar to make it always above keyboard
-        if isShowing {
-            if #available(iOS 11.0, *) {
-                heightOffset -= view.safeAreaInsets.bottom
-            }
-        } else {
-            heightOffset = 0
-        }
 
         UIView.animate(withDuration: duration!, delay: 0, options: options, animations: {
             self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y - delta)
@@ -237,19 +243,13 @@ extension ChatViewController: ChatBarViewDelegate {
     ///
     /// - parameter: keyboardHeight: current keyboard height
     func updateHeightForImagePicker(keyboardHeight: CGFloat) {
-        var imagePickerContainerHeight = keyboardHeight
-
-        if #available(iOS 11.0, *) {
-            imagePickerContainerHeight -= view.safeAreaInsets.bottom
-        }
-
         // If current keyboard height is equal with last cached keyboard we will not
         // update image picker height and layout
-        if imagePickerContainerHeight == customKeyboardHeight {
+        if keyboardHeight == customKeyboardHeight {
             return
         }
 
-        customKeyboardHeight = imagePickerContainerHeight
+        customKeyboardHeight = keyboardHeight
 
         /// Store keyboardheight into cache
         Utils.shared.cacheKeyboardHeight(customKeyboardHeight)
