@@ -96,16 +96,23 @@ extension ChatViewController {
     /// Control
     func controlExpandableInputView(showExpandable: Bool, from: CGFloat, to: CGFloat) {
         let currentTextHeight = chatBarView.textViewCurrentHeight + chatBarView.getAdditionalHeight()
-        let delta = from - to
+        var delta = from - to
+
+        // When keyboard hide if keyboard height more than current content offset
+        // We will assign detail by contentOffset
+        if delta > 0 && delta > tableView.contentOffset.y {
+            delta = tableView.contentOffset.y
+        }
 
         UIView.animate(withDuration: 0.3, animations: {
             let textHeight = showExpandable ? currentTextHeight : self.minimumChatBarHeight
+            self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y - delta)
             self.chatBarHeightConstraint?.constant = textHeight
             self.chatBarView.textView.contentOffset = .zero
             self.view.layoutIfNeeded()
             self.chatBarView.textView.setContentOffset(.zero, animated: false)
-            self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y - delta)
         })
+
     }
     
     /// Animate show ChatBarView then setContentOffset for TableView
@@ -148,6 +155,12 @@ extension ChatViewController {
         // In case showing default keyboard and user touch gallery button and need
         // to show image picker.
         if currentKeyboardType == .image && !isShowing {
+            return
+        }
+
+        // Note: We have a case when user touch a key system trigger call keyboard and make some error
+        // So that we will check if delta is zero we will cancel all animate
+        if delta == 0 {
             return
         }
 
