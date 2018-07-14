@@ -50,13 +50,13 @@ public class TypingIndicatorView: UIView {
             attributedString = nil
         case 1:
             attributedString = NSMutableAttributedString()
-                .bold(users[0].name, fontSize: fontSize, textColor: textColor)
+                .bold(users[0].displayName, fontSize: fontSize, textColor: textColor)
                 .normal(" is typing", fontSize: fontSize, textColor: textColor)
         case 2:
             attributedString = NSMutableAttributedString()
-                .bold(users[0].name, fontSize: fontSize, textColor: textColor)
+                .bold(users[0].displayName, fontSize: fontSize, textColor: textColor)
                 .normal(" and ", fontSize: fontSize, textColor: textColor)
-                .bold(users[1].name, fontSize: fontSize, textColor: textColor)
+                .bold(users[1].displayName, fontSize: fontSize, textColor: textColor)
                 .normal(" are typing", fontSize: fontSize, textColor: textColor)
         default:
             attributedString = NSMutableAttributedString()
@@ -87,7 +87,7 @@ public class TypingIndicatorView: UIView {
 
     // Insert an typing's user
     open func insertUser(_ user: Userable) {
-        if users.contains(where: { $0.id == user.id }) { return }
+        if users.contains(where: { $0.idNumber == user.idNumber }) { return }
 
         users.append(user)
         textLabel.attributedText = attributedString
@@ -96,7 +96,7 @@ public class TypingIndicatorView: UIView {
 
     // Remove an typing's user
     open func removeUser(_ user: Userable) {
-        guard let index = users.index(where: { $0.name == user.name }) else {
+        guard let index = users.index(where: { $0.idNumber == user.idNumber }) else {
             return
         }
 

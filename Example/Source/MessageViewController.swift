@@ -20,8 +20,8 @@ class MessageViewController: ChatViewController {
         setupUI()
         bindViewModel()
 
-        tableView.reloadData { [unowned self] in
-            self.tableView.scrollToLastCell()
+        viewModel.getMessageData { [weak self] in
+            self?.updateUI()
         }
     }
 
@@ -53,7 +53,22 @@ class MessageViewController: ChatViewController {
         textCell.updateUIWithStyle(viewModel.getRoundStyleForMessageAtIndex(indexPath.row))
     }
 
-    func setupUI() {
+    override func didPressSendButton(_ sender: Any?) {
+        guard let currentUser = viewModel.currentUser else {
+            return
+        }
+
+        let message = Message(id: UUID().uuidString, sendByID: currentUser.id,
+                              createdAt: Date(), text: chatBarView.textView.text)
+        addMessage(message)
+        super.didPressSendButton(sender)
+    }
+    
+}
+
+extension MessageViewController {
+
+    fileprivate func setupUI() {
         title = "Liliana"
 
         /// Tableview
@@ -70,9 +85,9 @@ class MessageViewController: ChatViewController {
         ]
     }
 
-    func bindViewModel() {
+    fileprivate func bindViewModel() {
         /// Image Picker Result closure
-        imagePickerView.pickImageResult = { [weak self] image, url, error in
+        imagePickerView.pickImageResult = { image, url, error in
             if error != nil {
                 return
             }
@@ -81,48 +96,41 @@ class MessageViewController: ChatViewController {
                 return
             }
 
-            guard let strongSelf = self else {
-                return
-            }
-
-            let fileInfoThree = FileInfo(id: UUID().uuidString,
-                                         type: FileType.image,
-                                         previewURL: URL(string: "https://i.imgur.com/guoLF69.jpg"),
-                                         createdAt: Date(),
-                                         width: 768,
-                                         height: 1024)
-            let imageMessageThree = Message(type: .file,
-                                            sendByID: 2.description,
-                                            createdAt: Date(),
-                                            file: fileInfoThree,
-                                            isOutgoingMessage: true)
-
-            DispatchQueue.main.async {
-                strongSelf.addMessage(imageMessageThree)
-                print("Pick image successfully")
-            }
+            print("Pick image successfully")
         }
 
     }
 
-    override func didPressSendButton(_ sender: Any?) {
-        let message = Message(type: .text, sendByID: viewModel.currentUser.id, createdAt: Date(), text: chatBarView.textView.text)
-        addMessage(message)
-        super.didPressSendButton(sender)
+    fileprivate func updateUI() {
+        tableView.reloadData { [weak self] in
+            self?.viewModel.isRefreshing = false
+            self?.tableView.scrollToLastCell(animated: false)
+        }
+
     }
 
-    @objc func handleTypingButton() {
+    fileprivate func addMessage(_ message: Message) {
+        viewModel.messages.append(message)
+        let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
+        let needReloadLastCell = viewModel.messages.count > 0
+
+        tableView.insertNewCell(atIndexPath: indexPath, isNeedReloadLastItem: needReloadLastCell) { [unowned self] in
+            self.tableView.scrollToLastCell(animated: true)
+        }
+    }
+
+    @objc fileprivate func handleTypingButton() {
 
         switch numberUserTypings {
         case 0, 1, 2:
             var user: User
             switch numberUserTypings {
             case 0:
-                user = User(id: "1", name: "Harry", image: #imageLiteral(resourceName: "ic_boy"))
+                user = User(id: 1, name: "Harry")
             case 1:
-                user = User(id: "2", name: "Bob", image: #imageLiteral(resourceName: "ic_boy"))
+                user = User(id: 2, name: "Bob")
             default:
-                user = User(id: "3", name: "Liliana", image: #imageLiteral(resourceName: "ic_girl"))
+                user = User(id: 3, name: "Liliana")
             }
             viewModel.users.append(user)
             typingIndicatorView.insertUser(user)
@@ -133,20 +141,6 @@ class MessageViewController: ChatViewController {
             }
             numberUserTypings = 0
             break
-        }
-    }
-    
-}
-
-extension MessageViewController {
-
-    func addMessage(_ message: Message) {
-        viewModel.messages.append(message)
-        let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
-        let needReloadLastCell = viewModel.messages.count > 0
-
-        tableView.insertNewCell(atIndexPath: indexPath, isNeedReloadLastItem: needReloadLastCell) { [unowned self] in
-            self.tableView.scrollToLastCell()
         }
     }
 }

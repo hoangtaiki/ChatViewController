@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 import ChatViewController
 
 enum RoundedViewType {
@@ -71,6 +72,7 @@ class MessageCell: UITableViewCell {
         avatarContainerView = UIView()
         avatarContainerView.translatesAutoresizingMaskIntoConstraints = false
         avatarContainerView.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        avatarContainerView.heightAnchor.constraint(equalToConstant: 32).isActive = true
 
         avatarImageView = UIImageView()
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +86,6 @@ class MessageCell: UITableViewCell {
 
         /// Group of avatarContainerView and roundedView
         let innerStackView = UIStackView(arrangedSubviews: [avatarContainerView, roundedView])
-        innerStackView.accessibilityIdentifier = "Inner StackView"
         innerStackView.spacing = 8
         innerStackView.axis = .horizontal
         innerStackView.alignment = .bottom
@@ -113,9 +114,9 @@ class MessageCell: UITableViewCell {
     }
 
     func bind(withMessage message: Message, user: User, style: RoundedViewType) {
-        avatarImageView.image = user.image
+        avatarImageView.setImage(with: user.avatarURL)
 
-        tranformUI(message.isOutgoingMessage)
+        tranformUI(message.isOutgoing)
         updateLayoutForGroupMessage(style: style)
     }
 

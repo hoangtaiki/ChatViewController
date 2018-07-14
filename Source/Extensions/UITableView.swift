@@ -37,11 +37,11 @@ public extension UITableView {
         }
     }
 
-    public func scrollToLastCell() {
+    public func scrollToLastCell(animated: Bool) {
         if numberOfSections > 0 {
             let nRows = numberOfRows(inSection: numberOfSections - 1)
             if nRows > 0 {
-                scrollToRow(at: IndexPath(row: nRows - 1, section: numberOfSections - 1), at: .bottom, animated: true)
+                scrollToRow(at: IndexPath(row: nRows - 1, section: numberOfSections - 1), at: .bottom, animated: animated)
             }
         }
     }

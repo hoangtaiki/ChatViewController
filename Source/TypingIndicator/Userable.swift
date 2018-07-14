@@ -10,13 +10,13 @@ import Foundation
 
 public protocol Userable {
 
-    var id: String { get set }
-    var name: String { get set }
+    var idNumber: String { get }
+    var displayName: String { get }
 }
 
 extension Userable {
 
     static func ==(lhs: Self, rhs: Self) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.idNumber == rhs.idNumber
     }
 }

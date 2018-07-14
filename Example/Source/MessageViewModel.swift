@@ -7,108 +7,74 @@
 //
 
 import UIKit
+import ObjectMapper
+import SwiftyJSON
 
 class MessageViewModel {
 
+    var isRefreshing: Bool = false
     var users: [User] = []
     var messages: [Message] = []
-    var currentUser: User!
+    var currentUser: User?
 
     init() {
-        /// Init user array
-        let bob = User(id: 1.description, name: "Bob", image: #imageLiteral(resourceName: "ic_boy"))
-        let anna = User(id: 2.description, name: "Anna", image: #imageLiteral(resourceName: "ic_girl"))
-        users.append(bob)
-        users.append(anna)
 
-        currentUser = bob
+        getUserData()
 
-        /// Initalize message array
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "Hello", isOutgoingMessage: false))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "What does the datetime stamp represent?",
-                                isOutgoingMessage: true))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "Is it a point in time *before* they started speaking? I like how your nose is in the middle of your face. That’s really cute",
-                                isOutgoingMessage: true))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "You are now talking on",
-                                isOutgoingMessage: false))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "I hope you’re having a nice day 🙂",
-                                isOutgoingMessage: false))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "Hello. Also, you are amazing",
-                                isOutgoingMessage: true))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "What does the datetime stamp represent?",
-                                isOutgoingMessage: true))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "WSaw your profile and just had to say hi.",
-                                isOutgoingMessage: true))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "I will always tell you when you have something in your teeth. That’s just the kind of person I am.",
-                                isOutgoingMessage: false))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "I like how your nose is in the middle of your face. That’s really cute.",
-                                isOutgoingMessage: false))
-
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "Nope, I'm New York, born and raised.",
-                                isOutgoingMessage: false))
-
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "Ah, all right. So you know all the secret places the tourists and I can only guess about.",
-                                isOutgoingMessage: true))
-        messages.append(Message(type: .text, sendByID: bob.id, createdAt: Date(),
-                                text: "Right now or originally?",
-                                isOutgoingMessage: true))
-
-        
-        let fileInfoOne = FileInfo(id: UUID().uuidString,
-                                   type: FileType.image,
-                                   previewURL: URL(string: "https://i.imgur.com/54tGobE.jpg"),
-                                   createdAt: Date(),
-                                   width: 1280,
-                                   height: 1024)
-        let imageMessageOne = Message(type: .file,
-                                      sendByID: currentUser.id,
-                                      createdAt: Date(),
-                                      file: fileInfoOne,
-                                      isOutgoingMessage: true)
-        messages.append(imageMessageOne)
-
-        let fileInfoTwo = FileInfo(id: UUID().uuidString,
-                                   type: FileType.image,
-                                   previewURL: URL(string: "https://i.imgur.com/z1cfSJc.png"),
-                                   createdAt: Date(),
-                                   width: 1024,
-                                   height: 500)
-        let imageMessageTwo = Message(type: .file,
-                                      sendByID: currentUser.id,
-                                      createdAt: Date(),
-                                      file: fileInfoTwo,
-                                      isOutgoingMessage: true)
-        messages.append(imageMessageTwo)
-
-        let fileInfoThree = FileInfo(id: UUID().uuidString,
-                                     type: FileType.image,
-                                     previewURL: URL(string: "https://i.imgur.com/guoLF69.jpg"),
-                                     createdAt: Date(),
-                                     width: 768,
-                                     height: 1024)
-        let imageMessageThree = Message(type: .file,
-                                        sendByID: currentUser.id,
-                                        createdAt: Date(),
-                                        file: fileInfoThree,
-                                        isOutgoingMessage: true)
-        messages.append(imageMessageThree)
-
-
+        if let firstUser = users.first {
+            currentUser = firstUser
+        }
     }
 
-    func getUserFromID(_ id: String) -> User {
+    func getMessageData(completion: (() -> ())) {
+        guard let jsonData = Data.dataFromJSONFile("conversation") else {
+            return
+        }
+
+        do {
+            let jsonObj = try JSON(data: jsonData)
+            guard let dictionObject = jsonObj.dictionaryObject else {
+                return
+            }
+
+            guard let listReponse = Mapper<ListResponseObject<Message>>().map(JSON: dictionObject) else {
+                return
+            }
+
+            messages = self.handleDataSource(messages: listReponse.data)
+            completion()
+        } catch {
+            print("Error \(error)")
+            return
+        }
+    }
+
+    func getUserData() {
+        guard let jsonData = Data.dataFromJSONFile("user") else {
+            return
+        }
+
+        do {
+            let jsonObj = try JSON(data: jsonData)
+            guard let dictionObject = jsonObj.dictionaryObject else {
+                return
+            }
+
+            guard let listReponse = Mapper<ListResponseObject<User>>().map(JSON: dictionObject) else {
+                return
+            }
+
+            users = listReponse.data
+        } catch {
+            print("Error \(error)")
+            return
+        }
+    }
+}
+
+extension MessageViewModel {
+
+    func getUserFromID(_ id: Int) -> User {
         let index = users.index(where: { $0.id == id })
         return users[index!.hashValue]
     }
@@ -117,16 +83,16 @@ class MessageViewModel {
         let message = messages[index]
         if let beforeItemMessage = messages.item(before: index),
             let afterItemMessage = messages.item(after: index) {
-            if beforeItemMessage.isOutgoingMessage == message.isOutgoingMessage
-                && message.isOutgoingMessage == afterItemMessage.isOutgoingMessage {
+            if beforeItemMessage.isOutgoing == message.isOutgoing
+                && message.isOutgoing == afterItemMessage.isOutgoing {
                 return .centerGroup
             }
 
-            if beforeItemMessage.isOutgoingMessage == message.isOutgoingMessage {
+            if beforeItemMessage.isOutgoing == message.isOutgoing {
                 return .bottomGroup
             }
 
-            if message.isOutgoingMessage == afterItemMessage.isOutgoingMessage {
+            if message.isOutgoing == afterItemMessage.isOutgoing {
                 return .topGroup
             }
 
@@ -134,14 +100,14 @@ class MessageViewModel {
         }
 
         if let beforeItemMessage = messages.item(before: index) {
-            if beforeItemMessage.isOutgoingMessage == message.isOutgoingMessage {
+            if beforeItemMessage.isOutgoing == message.isOutgoing {
                 return .bottomGroup
             }
             return .single
         }
 
         if let afterItemMessage = messages.item(after: index) {
-            if afterItemMessage.isOutgoingMessage == message.isOutgoingMessage {
+            if afterItemMessage.isOutgoing == message.isOutgoing {
                 return .topGroup
             }
 
@@ -149,5 +115,23 @@ class MessageViewModel {
         }
 
         return .single
+    }
+
+    fileprivate func handleDataSource(messages: [Message]) -> [Message] {
+        let modifiedArray = messages.map { msg -> Message in
+            var m = msg
+            m.isOutgoing = self.isOutgoingMessage(m)
+            return m
+        }
+
+        return modifiedArray
+    }
+
+    fileprivate func isOutgoingMessage(_ message: Message) -> Bool {
+        guard let user = currentUser else {
+            return false
+        }
+
+        return message.sendByID == user.id
     }
 }

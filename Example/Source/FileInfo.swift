@@ -7,38 +7,38 @@
 //
 
 import UIKit
+import ObjectMapper
 
 enum FileType: Int {
-    case image
+    case image = 0
     case attachment
 }
 
-struct FileInfo {
+struct FileInfo: Mappable {
 
-    var id: String
-    var type: FileType = .image
-    var originalURL: URL?
-    var previewURL: URL?
-    var createdAt: Date
-    var width: CGFloat
-    var height: CGFloat
-    var caption: String = ""
+    private(set) var id: String!
+    private(set) var type: FileType = .image
+    private(set) var originalURL: URL?
+    private(set) var previewURL: URL?
+    private(set) var createdAt: Date!
+    private(set) var width: CGFloat!
+    private(set) var height: CGFloat!
+    private(set) var caption: String = ""
 
-    /// It is temporary. Because we will use URL at real.
-    var image: UIImage?
+    init?(map: Map) {
+        if map.JSON["id"] == nil {
+            return nil
+        }
+    }
 
-    init(id: String, type: FileType, originalURL: URL? = nil,
-         previewURL: URL?, createdAt: Date,
-         width: CGFloat, height: CGFloat, caption: String = "",
-         image: UIImage? = nil) {
-        self.id = id
-        self.type = type
-        self.originalURL = originalURL
-        self.previewURL = previewURL
-        self.createdAt = createdAt
-        self.width = width
-        self.height = height
-        self.caption = caption
-        self.image = image
+    public mutating func mapping(map: Map) {
+        id <- map["id"]
+        type <- (map["type"], EnumTransform<FileType>())
+        originalURL <- (map["url"], URLTransform())
+        previewURL <- (map["thumb_url"], URLTransform())
+        createdAt <- (map["created_at"], RFC3339DateTransform2())
+        width <- map["width"]
+        height <- map["height"]
+        caption <- map["caption"]
     }
 }

@@ -11,6 +11,12 @@
 		4D47559C20CE305E005B9493 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47559B20CE305E005B9493 /* MessageViewModel.swift */; };
 		4D4755A020CE3138005B9493 /* MessageTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47559E20CE3138005B9493 /* MessageTextCell.swift */; };
 		4D4755C620CF6A36005B9493 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755C520CF6A36005B9493 /* User.swift */; };
+		4D605BD520F860F300402847 /* conversation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D605BD320F860F300402847 /* conversation.json */; };
+		4D605BD620F860F300402847 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D605BD420F860F300402847 /* user.json */; };
+		4D605BD820F8721300402847 /* ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BD720F8721300402847 /* ObjectMapper.swift */; };
+		4D605BDA20F8983000402847 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BD920F8983000402847 /* Data.swift */; };
+		4D605BDC20F8A5DD00402847 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BDB20F8A5DD00402847 /* Pagination.swift */; };
+		4D605BDE20F8A66B00402847 /* ListReponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BDD20F8A66B00402847 /* ListReponseObject.swift */; };
 		4DBFF6E320ADE04E00D2799A /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF6E120ADE04E00D2799A /* MessageViewController.swift */; };
 		4DBFF6E420ADE04E00D2799A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF6E220ADE04E00D2799A /* AppDelegate.swift */; };
 		4DBFF6EF20ADE07E00D2799A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DBFF6E820ADE07E00D2799A /* Assets.xcassets */; };
@@ -31,6 +37,12 @@
 		4D47559B20CE305E005B9493 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		4D47559E20CE3138005B9493 /* MessageTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		4D4755C520CF6A36005B9493 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4D605BD320F860F300402847 /* conversation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = conversation.json; sourceTree = "<group>"; };
+		4D605BD420F860F300402847 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
+		4D605BD720F8721300402847 /* ObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
+		4D605BD920F8983000402847 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		4D605BDB20F8A5DD00402847 /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
+		4D605BDD20F8A66B00402847 /* ListReponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListReponseObject.swift; sourceTree = "<group>"; };
 		4D62995E20ADDD1B008CE39D /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DBFF6E120ADE04E00D2799A /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		4DBFF6E220ADE04E00D2799A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +103,9 @@
 			children = (
 				4DCF30CA20D25B1600454E7A /* FileInfo.swift */,
 				4D47559920CE3027005B9493 /* Message.swift */,
+				4D605BDB20F8A5DD00402847 /* Pagination.swift */,
 				4D4755C520CF6A36005B9493 /* User.swift */,
+				4D605BDD20F8A66B00402847 /* ListReponseObject.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -103,6 +117,16 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		4D605BD220F860F300402847 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				4D605BD320F860F300402847 /* conversation.json */,
+				4D605BD420F860F300402847 /* user.json */,
+			);
+			name = JSON;
+			path = Resources/JSON;
+			sourceTree = SOURCE_ROOT;
 		};
 		4D62995520ADDD1B008CE39D = {
 			isa = PBXGroup;
@@ -139,6 +163,7 @@
 		4DBFF6E620ADE06000D2799A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4D605BD220F860F300402847 /* JSON */,
 				4DBFF6E820ADE07E00D2799A /* Assets.xcassets */,
 				4DBFF6E920ADE07E00D2799A /* Base.lproj */,
 				4DBFF6EE20ADE07E00D2799A /* Info.plist */,
@@ -161,7 +186,9 @@
 			children = (
 				4DCF30C620D16F7200454E7A /* Array.swift */,
 				4DCF30D020D360F100454E7A /* Kingfisher.swift */,
+				4D605BD720F8721300402847 /* ObjectMapper.swift */,
 				4DCF30C420D0B95200454E7A /* UIBezierPath.swift */,
+				4D605BD920F8983000402847 /* Data.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -235,9 +262,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D605BD520F860F300402847 /* conversation.json in Resources */,
 				4DBFF6F120ADE07E00D2799A /* Main.storyboard in Resources */,
 				4DBFF6EF20ADE07E00D2799A /* Assets.xcassets in Resources */,
 				4DBFF6F020ADE07E00D2799A /* LaunchScreen.storyboard in Resources */,
+				4D605BD620F860F300402847 /* user.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,11 +282,15 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOS Example/Pods-iOS Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChatViewController/ChatViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -290,16 +323,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DCF30C720D16F7200454E7A /* Array.swift in Sources */,
+				4D605BDE20F8A66B00402847 /* ListReponseObject.swift in Sources */,
 				4D4755A020CE3138005B9493 /* MessageTextCell.swift in Sources */,
 				4DCF30C520D0B95200454E7A /* UIBezierPath.swift in Sources */,
 				4D47559A20CE3027005B9493 /* Message.swift in Sources */,
 				4D4755C620CF6A36005B9493 /* User.swift in Sources */,
 				4DCF30CD20D2691600454E7A /* MessageImageCell.swift in Sources */,
 				4DBFF6E420ADE04E00D2799A /* AppDelegate.swift in Sources */,
+				4D605BDA20F8983000402847 /* Data.swift in Sources */,
 				4D47559C20CE305E005B9493 /* MessageViewModel.swift in Sources */,
 				4DBFF6E320ADE04E00D2799A /* MessageViewController.swift in Sources */,
 				4DCF30D120D360F100454E7A /* Kingfisher.swift in Sources */,
 				4DCF30C920D2538700454E7A /* MessageCell.swift in Sources */,
+				4D605BDC20F8A5DD00402847 /* Pagination.swift in Sources */,
+				4D605BD820F8721300402847 /* ObjectMapper.swift in Sources */,
 				4DCF30CB20D25B1600454E7A /* FileInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

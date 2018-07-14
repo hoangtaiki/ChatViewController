@@ -344,19 +344,3 @@ extension ChatViewController {
         })
     }
 }
-
-extension ChatViewController {
-
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let height = Int(tableView.frame.size.height)
-        let contentYoffset = tableView.contentOffset.y
-        let distanceFromBottom = tableView.contentSize.height - contentYoffset
-
-        /// We need round distanceFromBottom to fix issue with iPhoneX
-        if Int(distanceFromBottom) <= height {
-            isAtBottomTable = true
-        } else {
-            isAtBottomTable = false
-        }
-    }
-}

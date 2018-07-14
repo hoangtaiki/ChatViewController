@@ -51,15 +51,11 @@ class MessageImageCell: MessageCell {
     }
 
     override func bind(withMessage message: Message, user: User, style: RoundedViewType) {
-        if let image = message.file?.image {
-            attachImageView.image = image
-        } else if let url = message.file?.previewURL {
-            attachImageView.setImage(with: url)
-        }
-        avatarImageView.image = user.image
+        attachImageView.setImage(with: message.file?.previewURL)
+        avatarImageView.setImage(with: user.avatarURL)
 
         updateImage(width: message.file!.width, height: message.file!.height)
-        tranformUI(message.isOutgoingMessage)
+        tranformUI(message.isOutgoing)
         updateLayoutForGroupMessage(style: style)
     }
 

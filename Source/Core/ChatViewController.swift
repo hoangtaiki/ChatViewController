@@ -64,8 +64,6 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     public var observation: NSKeyValueObservation?
     /// TypingIndicator height contraint
     public var typingIndicatorHeightConstraint: NSLayoutConstraint!
-    /// At bottom tableview
-    public var isAtBottomTable: Bool = true
 
     /// YES if the text inputbar is hidden. Default is NO.
     open var isCharBarHidden: Bool {

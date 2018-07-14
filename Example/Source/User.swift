@@ -6,17 +6,42 @@
 //  Copyright © 2018 toprating. All rights reserved.
 //
 
+import ObjectMapper
 import ChatViewController
 
-struct User: Userable {
+struct User: Userable, Mappable {
 
-    var id: String
-    var name: String
-    var image: UIImage
+    var id: Int!
+    var name: String = ""
+    var avatarURL: URL?
 
-    init(id: String, name: String, image: UIImage) {
+    var idNumber: String {
+        get {
+            return id.description
+        }
+    }
+
+    var displayName: String {
+        get {
+            return name
+        }
+    }
+
+
+    init?(map: Map) {
+        if map.JSON["id"] == nil {
+            return nil
+        }
+    }
+
+    init(id: Int, name: String) {
         self.id = id
         self.name = name
-        self.image = image
+    }
+
+    mutating func mapping(map: Map) {
+        id <- map["id"]
+        name <- map["name"]
+        avatarURL <- (map["avatar_url"], URLTransform())
     }
 }
