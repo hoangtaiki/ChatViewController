@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 extension ChatViewController {
 
     // Observer keyboard events
@@ -44,6 +43,7 @@ extension ChatViewController {
         tap.cancelsTouchesInView = false
         tap.addTarget(self, action: #selector(handleTapTableView(recognizer:)))
         tableView.addGestureRecognizer(tap)
+        tableView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
 
         view.addSubview(tableView)
 
@@ -62,7 +62,7 @@ extension ChatViewController {
             _ = chatBarView.textView.resignFirstResponder()
             currentKeyboardType = .none
         case .image:
-            animateHideImagePicker(isNeedScrollTable: true)
+            animateHideImagePicker()
             currentKeyboardType = .none
         default:
 
@@ -128,14 +128,6 @@ extension ChatViewController {
         let options = UIViewAnimationOptions(rawValue: UInt(curve!) << 16 | UIViewAnimationOptions.beginFromCurrentState.rawValue)
         let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
 
-        let beginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
-        let beginFrameY = beginFrame?.origin.y ?? 0
-        let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-        let endFrameY = endFrame?.origin.y ?? 0
-        var delta = abs(endFrameY - beginFrameY)
-
-        let contentOffset = tableView.contentOffset.y
-
         // The height offset we need update constraint for chat bar to make it always above keyboard
         if isShowing {
             if #available(iOS 11.0, *) {
@@ -158,29 +150,6 @@ extension ChatViewController {
             return
         }
 
-        // Note: We have a case when user touch a key system trigger call keyboard and make some error
-        // So that we will check if delta is zero we will cancel all animate
-        if delta == 0 {
-            return
-        }
-
-        // If chat bar is hidding and table is scrolled to bottom
-        // We don't need change table contentOffset
-        if #available(iOS 11.0, *) {
-            delta -= view.safeAreaInsets.bottom
-        }
-
-        // When keyboard hide if keyboard height more than current content offset
-        // We will assign detail by contentOffset
-        if !isShowing && delta > contentOffset {
-            delta = contentOffset
-        }
-
-        // Check value to detect direction of motion
-        if beginFrameY > endFrameY {
-            delta = -delta
-        }
-
         // Everytime keyboard show. We will check keyboard height change or not to update image picker view size
         if isShowing {
             updateHeightForImagePicker(keyboardHeight: heightOffset)
@@ -188,7 +157,6 @@ extension ChatViewController {
 
 
         UIView.animate(withDuration: duration!, delay: 0, options: options, animations: {
-            self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y - delta)
             self.chatBarBottomConstraint?.constant = -heightOffset
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -223,20 +191,16 @@ extension ChatViewController: ChatBarViewDelegate {
         switch currentKeyboardType {
         case .none:
             currentKeyboardType = .image
-            animateShowImagePicker(isNeedScrollTable: true)
+            animateShowImagePicker()
         case .default:
             currentKeyboardType = .image
             imagePickerView.isHidden = false
             chatBarView.textView.resignFirstResponderTimeAnimate = 0.0
             _ = chatBarView.textView.resignFirstResponder()
             view.bringSubview(toFront: imagePickerView)
-        //animateShowImagePicker(isNeedScrollTable: false)
         default:
             break
         }
-        //chatBarView.textView.resignFirstResponder()
-        //chatBarView.textView.isHidden = false
-
     }
     
     func handleShowImagePicker() {
@@ -246,7 +210,7 @@ extension ChatViewController: ChatBarViewDelegate {
         case .default:
             break
         case .none:
-            animateShowImagePicker(isNeedScrollTable: true)
+            animateShowImagePicker()
         }
     }
 
@@ -278,41 +242,23 @@ extension ChatViewController: ChatBarViewDelegate {
     /// Animate show image picker
     ///
     /// -parameter isNeedScrollTable: Need update tableview content offset or not
-    func animateShowImagePicker(isNeedScrollTable: Bool) {
+    func animateShowImagePicker() {
         tableView.stopScrolling()
         imagePickerView.isHidden = false
         imagePickerView.collectionView.resetUI()
 
-        let heightAnimate = -customKeyboardHeight
-
         UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = -self.customKeyboardHeight
-            if isNeedScrollTable {
-                self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y - heightAnimate)
-            }
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
 
-    func animateHideImagePicker(isNeedScrollTable: Bool) {
+    func animateHideImagePicker() {
         tableView.stopScrolling()
-
-        var tableViewOffsetChange = -customKeyboardHeight
-        let contentOffset = tableView.contentOffset.y
-
-        // When keyboard hide if keyboard height more than current content offset
-        // We will assign detail by contentOffset
-        if abs(tableViewOffsetChange) > contentOffset {
-            tableViewOffsetChange = -contentOffset
-        }
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = 0
             self.imagePickerView.alpha = 0.0
-
-            if isNeedScrollTable {
-                self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y + tableViewOffsetChange)
-            }
             self.view.layoutIfNeeded()
         }, completion: { _ in
             self.imagePickerView.isHidden = true

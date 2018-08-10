@@ -17,16 +17,13 @@ public extension UITableView {
         })
     }
     
-    public func insertNewCell(atIndexPath indexPath: IndexPath, isNeedReloadLastItem: Bool, completion: (() -> ())) {
+    public func insertNewCell(atIndexPath indexPath: IndexPath, isNeedReloadLastItem: Bool = false) {
         beginUpdates()
-        insertRows(at: [indexPath], with: .bottom)
+        insertRows(at: [indexPath], with: .none)
         if isNeedReloadLastItem {
-            let lastIndexPath = IndexPath(row: indexPath.row - 1, section: 0)
-            reloadRows(at: [lastIndexPath], with: .none)
+            reloadRows(at: [indexPath], with: .none)
         }
         endUpdates()
-
-        completion()
     }
 
     public func scrollToFirstCell() {
