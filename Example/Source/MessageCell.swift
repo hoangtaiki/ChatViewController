@@ -128,11 +128,11 @@ class MessageCell: UITableViewCell {
     func tranformUI(_ isOutgoingMessage: Bool) {
         if isOutgoingMessage {
             layoutForOutgoingMessage()
-            contentTranform = CGAffineTransform(scaleX: -1, y: 1)
+            contentTranform = CGAffineTransform(scaleX: -1, y: -1)
             statusLabel.textAlignment = .right
         } else {
             layoutForIncomingMessage()
-            contentTranform = CGAffineTransform.identity
+            contentTranform = CGAffineTransform(scaleX: 1, y: -1)
             statusLabel.textAlignment = .left
         }
         contentView.transform = contentTranform

@@ -41,6 +41,7 @@ class MessageViewController: ChatViewController {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifer,
                                                  for: indexPath) as! MessageCell
+        cell.transform = tableView.transform
         cell.bind(withMessage: viewModel.messages[indexPath.row], user: user, style: style)
 
         return cell
@@ -104,19 +105,15 @@ extension MessageViewController {
     fileprivate func updateUI() {
         tableView.reloadData { [weak self] in
             self?.viewModel.isRefreshing = false
-            self?.tableView.scrollToLastCell(animated: false)
         }
 
     }
 
     fileprivate func addMessage(_ message: Message) {
-        viewModel.messages.append(message)
-        let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
+        viewModel.messages.insert(message, at: 0)
         let needReloadLastCell = viewModel.messages.count > 0
 
-        tableView.insertNewCell(atIndexPath: indexPath, isNeedReloadLastItem: needReloadLastCell) { [unowned self] in
-            self.tableView.scrollToLastCell(animated: true)
-        }
+        tableView.insertNewCell(atIndexPath: IndexPath(row: 0, section: 0), isNeedReloadLastItem: needReloadLastCell)
     }
 
     @objc fileprivate func handleTypingButton() {

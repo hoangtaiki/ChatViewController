@@ -41,7 +41,7 @@ class MessageViewModel {
                 return
             }
 
-            messages = self.handleDataSource(messages: listReponse.data)
+            messages = self.handleDataSource(messages: listReponse.data).reversed()
             completion()
         } catch {
             print("Error \(error)")
