@@ -26,21 +26,6 @@ class MessageViewController: ChatViewController {
             }
         }
 
-        tableView.addLoadMore { [weak self] in
-            self?.viewModel.loadMoreData(completion: { indexPaths in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.tableView.beginUpdates()
-                    // We will reload the last row before we add new message to display right bubblr type
-                    let firstRow = indexPaths.first
-                    let lastRow = IndexPath(row: firstRow!.row - 1, section: 0)
-                    self?.tableView.reloadRows(at: [lastRow], with: .none)
-                    self?.tableView.insertRows(at: indexPaths, with: .bottom)
-                    self?.tableView.endUpdates()
-                    self?.tableView.stopLoadMore()
-                    self?.updateLoadMoreAble()
-                }
-            })
-        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -102,6 +87,35 @@ extension MessageViewController {
                             target: self,
                             action: #selector(handleTypingButton))
         ]
+
+        // Add function load more for table view
+        tableView.addLoadMore { [weak self] in
+            self?.viewModel.loadMoreData(completion: { indexPaths in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.tableView.beginUpdates()
+                    // We will reload the last row before we add new message to display right bubblr type
+                    let firstRow = indexPaths.first
+                    let lastRow = IndexPath(row: firstRow!.row - 1, section: 0)
+                    self?.tableView.reloadRows(at: [lastRow], with: .none)
+                    self?.tableView.insertRows(at: indexPaths, with: .bottom)
+                    self?.tableView.endUpdates()
+                    self?.tableView.stopLoadMore()
+                    self?.updateLoadMoreAble()
+                }
+            })
+        }
+
+        // Add function refresh for table view
+        tableView.addFooterRefresh { [weak self] in
+            self?.viewModel.firstLoadData {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.tableView.reloadData()
+                    self?.tableView.stopFooterRefresh()
+                    // After reload we should enable load more function
+                    self?.tableView.setLoadMoreEnable(true)
+                }
+            }
+        }
     }
 
     fileprivate func bindViewModel() {
@@ -124,7 +138,6 @@ extension MessageViewController {
         tableView.reloadData { [weak self] in
             self?.viewModel.isRefreshing = false
         }
-
     }
 
     fileprivate func addMessage(_ message: Message) {
