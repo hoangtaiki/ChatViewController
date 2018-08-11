@@ -17,6 +17,7 @@
 		4D605BDA20F8983000402847 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BD920F8983000402847 /* Data.swift */; };
 		4D605BDC20F8A5DD00402847 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BDB20F8A5DD00402847 /* Pagination.swift */; };
 		4D605BDE20F8A66B00402847 /* ListReponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BDD20F8A66B00402847 /* ListReponseObject.swift */; };
+		4D613925211D793A00ACB492 /* conversation_older.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D613924211D793A00ACB492 /* conversation_older.json */; };
 		4DBFF6E320ADE04E00D2799A /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF6E120ADE04E00D2799A /* MessageViewController.swift */; };
 		4DBFF6E420ADE04E00D2799A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF6E220ADE04E00D2799A /* AppDelegate.swift */; };
 		4DBFF6EF20ADE07E00D2799A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DBFF6E820ADE07E00D2799A /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		4D605BD920F8983000402847 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		4D605BDB20F8A5DD00402847 /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		4D605BDD20F8A66B00402847 /* ListReponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListReponseObject.swift; sourceTree = "<group>"; };
+		4D613924211D793A00ACB492 /* conversation_older.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = conversation_older.json; sourceTree = "<group>"; };
 		4D62995E20ADDD1B008CE39D /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DBFF6E120ADE04E00D2799A /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		4DBFF6E220ADE04E00D2799A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		4D605BD220F860F300402847 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				4D613924211D793A00ACB492 /* conversation_older.json */,
 				4D605BD320F860F300402847 /* conversation.json */,
 				4D605BD420F860F300402847 /* user.json */,
 			);
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D605BD520F860F300402847 /* conversation.json in Resources */,
+				4D613925211D793A00ACB492 /* conversation_older.json in Resources */,
 				4DBFF6F120ADE07E00D2799A /* Main.storyboard in Resources */,
 				4DBFF6EF20ADE07E00D2799A /* Assets.xcassets in Resources */,
 				4DBFF6F020ADE07E00D2799A /* LaunchScreen.storyboard in Resources */,
