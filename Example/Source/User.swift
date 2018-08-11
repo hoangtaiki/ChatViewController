@@ -34,9 +34,10 @@ struct User: Userable, Mappable {
         }
     }
 
-    init(id: Int, name: String) {
+    init(id: Int, name: String, avatarURL: URL? = nil) {
         self.id = id
         self.name = name
+        self.avatarURL = avatarURL
     }
 
     mutating func mapping(map: Map) {

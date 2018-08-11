@@ -11,7 +11,7 @@ import ObjectMapper
 struct Pagination: Mappable {
 
     private(set) var page: Int = 0
-    private(set) var pages: Int = 0
+    private(set) var pageSize: Int = 0
     private(set) var total: Int = 0
 
     public init?(map: Map) {
@@ -20,7 +20,11 @@ struct Pagination: Mappable {
 
     mutating public func mapping(map: Map) {
         page <- map["page"]
-        pages <- map["pages"]
+        pageSize <- map["page_size"]
         total <- map["total"]
+    }
+
+    func hasMore() -> Bool {
+        return page * pageSize < total
     }
 }

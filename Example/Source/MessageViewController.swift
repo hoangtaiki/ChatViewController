@@ -20,8 +20,26 @@ class MessageViewController: ChatViewController {
         setupUI()
         bindViewModel()
 
-        viewModel.getMessageData { [weak self] in
-            self?.updateUI()
+        viewModel.firstLoadData { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateUI()
+            }
+        }
+
+        tableView.addLoadMore { [weak self] in
+            self?.viewModel.loadMoreData(completion: { indexPaths in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.tableView.beginUpdates()
+                    // We will reload the last row before we add new message to display right bubblr type
+                    let firstRow = indexPaths.first
+                    let lastRow = IndexPath(row: firstRow!.row - 1, section: 0)
+                    self?.tableView.reloadRows(at: [lastRow], with: .none)
+                    self?.tableView.insertRows(at: indexPaths, with: .bottom)
+                    self?.tableView.endUpdates()
+                    self?.tableView.stopLoadMore()
+                    self?.updateLoadMoreAble()
+                }
+            })
         }
     }
 
@@ -139,5 +157,9 @@ extension MessageViewController {
             numberUserTypings = 0
             break
         }
+    }
+
+    fileprivate func updateLoadMoreAble() {
+        tableView.setLoadMoreEnable(viewModel.pagination?.hasMore() ?? false)
     }
 }

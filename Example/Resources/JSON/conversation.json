@@ -195,7 +195,7 @@
 		"custom": [""],
 		"pagination": {
 			"page": 1,
-			"pages": 2,
+			"page_size": 20,
 			"total": 40
 		},
 		"include": []

@@ -1,0 +1,203 @@
+{
+	"data": [
+		{
+			"id": "1f832d21-6d8c-452e-9d32-06f563e9dd45",
+			"type": 0,
+			"text": "On the same night that a special congressional election in Ohio proved too tight to call",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:46.417449Z",
+			"updated_at": "2018-04-19T04:55:46.417449Z"
+		},
+		{
+			"id": "9f1c4807-3bf8-40c2-8717-77bc68bdc40b",
+			"type": 0,
+			"text": "One of the most competitive Republican primaries for governor this summer",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:55:47.417442Z",
+			"updated_at": "2018-04-19T04:55:47.417442Z"
+		},  
+		{
+			"id": "709fcf48-1cf2-4dce-af5b-22cdd1a9516c",
+			"type": 0,
+			"text": "Try to get a good night’s sleep",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:55:48.417449Z",
+			"updated_at": "2018-04-19T04:55:48.417449Z"
+		}, 
+		{
+			"id": "04c5c665-59fb-4002-b55d-c49fbcd6f3e7",
+			"type": 0,
+			"text": "You are now talking on",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:49.417449Z",
+			"updated_at": "2018-04-19T04:55:49.417449Z"
+		},
+		{
+			"id": "5ea01b91-c24d-46df-92bb-a7d6dc1a1d1b",
+			"type": 0,
+			"text": "Amazon has found itself in the rare position of playing catch-up with its rivals.",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:50.417449Z",
+			"updated_at": "2018-04-19T04:55:50.417449Z"
+		},
+		{
+			"id": "af86ca44-9a56-4268-b7e5-d14d608e79d4",
+			"type": 0,
+			"text": "Wednesday",
+			"sender_id": 2,
+			"created_at": "2018-04-20T04:55:51.417449Z",
+			"updated_at": "2018-04-20T04:55:51.417449Z"
+		},
+		{
+			"id": "aabf2bf6-7199-46aa-8fcd-b90d16fd674b",
+			"type": 0,
+			"text": "Yes, it’s a little scary to be a rebel, but sometimes it’s necessary if we want to advance in our careers or lives.",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:55:52.417449Z",
+			"updated_at": "2018-04-19T04:55:52.417449Z"
+		},
+		{
+			"id": "e43943be-3c8b-460c-9d44-e3209e41242c",
+			"type": 0,
+			"text": "Shoppers who pay the Amazon Prime subscription fee can order their groceries online and pick them up 30 minutes later at a Whole Foods.",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:55:53.417449Z",
+			"updated_at": "2018-04-19T04:55:53.417449Z"
+		},
+		{
+			"id": "0ff12973-06e4-42b9-99fc-c4145c340784",
+			"type": 0,
+			"text": "Why Shoppers Don’t Buy Online",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:54.417449Z",
+			"updated_at": "2018-04-19T04:55:54.417449Z"
+		},
+		{
+			"id": "63c86467-05e3-43a1-8b41-9d3b2f4a175e",
+			"type": 0,
+			"text": "I like going to the supermarket",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:55.417449Z",
+			"updated_at": "2018-04-19T04:55:55.417449Z"
+		},
+		{
+			"id": "c0b77639-a4c4-4b8e-803f-f822049d1170",
+			"type": 0,
+			"text": "I would have to do additional grocery shopping in-store for fresh products",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:56.417449Z",
+			"updated_at": "2018-04-19T04:55:56.417449Z"
+		},
+		{
+			"id": "64f44631-308d-4387-ba73-81b37973d054",
+			"type": 0,
+			"text": "I don't buy enough products at one time to make the delivery fee worthwhile",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:55:57.417449Z",
+			"updated_at": "2018-04-19T04:55:57.417449Z"
+		},
+		{
+			"id": "a18573da-9da3-4469-b1c3-64a33ccce536",
+			"type": 0,
+			"text": "Products are more expensive online than in a physical store",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:55:58.417449Z",
+			"updated_at": "2018-04-19T04:55:58.417449Z"
+		},
+		{
+			"id": "f8360fea-4d49-4133-a9d3-c27318f98101",
+			"type": 1,
+			"file": {
+                "id": "c252c7d5-c84f-43a8-940a-8b23be4484e3",
+                "type": 0,
+                "title": "54tGobE.jpg",
+                "caption": "",
+				"created_at": "2018-04-19T04:55:55.497449Z",
+				"thumb_url": "https://i.imgur.com/54tGobE.jpg",
+				"url": "https://i.imgur.com/54tGobE.jpg",
+				"width": 1280,
+				"height": 1024
+			},
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:55:59.417449Z",
+			"updated_at": "2018-04-19T04:55:59.417449Z"
+		},
+		{
+			"id": "ae458f4e-b710-4195-b410-4db63a191e29",
+			"type": 1,
+			"file": {
+                "id": "7c708f25-066e-4b96-874c-47467f69504b",
+                "type": 0,
+                "title": "z1cfSJc.png",
+                "caption": "",
+				"created_at": "2018-04-19T04:56:15.497449Z",
+				"thumb_url": "https://i.imgur.com/z1cfSJc.png",
+				"url": "https://i.imgur.com/z1cfSJc.png",
+				"width": 1024,
+				"height": 500
+			},
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:56:10.417449Z",
+			"updated_at": "2018-04-19T04:56:10.417449Z"
+		},
+		{
+			"id": "32dd5bab-a04a-4939-b3db-547f2955d5fg",
+			"type": 1,
+			"file": {
+				"id": "70229c0e-3eb5-4493-aad8-f3ceb7a4abd7",
+                "type": 0,
+                "title": "guoLF69.jpg",
+                "caption": "",
+				"created_at": "2018-04-19T04:56:19.497449Z",
+				"thumb_url": "https://i.imgur.com/guoLF69.jpg",
+				"url": "https://i.imgur.com/guoLF69.jpg",
+				"width": 768,
+				"height": 1024
+			},
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:56:11.417449Z",
+			"updated_at": "2018-04-19T04:56:11.417449Z"
+		},
+		{
+			"id": "a51e9df7-a5df-409d-ab7a-22b9745b687g",
+			"type": 0,
+			"text": "I'm not available or don't want to have to wait at home for delivery.",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:56:23.417449Z",
+			"updated_at": "2018-04-19T04:56:23.417449Z"
+		},
+		{
+			"id": "1cdcfbb0-e82b-426e-8be8-af19c84b1d37",
+			"type": 0,
+			"text": "The store where I shop doesn't offer online grocery shopping",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:56:26.417449Z",
+			"updated_at": "2018-04-19T04:56:26.417449Z"
+		},
+		{
+			"id": "c8134a6f-8701-49ac-a79f-85e6bf80a094",
+			"type": 0,
+			"text": "I don't have regular access to Internet",
+			"sender_id": 2,
+			"created_at": "2018-04-19T04:56:28.417449Z",
+			"updated_at": "2018-04-19T04:56:28.417449Z"
+		},
+		{
+			"id": "0946b7ef-829a-46bf-9025-2f516a4753b3",
+			"type": 0,
+			"text": "Shoppers Prefer Store Pickup for Fresh Food",
+			"sender_id": 1,
+			"created_at": "2018-04-19T04:56:29.417449Z",
+			"updated_at": "2018-04-19T04:56:29.417449Z"
+		}
+	],
+	"meta": {
+		"custom": [""],
+		"pagination": {
+			"page": 2,
+			"page_size": 20,
+			"total": 40
+		},
+		"include": []
+	}
+}

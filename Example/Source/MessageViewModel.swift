@@ -16,55 +16,55 @@ class MessageViewModel {
     var users: [User] = []
     var messages: [Message] = []
     var currentUser: User?
+    var pagination: Pagination?
 
     init() {
-
+        currentUser = User(id: 2, name: "Harry Tran", avatarURL: URL(string: "https://i.imgur.com/LIe72Gc.png"))
         getUserData()
+    }
 
-        if let firstUser = users.first {
-            currentUser = firstUser
+    func firstLoadData(completion: @escaping (() -> ())) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.getDataFromFile(fileName: "conversation") { (messageResponse: [Message], pagi) in
+                self?.messages = self!.handleDataSource(messages: messageResponse).reversed()
+                self?.pagination = pagi
+                completion()
+            }
         }
     }
 
-    func getMessageData(completion: (() -> ())) {
-        guard let jsonData = Data.dataFromJSONFile("conversation") else {
-            return
-        }
-
-        do {
-            let jsonObj = try JSON(data: jsonData)
-            guard let dictionObject = jsonObj.dictionaryObject else {
-                return
+    func loadMoreData(completion: @escaping ((_ indexPathWillAdds: [IndexPath]) -> ())) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.getDataFromFile(fileName: "conversation_older") { (messageResponse: [Message], pagi) in
+                let indexPathWillAdds = self!.getIndexPathWillAdds(newDataSize: messageResponse.count)
+                self?.messages.append(contentsOf: self!.handleDataSource(messages: messageResponse).reversed())
+                self?.pagination = pagi
+                completion(indexPathWillAdds)
             }
-
-            guard let listReponse = Mapper<ListResponseObject<Message>>().map(JSON: dictionObject) else {
-                return
-            }
-
-            messages = self.handleDataSource(messages: listReponse.data).reversed()
-            completion()
-        } catch {
-            print("Error \(error)")
-            return
         }
     }
+
 
     func getUserData() {
-        guard let jsonData = Data.dataFromJSONFile("user") else {
-            return
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.getDataFromFile(fileName: "user") { (userResponse: [User], _) in
+                self?.users = userResponse
+            }
         }
+    }
+
+    func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination) -> ()) where T: Mappable {
+        guard let jsonData = Data.dataFromJSONFile(fileName) else { return }
 
         do {
             let jsonObj = try JSON(data: jsonData)
-            guard let dictionObject = jsonObj.dictionaryObject else {
+            guard let dictionObject = jsonObj.dictionaryObject else { return }
+
+            guard let listReponse = Mapper<ListResponseObject<T>>().map(JSON: dictionObject) else {
                 return
             }
 
-            guard let listReponse = Mapper<ListResponseObject<User>>().map(JSON: dictionObject) else {
-                return
-            }
-
-            users = listReponse.data
+            completion(listReponse.data, listReponse.pagination!)
         } catch {
             print("Error \(error)")
             return
@@ -134,4 +134,16 @@ extension MessageViewModel {
 
         return message.sendByID == user.id
     }
+
+    fileprivate func getIndexPathWillAdds(newDataSize: Int) -> [IndexPath] {
+        let currentNumberMessage = messages.count
+        let newNumberMessage = messages.count + newDataSize
+        var indexPathWillAdds: [IndexPath] = []
+        for index in currentNumberMessage..<newNumberMessage {
+            indexPathWillAdds.append(IndexPath(row: index, section: 0))
+        }
+
+        return indexPathWillAdds
+    }
+
 }
