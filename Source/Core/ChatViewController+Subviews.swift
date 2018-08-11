@@ -169,7 +169,7 @@ extension ChatViewController {
 }
 
 /// ImagePickerView
-extension ChatViewController: ChatBarViewDelegate {
+extension ChatViewController {
 
     /// Setup for ImagePicker
     func initImagePickerView() {

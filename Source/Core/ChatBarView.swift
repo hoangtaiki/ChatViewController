@@ -8,14 +8,8 @@
 
 import UIKit
 
-public protocol ChatBarViewDelegate {
-    func didChangeBarHeight(from: CGFloat, to: CGFloat)
-    func showDefaultKeyboard()
-}
 
 open class ChatBarView: UIView {
-
-    public var delegate: ChatBarViewDelegate?
 
     /// Height of TextView
     public var textViewCurrentHeight: CGFloat = 0
@@ -203,8 +197,6 @@ extension ChatBarView {
 
     fileprivate func setUI() {
         backgroundColor = .white
-
-        textView.delegate = self
         textView.keyboardType = .default
         topBorderLine.backgroundColor = UIColor.lightGray
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
@@ -283,40 +275,5 @@ extension ChatBarView {
         }
 
         return height
-    }
-}
-
-/// Delegate for TextView inside ChatBarView
-extension ChatBarView: UITextViewDelegate {
-
-    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            return false
-        }
-        return true
-    }
-
-    public func textViewDidChange(_ textView: UITextView) {
-        // Handle text change to expand chat bar view
-        let contentHeight = textView.contentSize.height
-        if contentHeight < maxTextViewHeight && textViewCurrentHeight != contentHeight {
-            let oldHeight = textViewCurrentHeight
-            textViewCurrentHeight = contentHeight
-            if oldHeight != 0 {
-                delegate?.didChangeBarHeight(from: oldHeight, to: contentHeight)
-            }
-        }
-
-        sendButton.isEnabled = !textView.text.isEmpty
-    }
-
-    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        delegate?.showDefaultKeyboard()
-
-        UIView.setAnimationsEnabled(false)
-        let range = NSMakeRange(textView.text.count - 1, 1)
-        textView.scrollRangeToVisible(range)
-        UIView.setAnimationsEnabled(true)
-        return true
     }
 }

@@ -10,6 +10,29 @@ import UIKit
 import ObjectMapper
 import SwiftyJSON
 
+enum BubbleStyle {
+    case facebook
+
+    var description: String {
+        switch self {
+        case .facebook:
+            return "Facebook"
+        }
+    }
+
+}
+
+enum ImagePickerType {
+    case insideChatBar
+
+    var description: String {
+        switch self {
+        case .insideChatBar:
+            return "Embed inside Chat Bar"
+        }
+    }
+}
+
 class MessageViewModel {
 
     var isRefreshing: Bool = false
