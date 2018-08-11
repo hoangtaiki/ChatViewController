@@ -25,7 +25,6 @@ class MessageViewController: ChatViewController {
                 self?.updateUI()
             }
         }
-
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -67,13 +66,14 @@ class MessageViewController: ChatViewController {
         addMessage(message)
         super.didPressSendButton(sender)
     }
-    
+
 }
 
 extension MessageViewController {
 
     fileprivate func setupUI() {
         title = "Liliana"
+        addBackBarButton()
 
         /// Tableview
         tableView.estimatedRowHeight = 88

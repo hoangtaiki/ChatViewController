@@ -7,5 +7,5 @@ target 'iOS Example' do
   pod 'Kingfisher'
   pod 'ObjectMapper'
   pod 'SwiftyJSON'
-
+  
 end

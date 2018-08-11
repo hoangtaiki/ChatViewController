@@ -14,10 +14,37 @@ public enum KeyboardType {
     case none
 }
 
-open class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+public enum ChatBarStyle {
+    case `default`
+    case slack
+    case other
 
-    open var minimumChatBarHeight: CGFloat = 80
+    public var description: String {
+        switch self {
+        case .default:
+            return "Default"
+        case .slack:
+            return "Slack"
+        default:
+            return ""
+        }
+    }
+
+}
+
+open class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+
+    open var minimumChatBarHeight: CGFloat = 50
     open var customKeyboardHeight: CGFloat = 0
+    open var chatBarStyle: ChatBarStyle = .default  {
+        didSet {
+            if chatBarStyle == .default {
+                minimumChatBarHeight = 50
+            } else if chatBarStyle == .slack {
+                minimumChatBarHeight = 80
+            }
+        }
+    }
 
     public var currentKeyboardType: KeyboardType = .none {
         willSet {
@@ -105,54 +132,12 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     /// Setup for ChatBarView
     open func setupChatBar() {
         chatBarView = ChatBarView()
-        chatBarView.delegate = self
+        chatBarView.textView.delegate = self
         chatBarView.maxChatBarHeight = 200
         chatBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatBarView)
 
-        chatBarView.sendButton
-            .configure {
-                $0.layer.cornerRadius = 6
-                $0.layer.borderWidth = 1
-                $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
-                $0.setTitleColor(.white, for: .normal)
-                $0.setTitleColor(.white, for: .highlighted)
-                $0.size = CGSize(width: 50, height: 30)
-                $0.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.heavy)
-            }
-            .onEnabled {
-                $0.titleLabel?.textColor = .white
-                $0.layer.borderColor = UIColor.clear.cgColor
-                $0.backgroundColor = UIColor(red: 45/255, green: 158/255, blue: 224/255, alpha: 1)
-            }
-            .onDisabled {
-                $0.layer.borderColor = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1).cgColor
-                $0.titleLabel?.textColor = UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1)
-                $0.backgroundColor = .white
-            }
-
-        chatBarView.galleryButton
-            .configure {
-                $0.size = CGSize(width: 28, height: 22)
-            }
-            .onEnabled {
-                var image = UIImage.init(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
-                if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
-                    image = tempImage
-                    $0.image = image
-                    $0.tintColor = UIColor.gray
-                }
-            }
-        
-        chatBarView.sendButton.addTarget(self, action: #selector(didPressSendButton(_:)), for: .touchUpInside)
-        chatBarView.galleryButton.addTarget(self, action: #selector(didPressGalleryButton(_:)), for: .touchUpInside)
-        chatBarView.bottomStackView.isHidden = false
-
-        let items = [.flexibleSpace, chatBarView.galleryButton, chatBarView.sendButton]
-        items.forEach { $0.tintColor = .lightGray }
-        chatBarView.bottomStackView.spacing = 16
-        chatBarView.setStackViewItems(items, forStack: .bottom, animated: true)
-
+        // Setup constraint for chat bar
         chatBarHeightConstraint = chatBarView.heightAnchor.constraint(equalToConstant: minimumChatBarHeight)
         chatBarHeightConstraint?.isActive = true
         if #available(iOS 11.0, *) {
@@ -163,6 +148,16 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         chatBarBottomConstraint?.isActive = true
         chatBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         chatBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+        // Setup chatbar style
+        switch chatBarStyle {
+        case .default:
+            defaultChatBarStyle()
+        case .slack:
+            chatSlackBarStyle()
+        case .other:
+            break
+        }
     }
 
     /// Keyboard
@@ -188,7 +183,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         chatBarView.textView.text = ""
 
         chatBarView.textViewCurrentHeight = minimumChatBarHeight - chatBarView.getAdditionalHeight()
-        chatBarView.textViewDidChange(chatBarView.textView)
+        textViewDidChange(chatBarView.textView)
         controlExpandableInputView(showExpandable: true, from: 0, to: 0)
     }
     
@@ -218,8 +213,137 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
+    /// Delegate for TextView inside ChatBarView
+    open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            return false
+        }
+        return true
+    }
+
+    open func textViewDidChange(_ textView: UITextView) {
+        // Handle text change to expand chat bar view
+        let contentHeight = textView.contentSize.height
+        if contentHeight < chatBarView.maxTextViewHeight && chatBarView.textViewCurrentHeight != contentHeight {
+            let oldHeight = chatBarView.textViewCurrentHeight
+            chatBarView.textViewCurrentHeight = contentHeight
+            if oldHeight != 0 {
+                didChangeBarHeight(from: oldHeight, to: contentHeight)
+            }
+        }
+
+        // Handle enable/disable hide/show send button
+        switch chatBarStyle {
+        case .default:
+            UIView.animate(withDuration: 0.15) {
+                self.chatBarView.rightStackView.isHidden = textView.text.isEmpty
+            }
+        case .slack:
+            chatBarView.sendButton.isEnabled = !textView.text.isEmpty
+        case .other:
+            break
+        }
+    }
+
+    open func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        showDefaultKeyboard()
+
+        UIView.setAnimationsEnabled(false)
+        let range = NSMakeRange(textView.text.count - 1, 1)
+        textView.scrollRangeToVisible(range)
+        UIView.setAnimationsEnabled(true)
+        return true
+    }
+
     deinit {
         removeObserverKeyboardEvents()
     }
 
+}
+
+extension ChatViewController {
+
+    private func chatSlackBarStyle() {
+        chatBarView.sendButton
+            .configure {
+                $0.layer.cornerRadius = 6
+                $0.layer.borderWidth = 1
+                $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
+                $0.size = CGSize(width: 50, height: 30)
+                $0.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.heavy)
+            }
+            .onEnabled {
+                $0.titleLabel?.textColor = .white
+                $0.layer.borderColor = UIColor.clear.cgColor
+                $0.backgroundColor = UIColor(red: 45/255, green: 158/255, blue: 224/255, alpha: 1)
+            }
+            .onDisabled {
+                $0.layer.borderColor = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1).cgColor
+                $0.titleLabel?.textColor = UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1)
+                $0.backgroundColor = .white
+        }
+
+        chatBarView.galleryButton
+            .configure {
+                $0.size = CGSize(width: 28, height: 22)
+            }
+            .onEnabled {
+                var image = UIImage.init(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
+                if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
+                    image = tempImage
+                    $0.image = image
+                    $0.tintColor = UIColor.gray
+                }
+        }
+
+        chatBarView.sendButton.addTarget(self, action: #selector(didPressSendButton(_:)), for: .touchUpInside)
+        chatBarView.galleryButton.addTarget(self, action: #selector(didPressGalleryButton(_:)), for: .touchUpInside)
+        chatBarView.bottomStackView.isHidden = false
+        chatBarView.leftStackView.isHidden = true
+        chatBarView.rightStackView.isHidden = true
+
+        let items = [.flexibleSpace, chatBarView.galleryButton, chatBarView.sendButton]
+        items.forEach { $0.tintColor = .lightGray }
+        chatBarView.bottomStackView.spacing = 16
+        chatBarView.setStackViewItems(items, forStack: .bottom, animated: true)
+    }
+
+    private func defaultChatBarStyle() {
+        // Hide send button default (we will hide right stack view)
+        chatBarView.rightStackView.isHidden = true
+        chatBarView.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+        chatBarView.textView.backgroundColor = .white
+
+        // Set up border for textview
+        chatBarView.textView.layer.cornerRadius = 6
+        chatBarView.textView.layer.borderWidth = 1
+        chatBarView.textView.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).cgColor
+        chatBarView.centerStackView.spacing = 8
+        chatBarView.sendButton
+            .configure {
+                $0.setTitleColor(UIColor(red: 45/255, green: 158/255, blue: 224/255, alpha: 1), for: .normal)
+                $0.size = CGSize(width: 40, height: 38)
+                $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
+            }
+        chatBarView.sendButton.isEnabled = true
+
+        chatBarView.galleryButton
+            .configure {
+                $0.size = CGSize(width: 32, height: 38)
+            }
+            .onEnabled {
+                var image = UIImage.init(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
+                if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
+                    image = tempImage
+                    $0.image = image
+                    $0.tintColor = UIColor.gray
+                }
+        }
+
+        chatBarView.sendButton.addTarget(self, action: #selector(didPressSendButton(_:)), for: .touchUpInside)
+        chatBarView.galleryButton.addTarget(self, action: #selector(didPressGalleryButton(_:)), for: .touchUpInside)
+
+        chatBarView.setStackViewItems([chatBarView.galleryButton], forStack: .left, animated: false)
+        chatBarView.setStackViewItems([chatBarView.sendButton], forStack: .right, animated: false)
+    }
 }
