@@ -96,17 +96,9 @@ extension ChatViewController {
     /// Control
     func controlExpandableInputView(showExpandable: Bool, from: CGFloat, to: CGFloat) {
         let currentTextHeight = chatBarView.textViewCurrentHeight + chatBarView.getAdditionalHeight()
-        var delta = from - to
-
-        // When keyboard hide if keyboard height more than current content offset
-        // We will assign detail by contentOffset
-        if delta > 0 && delta > tableView.contentOffset.y {
-            delta = tableView.contentOffset.y
-        }
 
         UIView.animate(withDuration: 0.3, animations: {
             let textHeight = showExpandable ? currentTextHeight : self.minimumChatBarHeight
-            self.tableView.contentOffset = CGPoint(x: 0, y: self.tableView.contentOffset.y - delta)
             self.chatBarHeightConstraint?.constant = textHeight
             self.chatBarView.textView.contentOffset = .zero
             self.view.layoutIfNeeded()
@@ -154,7 +146,6 @@ extension ChatViewController {
         if isShowing {
             updateHeightForImagePicker(keyboardHeight: heightOffset)
         }
-
 
         UIView.animate(withDuration: duration!, delay: 0, options: options, animations: {
             self.chatBarBottomConstraint?.constant = -heightOffset
