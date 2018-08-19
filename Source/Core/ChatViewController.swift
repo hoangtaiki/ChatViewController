@@ -14,33 +14,15 @@ public enum KeyboardType {
     case none
 }
 
-public enum ChatBarStyle {
-    case `default`
-    case slack
-    case other
-
-    public var description: String {
-        switch self {
-        case .default:
-            return "Default"
-        case .slack:
-            return "Slack"
-        default:
-            return ""
-        }
-    }
-
-}
-
 open class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
 
     open var minimumChatBarHeight: CGFloat = 50
     open var customKeyboardHeight: CGFloat = 0
-    open var chatBarStyle: ChatBarStyle = .default  {
+    open var configuration: ChatViewConfiguration = ChatViewConfiguration.default {
         didSet {
-            if chatBarStyle == .default {
+            if configuration.chatBarStyle == .default {
                 minimumChatBarHeight = 50
-            } else if chatBarStyle == .slack {
+            } else if configuration.chatBarStyle == .slack {
                 minimumChatBarHeight = 80
             }
         }
@@ -49,6 +31,16 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     public var currentKeyboardType: KeyboardType = .none {
         willSet {
             lastKeyboardType = currentKeyboardType
+        }
+
+        didSet {
+            // Show image picker
+            if currentKeyboardType == .image {
+            } else {
+                // Already switch frim image picker
+                if lastKeyboardType == .image {
+                }
+            }
         }
     }
     public var lastKeyboardType: KeyboardType = .none
@@ -133,7 +125,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     open func setupChatBar() {
         chatBarView = ChatBarView()
         chatBarView.textView.delegate = self
-        chatBarView.maxChatBarHeight = 200
+        chatBarView.maxChatBarHeight = configuration.maxChatBarHeight
         chatBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatBarView)
 
@@ -150,7 +142,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         chatBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
         // Setup chatbar style
-        switch chatBarStyle {
+        switch configuration.chatBarStyle {
         case .default:
             defaultChatBarStyle()
         case .slack:
@@ -233,7 +225,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         // Handle enable/disable hide/show send button
-        switch chatBarStyle {
+        switch configuration.chatBarStyle {
         case .default:
             UIView.animate(withDuration: 0.15) {
                 self.chatBarView.rightStackView.isHidden = textView.text.isEmpty
@@ -283,12 +275,11 @@ extension ChatViewController {
                 $0.backgroundColor = .white
         }
 
-        chatBarView.galleryButton
+        chatBarView
+            .galleryButton
             .configure {
                 $0.size = CGSize(width: 28, height: 22)
-            }
-            .onEnabled {
-                var image = UIImage.init(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
+                var image = UIImage(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
                 if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
                     image = tempImage
                     $0.image = image
