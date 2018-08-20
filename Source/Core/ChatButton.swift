@@ -104,6 +104,16 @@ public class ChatButton: UIButton {
         }
     }
 
+    open override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                onSelectedAction?(self)
+            } else {
+                onDeselectedAction?(self)
+            }
+        }
+    }
+
     private var onTouchUpInsideAction: ChatButtonAction?
     private var onSelectedAction: ChatButtonAction?
     private var onDeselectedAction: ChatButtonAction?
