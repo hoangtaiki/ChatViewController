@@ -36,9 +36,11 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         didSet {
             // Show image picker
             if currentKeyboardType == .image {
+                chatBarView.galleryButton.isSelected = true
             } else {
                 // Already switch frim image picker
                 if lastKeyboardType == .image {
+                    chatBarView.galleryButton.isSelected = false
                 }
             }
         }
@@ -257,33 +259,44 @@ extension ChatViewController {
 
     private func chatSlackBarStyle() {
         chatBarView.sendButton
-            .configure {
+            .configure { [weak self] in
+                $0.size = CGSize(width: 50, height: 30)
                 $0.layer.cornerRadius = 6
                 $0.layer.borderWidth = 1
-                $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
-                $0.size = CGSize(width: 50, height: 30)
+                $0.layer.borderColor = self?.configuration.sendButtonDeSelectedColor.cgColor
+                $0.titleLabel?.textColor = self?.configuration.sendButtonDeSelectedColor
                 $0.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.heavy)
             }
-            .onEnabled {
+            .onEnabled { [weak self] in
                 $0.titleLabel?.textColor = .white
                 $0.layer.borderColor = UIColor.clear.cgColor
-                $0.backgroundColor = UIColor(red: 45/255, green: 158/255, blue: 224/255, alpha: 1)
+                $0.backgroundColor = self?.configuration.sendButtonSelectedColor
             }
-            .onDisabled {
-                $0.layer.borderColor = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1).cgColor
-                $0.titleLabel?.textColor = UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1)
+            .onDisabled { [weak self] in
                 $0.backgroundColor = .white
+                $0.layer.borderColor = self?.configuration.sendButtonDeSelectedColor.cgColor
+                $0.titleLabel?.textColor = self?.configuration.sendButtonDeSelectedColor
         }
 
-        chatBarView
-            .galleryButton
-            .configure {
-                $0.size = CGSize(width: 28, height: 22)
+        chatBarView.galleryButton
+            .configure { [weak self] in
+                $0.size = CGSize(width: 32, height: 38)
                 var image = UIImage(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
                 if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
                     image = tempImage
                     $0.image = image
-                    $0.tintColor = UIColor.gray
+                    $0.tintColor = self?.configuration.galleryButtonDeSelectedColor
+                }
+            }
+            .onSelected {
+                $0.image = UIImage(named: "ic_gallery_selected", in: Bundle.chatBundle, compatibleWith: nil)
+            }
+            .onDeselected { [weak self] in
+                var image = UIImage(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
+                if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
+                    image = tempImage
+                    $0.image = image
+                    $0.tintColor = self?.configuration.galleryButtonDeSelectedColor
                 }
         }
 
@@ -294,7 +307,6 @@ extension ChatViewController {
         chatBarView.rightStackView.isHidden = true
 
         let items = [.flexibleSpace, chatBarView.galleryButton, chatBarView.sendButton]
-        items.forEach { $0.tintColor = .lightGray }
         chatBarView.bottomStackView.spacing = 16
         chatBarView.setStackViewItems(items, forStack: .bottom, animated: true)
     }
@@ -302,32 +314,41 @@ extension ChatViewController {
     private func defaultChatBarStyle() {
         // Hide send button default (we will hide right stack view)
         chatBarView.rightStackView.isHidden = true
-        chatBarView.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+        chatBarView.backgroundColor = configuration.chatBarBackgroundColor
         chatBarView.textView.backgroundColor = .white
 
         // Set up border for textview
         chatBarView.textView.layer.cornerRadius = 6
         chatBarView.textView.layer.borderWidth = 1
-        chatBarView.textView.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).cgColor
+        chatBarView.textView.layer.borderColor = configuration.textInputBarBorderColor.cgColor
         chatBarView.centerStackView.spacing = 8
         chatBarView.sendButton
-            .configure {
-                $0.setTitleColor(UIColor(red: 45/255, green: 158/255, blue: 224/255, alpha: 1), for: .normal)
+            .configure { [weak self] in
+                $0.setTitleColor(self?.configuration.sendButtonSelectedColor, for: .normal)
                 $0.size = CGSize(width: 40, height: 38)
                 $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
             }
         chatBarView.sendButton.isEnabled = true
 
         chatBarView.galleryButton
-            .configure {
+            .configure { [weak self] in
                 $0.size = CGSize(width: 32, height: 38)
-            }
-            .onEnabled {
-                var image = UIImage.init(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
+                var image = UIImage(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
                 if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
                     image = tempImage
                     $0.image = image
-                    $0.tintColor = UIColor.gray
+                    $0.tintColor = self?.configuration.galleryButtonDeSelectedColor
+                }
+            }
+            .onSelected {
+                $0.image = UIImage(named: "ic_gallery_selected", in: Bundle.chatBundle, compatibleWith: nil)
+            }
+            .onDeselected { [weak self] in
+                var image = UIImage(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
+                if let tempImage = image?.withRenderingMode(.alwaysTemplate) {
+                    image = tempImage
+                    $0.image = image
+                    $0.tintColor = self?.configuration.galleryButtonDeSelectedColor
                 }
         }
 
