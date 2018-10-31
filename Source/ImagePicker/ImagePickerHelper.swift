@@ -13,7 +13,7 @@ public class ImagePickerHelper: NSObject, UIImagePickerControllerDelegate, UINav
     weak var parentViewController: UIViewController?
     var pickImageResult: ((_ image: UIImage?, _ imagePath: URL?, _ error: Error?) -> ())?
 
-    public func accessPhoto(from sourceType: UIImagePickerControllerSourceType) {
+    public func accessPhoto(from sourceType: UIImagePickerController.SourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
@@ -22,13 +22,13 @@ public class ImagePickerHelper: NSObject, UIImagePickerControllerDelegate, UINav
         parentViewController?.present(imagePicker, animated: true, completion: nil)
     }
 
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         defer {
             picker.dismiss(animated: true, completion: nil)
         }
 
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
                 return
             }
 

@@ -48,14 +48,14 @@ class ImagePickerCollectionHeader: UICollectionReusableView {
     fileprivate func setupUI() {
         takePhotoButton = UIButton()
         let photoImage = UIImage(named: "ic_camera", in: Bundle.chatBundle, compatibleWith: nil)
-        takePhotoButton.setImage(photoImage, for: UIControlState())
+        takePhotoButton.setImage(photoImage, for: UIControl.State())
         takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
         takePhotoButton.addTarget(self, action: #selector(takePhotoTapped(_:)), for: .touchUpInside)
         takePhotoButton.imageView?.contentMode = .scaleAspectFit
 
         showCollectionButton = UIButton()
         let collectionImage = UIImage(named: "ic_collection", in: Bundle.chatBundle, compatibleWith: nil)
-        showCollectionButton.setImage(collectionImage, for: UIControlState())
+        showCollectionButton.setImage(collectionImage, for: UIControl.State())
         showCollectionButton.translatesAutoresizingMaskIntoConstraints = false
         showCollectionButton.addTarget(self, action: #selector(showCollection(_:)), for: .touchUpInside)
         showCollectionButton.imageView?.contentMode = .scaleAspectFit

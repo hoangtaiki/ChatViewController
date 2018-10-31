@@ -21,5 +21,4 @@ struct ListResponseObject<T: Mappable>: Mappable {
         data <- map["data"]
         pagination <- map["meta.pagination"]
     }
-
 }

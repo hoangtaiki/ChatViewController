@@ -20,7 +20,7 @@ class MessageTextCell: MessageCell {
         fatalError("init(coder:)")
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         messageLabel = UILabel()

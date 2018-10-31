@@ -10,7 +10,7 @@ import UIKit
 
 open class HeaderRefreshAnimator: UIView, HeaderRefreshDelegate {
 
-    open let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    public let spinner = UIActivityIndicatorView(style: .gray)
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -75,7 +75,7 @@ final class ImagePickerCollectionView: UICollectionView {
         register(ImagePickerCollectionCell.self,
                  forCellWithReuseIdentifier: ImagePickerCollectionCell.reuseIdentifier)
         register(ImagePickerCollectionHeader.self,
-                 forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                  withReuseIdentifier: ImagePickerCollectionHeader.reuseIdentifier)
 
         createPhotoManager()
