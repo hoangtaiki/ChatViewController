@@ -13,15 +13,15 @@ extension ChatViewController {
     // Observer keyboard events
     func observerKeyboardEvents() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
-                                               name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
-                                               name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     // Remove observer keyboard events
     func removeObserverKeyboardEvents() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     @objc func keyboardWillShow(notification: Notification) {
@@ -112,13 +112,13 @@ extension ChatViewController {
     // Handle keyboard show/hide notification to animation show ChatBarView
     func animateKeyboard(notification: Notification, isShowing: Bool) {
         var userInfo = notification.userInfo!
-        let keyboardRect = (userInfo[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue
-        let curve = (userInfo[UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
+        let keyboardRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue
+        let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
 
         let convertedFrame = view.convert(keyboardRect!, from: nil)
         var heightOffset = view.bounds.size.height - convertedFrame.origin.y
-        let options = UIViewAnimationOptions(rawValue: UInt(curve!) << 16 | UIViewAnimationOptions.beginFromCurrentState.rawValue)
-        let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
+        let options = UIView.AnimationOptions(rawValue: UInt(curve!) << 16 | UIView.AnimationOptions.beginFromCurrentState.rawValue)
+        let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey]! as AnyObject).doubleValue
 
         // The height offset we need update constraint for chat bar to make it always above keyboard
         if isShowing {
@@ -188,7 +188,7 @@ extension ChatViewController {
             imagePickerView.isHidden = false
             chatBarView.textView.resignFirstResponderTimeAnimate = 0.0
             _ = chatBarView.textView.resignFirstResponder()
-            view.bringSubview(toFront: imagePickerView)
+            view.bringSubviewToFront(imagePickerView)
         default:
             break
         }
@@ -238,7 +238,7 @@ extension ChatViewController {
         imagePickerView.isHidden = false
         imagePickerView.collectionView.resetUI()
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: {
+        UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = -self.customKeyboardHeight
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -247,7 +247,7 @@ extension ChatViewController {
     func animateHideImagePicker() {
         tableView.stopScrolling()
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: {
+        UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = 0
             self.imagePickerView.alpha = 0.0
             self.view.layoutIfNeeded()

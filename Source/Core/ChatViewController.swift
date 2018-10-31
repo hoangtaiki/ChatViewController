@@ -55,7 +55,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 44
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
 

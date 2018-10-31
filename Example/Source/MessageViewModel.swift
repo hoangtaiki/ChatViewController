@@ -99,7 +99,7 @@ extension MessageViewModel {
 
     func getUserFromID(_ id: Int) -> User {
         let index = users.index(where: { $0.id == id })
-        return users[index!.hashValue]
+        return users[index!]
     }
 
     func getRoundStyleForMessageAtIndex(_ index: Int) -> RoundedViewType {

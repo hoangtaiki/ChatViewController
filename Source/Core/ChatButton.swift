@@ -32,14 +32,14 @@ public class ChatButton: UIButton {
         }
     }
 
-    open static var flexibleSpace: ChatButton {
+    public static var flexibleSpace: ChatButton {
         let item = ChatButton()
         item.size = .zero
         item.spacing = .flexible
         return item
     }
 
-    open static func fixedSpace(_ width: CGFloat) -> ChatButton {
+    public static func fixedSpace(_ width: CGFloat) -> ChatButton {
         let item = ChatButton()
         item.size = .zero
         item.spacing = .fixed(width)

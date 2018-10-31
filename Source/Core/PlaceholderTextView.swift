@@ -25,7 +25,7 @@ open class PlaceholderTextView: UITextView {
     }
 
     /// A UILabel that holds the InputTextView's placeholder text
-    open let placeholderLabel: UILabel = {
+    open var placeholderLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = .lightGray
@@ -130,7 +130,7 @@ open class PlaceholderTextView: UITextView {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextViewTextDidChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: nil)
     }
 }
 
@@ -156,7 +156,7 @@ extension PlaceholderTextView {
         setupPlaceholderLabel()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(textDidChange),
-                                               name: NSNotification.Name.UITextViewTextDidChange,
+                                               name: UITextView.textDidChangeNotification,
                                                object: nil)
     }
 
