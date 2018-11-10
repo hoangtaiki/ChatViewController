@@ -51,7 +51,7 @@ extension ChatViewController {
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: typingIndicatorView.topAnchor).isActive = true        
     }
 
     /// Hide all keyboard and then resignFirstResponse for TextView to call Keyboard appear
