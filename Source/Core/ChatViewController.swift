@@ -118,8 +118,8 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
 
     open func setupSubviews() {
         setupChatBar()
-        initTableView()
         setupTypingIndicator()
+        initTableView()
         initImagePickerView()
     }
 

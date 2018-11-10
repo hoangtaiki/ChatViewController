@@ -21,11 +21,11 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  ChatViewController: 0f5bd02ad95734f91d748350230b6533fa50695d
+  ChatViewController: 16936ed92ce0e26c36bbfec7ced825dd7c7c3a1f
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
 PODFILE CHECKSUM: d779e327654b3ad61badf7cba2ebd44c2e838f08
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.6.0.beta.2

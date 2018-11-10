@@ -100,7 +100,7 @@ public class TypingIndicatorView: UIView {
             return
         }
 
-        users.remove(at: index.hashValue)
+        users.remove(at: index)
 
         if users.count > 0 {
             textLabel.attributedText = attributedString
