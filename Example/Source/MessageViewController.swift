@@ -142,13 +142,18 @@ extension MessageViewController {
 
     fileprivate func addMessage(_ message: Message) {
         viewModel.messages.insert(message, at: 0)
-        let needReloadLastCell = viewModel.messages.count > 0
 
-        tableView.insertNewCell(atIndexPath: IndexPath(row: 0, section: 0), isNeedReloadLastItem: needReloadLastCell)
+        // Insert new message cell
+        tableView.beginUpdates()
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        tableView.endUpdates()
+        
+        // Check if we have more than one message
+        if viewModel.messages.count <= 1 { return }
+        reloadLastMessageCell()
     }
 
     @objc fileprivate func handleTypingButton() {
-
         switch numberUserTypings {
         case 0, 1, 2:
             var user: User
@@ -174,5 +179,15 @@ extension MessageViewController {
 
     fileprivate func updateLoadMoreAble() {
         tableView.setLoadMoreEnable(viewModel.pagination?.hasMore() ?? false)
+    }
+    
+    fileprivate func reloadLastMessageCell() {
+        tableView.beginUpdates()
+        let lastIndexPath = IndexPath(row: 1, section: 0)
+        let cell = tableView.cellForRow(at: lastIndexPath) as! MessageCell
+        let style = viewModel.getRoundStyleForMessageAtIndex(lastIndexPath.row)
+        cell.updateLayoutForGroupMessage(style: style)
+        cell.updateUIWithStyle(style)
+        tableView.endUpdates()
     }
 }

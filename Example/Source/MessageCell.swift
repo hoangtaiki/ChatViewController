@@ -217,7 +217,9 @@ extension MessageCell {
             bottomAnchorContentView.constant = -spaceInsideGroup
         case .bottomGroup:
             topAnchorContentView.constant = spaceInsideGroup
-        default: break
+        default:
+            topAnchorContentView.constant = contentInset.top
+            bottomAnchorContentView.constant = -contentInset.bottom
         }
     }
 }

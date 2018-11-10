@@ -17,15 +17,6 @@ public extension UITableView {
         })
     }
     
-    public func insertNewCell(atIndexPath indexPath: IndexPath, isNeedReloadLastItem: Bool = false) {
-        beginUpdates()
-        insertRows(at: [indexPath], with: .none)
-        if isNeedReloadLastItem {
-            reloadRows(at: [indexPath], with: .none)
-        }
-        endUpdates()
-    }
-
     public func scrollToFirstCell() {
         if numberOfSections > 0 {
             if numberOfRows(inSection: 0) > 0 {
@@ -58,7 +49,4 @@ public extension UITableView {
     public func scrolledToBottom() -> Bool {
         return contentOffset.y >= (contentSize.height - bounds.size.height)
     }
-
-
-    
 }
