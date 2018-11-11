@@ -58,11 +58,16 @@ class MessageViewController: ChatViewController {
         let chatCell = cell as! MessageCell
         let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
 
+        chatCell.layoutIfNeeded()
+        
+        // Update UI for cell
+        chatCell.showHideUIWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
+        chatCell.updateAvatarPosition(bubbleStyle: viewModel.bubbleStyle)
+
         // Update style for
         switch viewModel.bubbleStyle {
         case .facebook:
-            chatCell.layoutIfNeeded()
-            chatCell.updateUIWithStyle(style)
+            chatCell.roundViewWithStyle(style)
         }
     }
 
@@ -213,7 +218,7 @@ extension MessageViewController {
         let cell = tableView.cellForRow(at: lastIndexPath) as! MessageCell
         let style = viewModel.getRoundStyleForMessageAtIndex(lastIndexPath.row)
         cell.updateLayoutForGroupMessage(style: style)
-        cell.updateUIWithStyle(style)
+        cell.roundViewWithStyle(style)
         tableView.endUpdates()
     }
 }
