@@ -81,12 +81,20 @@ extension MessageViewController {
         tableView.register(MessageTextCell.self, forCellReuseIdentifier: MessageTextCell.reuseIdentifier)
         tableView.register(MessageImageCell.self, forCellReuseIdentifier: MessageImageCell.reuseIdentifier)
 
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(named: "ic_typing"),
-                            style: .plain,
-                            target: self,
-                            action: #selector(handleTypingButton))
-        ]
+        // Set buttons
+        let typingButton = UIButton(type: .custom)
+        typingButton.setImage(UIImage(named: "ic_typing"), for: .normal)
+        typingButton.addTarget(self, action:#selector(handleTypingButton), for:.touchUpInside)
+        typingButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        let typingButtonBarItem = UIBarButtonItem(customView: typingButton)
+        
+        let hideChatBarButton = UIButton(type: .custom)
+        hideChatBarButton.setImage(UIImage(named: "ic_keyboard"), for: .normal)
+        hideChatBarButton.addTarget(self, action:#selector(handleShowHideChatBar), for:.touchUpInside)
+        hideChatBarButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        let hideChatBarButtonItem = UIBarButtonItem(customView: hideChatBarButton)
+        
+        navigationItem.rightBarButtonItems = [typingButtonBarItem, hideChatBarButtonItem]
 
         // Add function load more for table view
         tableView.addLoadMore { [weak self] in
@@ -175,6 +183,10 @@ extension MessageViewController {
             numberUserTypings = 0
             break
         }
+    }
+    
+    @objc fileprivate func handleShowHideChatBar() {
+        setChatBarHidden(!isCharBarHidden, animated: true)
     }
 
     fileprivate func updateLoadMoreAble() {

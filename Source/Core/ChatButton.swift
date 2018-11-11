@@ -9,49 +9,49 @@
 import UIKit
 
 public class ChatButton: UIButton {
-
+    
     public enum Spacing {
         case fixed(CGFloat)
         case flexible
         case none
     }
-
+    
     public typealias ChatButtonAction = ((ChatButton) -> Void)
-
+    
     /// Determind spacing. Depend on ContentHuggingPriority
     open var spacing: Spacing = .none {
         didSet {
             switch spacing {
             case .flexible:
-                setContentHuggingPriority(UILayoutPriority(1), for: .horizontal)
+                setContentHuggingPriority(.defaultLow, for: .horizontal)
             case .fixed:
-                setContentHuggingPriority(UILayoutPriority(1000), for: .horizontal)
+                setContentHuggingPriority(.required, for: .horizontal)
             case .none:
-                setContentHuggingPriority(UILayoutPriority(500), for: .horizontal)
+                setContentHuggingPriority(.defaultHigh, for: .horizontal)
             }
         }
     }
-
+    
     public static var flexibleSpace: ChatButton {
         let item = ChatButton()
         item.size = .zero
         item.spacing = .flexible
         return item
     }
-
+    
     public static func fixedSpace(_ width: CGFloat) -> ChatButton {
         let item = ChatButton()
         item.size = .zero
         item.spacing = .fixed(width)
         return item
     }
-
+    
     open var size: CGSize? = CGSize(width: 20, height: 20) {
         didSet {
             invalidateIntrinsicContentSize()
         }
     }
-
+    
     /// Used to setup your own initial properties
     ///
     /// - Parameter item: A reference to Self
@@ -61,7 +61,7 @@ public class ChatButton: UIButton {
         item(self)
         return self
     }
-
+    
     /// The title for the UIControlState
     open var title: String? {
         get {
@@ -71,7 +71,7 @@ public class ChatButton: UIButton {
             setTitle(newValue, for: .normal)
         }
     }
-
+    
     /// The image for the UIControlState
     open var image: UIImage? {
         get {
@@ -81,7 +81,7 @@ public class ChatButton: UIButton {
             setImage(newValue, for: .normal)
         }
     }
-
+    
     open override var intrinsicContentSize: CGSize {
         var contentSize = size ?? super.intrinsicContentSize
         switch spacing {
@@ -92,7 +92,7 @@ public class ChatButton: UIButton {
         }
         return contentSize
     }
-
+    
     /// Calls the onEnabledAction or onDisabledAction when set
     open override var isEnabled: Bool {
         didSet {
@@ -103,7 +103,7 @@ public class ChatButton: UIButton {
             }
         }
     }
-
+    
     open override var isSelected: Bool {
         didSet {
             if isSelected {
@@ -113,77 +113,77 @@ public class ChatButton: UIButton {
             }
         }
     }
-
+    
     private var onTouchUpInsideAction: ChatButtonAction?
     private var onSelectedAction: ChatButtonAction?
     private var onDeselectedAction: ChatButtonAction?
     private var onEnabledAction: ChatButtonAction?
     private var onDisabledAction: ChatButtonAction?
-
+    
     open func setup() {
         contentVerticalAlignment = .center
         contentHorizontalAlignment = .center
         imageView?.contentMode = .scaleAspectFit
         adjustsImageWhenHighlighted = false
         translatesAutoresizingMaskIntoConstraints = false
-
+        
         setTitleColor(.lightGray, for: .disabled)
-        setContentHuggingPriority(UILayoutPriority(500), for: .horizontal)
-        setContentHuggingPriority(UILayoutPriority(500), for: .vertical)
+        setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        setContentHuggingPriority(.defaultHigh, for: .vertical)
         addTarget(self, action: #selector(ChatButton.touchUpInsideAction), for: .touchUpInside)
     }
-
+    
     public convenience init() {
         self.init(frame: .zero)
     }
-
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-
+    
     @objc open func touchUpInsideAction() {
         onTouchUpInsideAction?(self)
     }
-
+    
     /// Set the onTouchUpInsideAction
     @discardableResult
     open func onTouchUpInside(_ action: @escaping ChatButtonAction) -> Self {
         onTouchUpInsideAction = action
         return self
     }
-
+    
     /// Set the onSelectedAction
     @discardableResult
     open func onSelected(_ action: @escaping ChatButtonAction) -> Self {
         onSelectedAction = action
         return self
     }
-
+    
     /// Set the onDeselectedAction
     @discardableResult
     open func onDeselected(_ action: @escaping ChatButtonAction) -> Self {
         onDeselectedAction = action
         return self
     }
-
+    
     /// Set the onEnabledAction
     @discardableResult
     open func onEnabled(_ action: @escaping ChatButtonAction) -> Self {
         onEnabledAction = action
         return self
     }
-
+    
     /// Set the onDisabledAction
     @discardableResult
     open func onDisabled(_ action: @escaping ChatButtonAction) -> Self {
         onDisabledAction = action
         return self
     }
-
+    
 }

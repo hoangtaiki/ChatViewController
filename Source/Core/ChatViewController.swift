@@ -184,29 +184,62 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     /// Set hide/show for ChatBarView
     open func setChatBarHidden(_ hidden: Bool, animated: Bool) {
         if _isChatBarHidden == hidden { return }
-
-        chatBarView.isHidden = hidden
         _isChatBarHidden = hidden
 
-        let animations = { [weak self] in
-            self?.chatBarHeightConstraint.constant = hidden ? 0 : (self?.chatBarView.textViewCurrentHeight ?? 0.0)
-            self?.view.layoutIfNeeded()
-        }
-
-        let completion = { [weak self] (finished: Bool) in
-            if hidden {
-                //self?.dismissKeyboard(animated: true)
-            }
-        }
-
-        if animated {
-            UIView.animate(withDuration: 0.25, animations: animations, completion: completion)
+        if _isChatBarHidden {
+            hideChatBar(animated: animated)
         } else {
-            animations()
-            completion(false)
+            showChatView(animated: animated)
         }
     }
 
+    // Hide chat bar
+    open func hideChatBar(animated: Bool) {
+        let animations = { [weak self] in
+            self?.chatBarHeightConstraint.constant = 0
+            self?.chatBarView.alpha = 0.0
+            self?.view.layoutIfNeeded()
+        }
+        
+        // Hide chat bar after animation finish
+        let completion: (Bool) -> Void = { [weak self] (finished) in
+            self?.chatBarView.isHidden = true
+        }
+        
+        // We need also dismiss keyboard in case we are typing or select an image
+        dismissKeyboard()
+        
+        if animated {
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseInOut], animations: animations, completion: completion)
+        } else {
+            animations()
+            completion(true)
+        }
+    }
+    
+    /// Show chat bar again
+    open func showChatView(animated: Bool) {
+        // Show chat bar before animating change height
+        chatBarView.isHidden = false
+        chatBarView.alpha = 0.0
+        
+        var chatBarHeight = chatBarView.textViewCurrentHeight + chatBarView.getAdditionalHeight()
+        if chatBarView.textViewCurrentHeight == 0 {
+            chatBarHeight = minimumChatBarHeight
+        }
+        let animations = { [weak self] in
+            self?.chatBarHeightConstraint.constant = chatBarHeight
+            self?.chatBarView.alpha = 1.0
+            self?.view.layoutIfNeeded()
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseInOut], animations: animations, completion: nil)
+        } else {
+            animations()
+        }
+    }
+    
     /// Delegate for TextView inside ChatBarView
     open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
@@ -214,7 +247,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         }
         return true
     }
-
+    
     open func textViewDidChange(_ textView: UITextView) {
         // Handle text change to expand chat bar view
         let contentHeight = textView.contentSize.height
@@ -225,7 +258,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
                 didChangeBarHeight(from: oldHeight, to: contentHeight)
             }
         }
-
+        
         // Handle enable/disable hide/show send button
         switch configuration.chatBarStyle {
         case .default:
@@ -238,17 +271,17 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
             break
         }
     }
-
+    
     open func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         showDefaultKeyboard()
-
+        
         UIView.setAnimationsEnabled(false)
         let range = NSMakeRange(textView.text.count - 1, 1)
         textView.scrollRangeToVisible(range)
         UIView.setAnimationsEnabled(true)
         return true
     }
-
+    
     deinit {
         removeObserverKeyboardEvents()
     }
