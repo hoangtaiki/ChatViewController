@@ -25,6 +25,7 @@ class MessageCell: UITableViewCell {
     var avatarImageView: UIImageView!
     var statusSpaceView: UIView!
     var statusStackView: UIStackView!
+    var innerStackView: UIStackView!
 
     var contentTranform: CGAffineTransform!
     var topAnchorContentView: NSLayoutConstraint!
@@ -93,7 +94,7 @@ class MessageCell: UITableViewCell {
         avatarImageView.trailingAnchor.constraint(equalTo: avatarContainerView.trailingAnchor).isActive = true
 
         /// Group of avatarContainerView and roundedView
-        let innerStackView = UIStackView(arrangedSubviews: [avatarContainerView, roundedView])
+        innerStackView = UIStackView(arrangedSubviews: [avatarContainerView, roundedView])
         innerStackView.spacing = 8
         innerStackView.axis = .horizontal
         innerStackView.alignment = .bottom
@@ -127,11 +128,26 @@ class MessageCell: UITableViewCell {
         tranformUI(message.isOutgoing)
     }
 
-    func updateUIWithStyle(_ style: RoundedViewType) {
-        roundViewWithStyle(style)
-        showHideUIWithStyle(style)
+    /// Update avatar position corresponds with bubble style
+    func updateAvatarPosition(bubbleStyle: BubbleStyle) {
+        // With facebook style. Avatar image is aligned to bubble's bottom
+        switch bubbleStyle {
+        case .facebook:
+            innerStackView.alignment = .bottom
+        }
     }
 
+    /// Update UI depend on RoundedViewType and BubbleStyle
+    /// With Facebook Messenger they only show avatar for .bottomGroup and .single
+    func showHideUIWithStyle(_ style: RoundedViewType, bubbleStyle: BubbleStyle) {
+        switch (style, bubbleStyle) {
+        case (.bottomGroup, .facebook), (.single, _):
+            avatarImageView.isHidden = false
+        case (.topGroup, .facebook), (.centerGroup, _):
+            avatarImageView.isHidden = true
+        }
+    }
+    
     func tranformUI(_ isOutgoingMessage: Bool) {
         if isOutgoingMessage {
             layoutForOutgoingMessage()
@@ -167,16 +183,4 @@ extension MessageCell {
         avatarContainerView.isHidden = true
         roundedView.backgroundColor = outgoingMessageBubbleColor
     }
-
-    /// Update UI depend on RoundedViewType
-    /// With Facebook Messenger they only show avatar for .bottomGroup and .single
-    fileprivate func showHideUIWithStyle(_ style: RoundedViewType) {
-        switch style {
-        case .bottomGroup, .single:
-            avatarImageView.isHidden = false
-        default:
-            avatarImageView.isHidden = true
-        }
-    }
-    
 }
