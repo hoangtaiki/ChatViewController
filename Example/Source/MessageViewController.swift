@@ -44,6 +44,7 @@ class MessageViewController: ChatViewController {
 
         cell.transform = tableView.transform
         cell.bind(withMessage: viewModel.messages[indexPath.row], user: user)
+        cell.updateUIWithBubbleStyle(viewModel.bubbleStyle, isOutgoingMessage: message.isOutgoing)
 
         // Update style for
         switch viewModel.bubbleStyle {

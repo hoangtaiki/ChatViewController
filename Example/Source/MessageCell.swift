@@ -35,8 +35,6 @@ class MessageCell: UITableViewCell {
     let spaceBetweenTwoGroup: CGFloat = 8
     let spaceInsideGroup: CGFloat = 3
     let maxContentWidth: CGFloat = UIScreen.main.bounds.size.width * 0.6
-    let incomingMessageBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 0.88)
-    let outgoingMessageBubbleColor = UIColor(red: 179/255, green: 145/255, blue: 181/255, alpha: 0.66)
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:)")
@@ -148,6 +146,23 @@ class MessageCell: UITableViewCell {
         }
     }
     
+    func updateUIWithBubbleStyle(_ bubbleStyle: BubbleStyle, isOutgoingMessage: Bool) {
+        let fbIncomingBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 0.88)
+        let fbOutgoingBubbleColor = UIColor(red: 179/255, green: 145/255, blue: 181/255, alpha: 0.66)
+
+        if isOutgoingMessage {
+            switch bubbleStyle {
+            case .facebook:
+                roundedView.backgroundColor = fbOutgoingBubbleColor
+            }
+        } else {
+            switch bubbleStyle {
+            case .facebook:
+                roundedView.backgroundColor = fbIncomingBubbleColor
+            }
+        }
+    }
+    
     func tranformUI(_ isOutgoingMessage: Bool) {
         if isOutgoingMessage {
             layoutForOutgoingMessage()
@@ -172,7 +187,6 @@ extension MessageCell {
         statusStackView.isHidden = true
         statusSpaceView.isHidden = false
         avatarContainerView.isHidden = false
-        roundedView.backgroundColor = incomingMessageBubbleColor
     }
 
     /// Layout for Outgoing message
@@ -181,6 +195,5 @@ extension MessageCell {
         statusStackView.isHidden  = true
         statusSpaceView.isHidden = true
         avatarContainerView.isHidden = true
-        roundedView.backgroundColor = outgoingMessageBubbleColor
     }
 }
