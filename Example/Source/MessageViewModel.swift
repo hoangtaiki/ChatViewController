@@ -12,14 +12,16 @@ import SwiftyJSON
 
 enum BubbleStyle {
     case facebook
+    case instagram
 
     var description: String {
         switch self {
         case .facebook:
             return "Facebook"
+        case .instagram:
+            return "Instagram"
         }
     }
-
 }
 
 enum ImagePickerType {

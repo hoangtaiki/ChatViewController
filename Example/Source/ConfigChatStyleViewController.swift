@@ -82,8 +82,11 @@ class ConfigChatStyleViewController: UIViewController {
         let sheet = UIAlertController(title: "Choose a style",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "Default", style: .default, handler: { [weak self] _ in
+        sheet.addAction(UIAlertAction(title: BubbleStyle.facebook.description, style: .default, handler: { [weak self] _ in
             self?.bubbleImageStyle = .facebook
+        }))
+        sheet.addAction(UIAlertAction(title: BubbleStyle.instagram.description, style: .default, handler: { [weak self] _ in
+            self?.bubbleImageStyle = .instagram
         }))
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
