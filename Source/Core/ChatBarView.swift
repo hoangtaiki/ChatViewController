@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import PlaceholderUITextView
 
 open class ChatBarView: UIView {
 
@@ -33,8 +33,9 @@ open class ChatBarView: UIView {
     /// Bottom constraint constant value for bottomStackView
     open var bottomConstant: CGFloat = 6.0
 
-    open lazy var textView: PlaceholderTextView = {
-        let textView = PlaceholderTextView()
+    open lazy var textView: PlaceholderUITextView = {
+        let textView = PlaceholderUITextView()
+        textView.placeholder = "Type a message"
         textView.font = UIFont.systemFont(ofSize: 15)
         textView.returnKeyType = .send
         textView.isHidden = false
@@ -234,7 +235,6 @@ extension ChatBarView {
 
     /// Sets up the initial constraints of each subview
     fileprivate func setupConstraints() {
-
         // LayoutConstraint for topBorderLine
         topBorderLayoutSet = LayoutConstraintSet(
             top: topBorderLine.topAnchor.constraint(equalTo: topAnchor),
