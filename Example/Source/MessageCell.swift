@@ -50,6 +50,10 @@ class MessageCell: UITableViewCell {
         /// RoundView: Background of Content
         roundedView = UIView()
         roundedView.translatesAutoresizingMaskIntoConstraints = false
+        /// Height >= round Corner Radius * 2
+        let roundedViewHeightConstraint = roundedView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40)
+        roundedViewHeightConstraint.priority = .defaultHigh
+        roundedViewHeightConstraint.isActive = true
 
         /// Status
         statusLabel = UILabel()
@@ -117,11 +121,10 @@ class MessageCell: UITableViewCell {
         avatarImageView.image = nil
     }
 
-    func bind(withMessage message: Message, user: User, style: RoundedViewType) {
+    func bind(withMessage message: Message, user: User) {
         avatarImageView.setImage(with: user.avatarURL)
 
         tranformUI(message.isOutgoing)
-        updateLayoutForGroupMessage(style: style)
     }
 
     func updateUIWithStyle(_ style: RoundedViewType) {
@@ -165,40 +168,6 @@ extension MessageCell {
         roundedView.backgroundColor = outgoingMessageBubbleColor
     }
 
-    /// Mask `roundedView` by an CAShapeLayer with a rectangle
-    fileprivate func roundViewWithStyle( _ style: RoundedViewType) {
-        layoutIfNeeded()
-
-        let bounds = roundedView.bounds
-        let roundRadius: (tl: CGFloat, tr: CGFloat, bl: CGFloat, br: CGFloat) = getRoundRadiusForStyle(style)
-        let path = UIBezierPath(roundedRect: bounds,
-                                topLeftRadius: roundRadius.tl,
-                                topRightRadius: roundRadius.tr,
-                                bottomLeftRadius: roundRadius.bl,
-                                bottomRightRadius: roundRadius.br)
-        path.lineJoinStyle = .round
-
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = bounds
-        maskLayer.path = path.cgPath
-
-        roundedView.layer.mask = maskLayer
-    }
-
-    /// Get radius value for four corners
-    fileprivate func getRoundRadiusForStyle(_ style: RoundedViewType) -> (CGFloat, CGFloat, CGFloat, CGFloat) {
-        switch style {
-        case .topGroup:
-            return (16, 16, 4, 16)
-        case .centerGroup:
-            return (4, 16, 4, 16)
-        case .bottomGroup:
-            return (4, 16, 16, 16)
-        case .single:
-            return (16, 16, 16, 16)
-        }
-    }
-
     /// Update UI depend on RoundedViewType
     /// With Facebook Messenger they only show avatar for .bottomGroup and .single
     fileprivate func showHideUIWithStyle(_ style: RoundedViewType) {
@@ -209,21 +178,5 @@ extension MessageCell {
             avatarImageView.isHidden = true
         }
     }
-
-    /// Update space between message inside a group.
-    /// Message in group should be closer
-    func updateLayoutForGroupMessage(style: RoundedViewType) {
-        switch style {
-        case .topGroup:
-            bottomAnchorContentView.constant = -spaceInsideGroup
-        case .centerGroup:
-            topAnchorContentView.constant = spaceInsideGroup
-            bottomAnchorContentView.constant = -spaceInsideGroup
-        case .bottomGroup:
-            topAnchorContentView.constant = spaceInsideGroup
-        default:
-            topAnchorContentView.constant = contentInset.top
-            bottomAnchorContentView.constant = -contentInset.bottom
-        }
-    }
+    
 }

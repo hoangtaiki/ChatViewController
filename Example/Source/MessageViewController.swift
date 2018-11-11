@@ -11,7 +11,7 @@ import ChatViewController
 
 class MessageViewController: ChatViewController {
 
-    var viewModel = MessageViewModel()
+    var viewModel: MessageViewModel!
     var numberUserTypings = 0
 
     override func viewDidLoad() {
@@ -39,21 +39,31 @@ class MessageViewController: ChatViewController {
         let message = viewModel.messages[indexPath.row]
         let cellIdentifer = message.cellIdentifer()
         let user = viewModel.getUserFromID(message.sendByID)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifer, for: indexPath) as! MessageCell
         let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifer,
-                                                 for: indexPath) as! MessageCell
         cell.transform = tableView.transform
-        cell.bind(withMessage: viewModel.messages[indexPath.row], user: user, style: style)
+        cell.bind(withMessage: viewModel.messages[indexPath.row], user: user)
 
+        // Update style for
+        switch viewModel.bubbleStyle {
+        case .facebook:
+            cell.updateLayoutForGroupMessage(style: style)
+        }
+        
         return cell
     }
 
-
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let textCell = cell as! MessageCell
-        textCell.layoutIfNeeded()
-        textCell.updateUIWithStyle(viewModel.getRoundStyleForMessageAtIndex(indexPath.row))
+        let chatCell = cell as! MessageCell
+        let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
+
+        // Update style for
+        switch viewModel.bubbleStyle {
+        case .facebook:
+            chatCell.layoutIfNeeded()
+            chatCell.updateUIWithStyle(style)
+        }
     }
 
     override func didPressSendButton(_ sender: Any?) {
@@ -157,8 +167,12 @@ extension MessageViewController {
         tableView.endUpdates()
         
         // Check if we have more than one message
-        if viewModel.messages.count <= 1 { return }
-        reloadLastMessageCell()
+        switch viewModel.bubbleStyle {
+        case .facebook:
+            if viewModel.messages.count <= 1 { return }
+            reloadLastMessageCell()
+
+        }
     }
 
     @objc fileprivate func handleTypingButton() {

@@ -46,12 +46,11 @@ class MessageTextCell: MessageCell {
         messageLabel.text = ""
     }
 
-    override func bind(withMessage message: Message, user: User, style: RoundedViewType) {
+    override func bind(withMessage message: Message, user: User) {
         messageLabel.text = message.text
         avatarImageView.setImage(with: user.avatarURL)
 
         tranformUI(message.isOutgoing)
-        updateLayoutForGroupMessage(style: style)
     }
 
     override func tranformUI(_ isOutgoingMessage: Bool) {

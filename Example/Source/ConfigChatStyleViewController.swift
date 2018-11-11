@@ -93,6 +93,7 @@ class ConfigChatStyleViewController: UIViewController {
     @objc func proceedButtonTap(_ sender: UIButton) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let messageVC = storyBoard.instantiateViewController(withIdentifier: "MessageViewController") as! MessageViewController
+        messageVC.viewModel = MessageViewModel(bubbleStyle: bubbleImageStyle)
         var configuration = ChatViewConfiguration.default
         configuration.chatBarStyle = chatBarStyle
         messageVC.configuration = configuration

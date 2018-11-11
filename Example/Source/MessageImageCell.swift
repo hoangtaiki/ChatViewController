@@ -50,13 +50,12 @@ class MessageImageCell: MessageCell {
         attachImageView.backgroundColor = .red
     }
 
-    override func bind(withMessage message: Message, user: User, style: RoundedViewType) {
+    override func bind(withMessage message: Message, user: User) {
         attachImageView.setImage(with: message.file?.previewURL)
         avatarImageView.setImage(with: user.avatarURL)
 
         updateImage(width: message.file!.width, height: message.file!.height)
         tranformUI(message.isOutgoing)
-        updateLayoutForGroupMessage(style: style)
     }
 
     override func tranformUI(_ isOutgoingMessage: Bool) {
