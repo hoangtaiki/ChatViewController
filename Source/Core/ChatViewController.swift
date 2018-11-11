@@ -23,7 +23,7 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
             if configuration.chatBarStyle == .default {
                 minimumChatBarHeight = 50
             } else if configuration.chatBarStyle == .slack {
-                minimumChatBarHeight = 80
+                minimumChatBarHeight = 91
             }
         }
     }
