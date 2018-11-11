@@ -71,8 +71,12 @@ class MessageCell: UITableViewCell {
         /// Avatar
         avatarContainerView = UIView()
         avatarContainerView.translatesAutoresizingMaskIntoConstraints = false
-        avatarContainerView.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        avatarContainerView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        let avatarWidthConstraint = avatarContainerView.widthAnchor.constraint(equalToConstant: 32)
+        avatarWidthConstraint.isActive = true
+        avatarWidthConstraint.priority = .defaultHigh + 1
+        let avatarHeightConstraint = avatarContainerView.heightAnchor.constraint(equalToConstant: 32)
+        avatarHeightConstraint.isActive = true
+        avatarHeightConstraint.priority = .defaultHigh + 1
 
         avatarImageView = UIImageView()
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
