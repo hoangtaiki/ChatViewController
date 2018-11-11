@@ -32,6 +32,7 @@ class MessageCell: UITableViewCell {
     var bottomAnchorContentView: NSLayoutConstraint!
 
     var contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 0)
+    var instaContentInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 0)
     let spaceBetweenTwoGroup: CGFloat = 8
     let spaceInsideGroup: CGFloat = 3
     let maxContentWidth: CGFloat = UIScreen.main.bounds.size.width * 0.6
@@ -48,6 +49,7 @@ class MessageCell: UITableViewCell {
 
         /// RoundView: Background of Content
         roundedView = UIView()
+        roundedView.clipsToBounds = true
         roundedView.translatesAutoresizingMaskIntoConstraints = false
         /// Height >= round Corner Radius * 2
         let roundedViewHeightConstraint = roundedView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40)
@@ -132,6 +134,8 @@ class MessageCell: UITableViewCell {
         switch bubbleStyle {
         case .facebook:
             innerStackView.alignment = .bottom
+        case .instagram:
+            innerStackView.alignment = .top
         }
     }
 
@@ -139,9 +143,9 @@ class MessageCell: UITableViewCell {
     /// With Facebook Messenger they only show avatar for .bottomGroup and .single
     func showHideUIWithStyle(_ style: RoundedViewType, bubbleStyle: BubbleStyle) {
         switch (style, bubbleStyle) {
-        case (.bottomGroup, .facebook), (.single, _):
+        case (.bottomGroup, .facebook), (.single, _), (.topGroup, .instagram):
             avatarImageView.isHidden = false
-        case (.topGroup, .facebook), (.centerGroup, _):
+        case (.topGroup, .facebook), (.centerGroup, _), (.bottomGroup, .instagram):
             avatarImageView.isHidden = true
         }
     }
@@ -149,16 +153,28 @@ class MessageCell: UITableViewCell {
     func updateUIWithBubbleStyle(_ bubbleStyle: BubbleStyle, isOutgoingMessage: Bool) {
         let fbIncomingBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 0.88)
         let fbOutgoingBubbleColor = UIColor(red: 179/255, green: 145/255, blue: 181/255, alpha: 0.66)
+        let instaBorderIncomingBubbleColor = UIColor(red: 219/255, green: 219/255, blue: 219/255, alpha: 1)
+        let instaOutgoingBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1)
 
         if isOutgoingMessage {
             switch bubbleStyle {
             case .facebook:
                 roundedView.backgroundColor = fbOutgoingBubbleColor
+            case .instagram:
+                roundedView.backgroundColor = instaOutgoingBubbleColor
+                roundedView.layer.borderWidth = 0
+                roundedView.layer.cornerRadius = 16
+                roundedView.layer.borderColor = UIColor.clear.cgColor
             }
         } else {
             switch bubbleStyle {
             case .facebook:
                 roundedView.backgroundColor = fbIncomingBubbleColor
+            case .instagram:
+                roundedView.layer.borderWidth = 1
+                roundedView.layer.borderColor = instaBorderIncomingBubbleColor.cgColor
+                roundedView.layer.cornerRadius = 16
+                roundedView.backgroundColor = .clear
             }
         }
     }

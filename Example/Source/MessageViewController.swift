@@ -45,13 +45,8 @@ class MessageViewController: ChatViewController {
         cell.transform = tableView.transform
         cell.bind(withMessage: viewModel.messages[indexPath.row], user: user)
         cell.updateUIWithBubbleStyle(viewModel.bubbleStyle, isOutgoingMessage: message.isOutgoing)
+        cell.updateLayoutForGroupMessage(style: style, bubbleStyle: viewModel.bubbleStyle)
 
-        // Update style for
-        switch viewModel.bubbleStyle {
-        case .facebook:
-            cell.updateLayoutForGroupMessage(style: style)
-        }
-        
         return cell
     }
 
@@ -64,12 +59,7 @@ class MessageViewController: ChatViewController {
         // Update UI for cell
         chatCell.showHideUIWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
         chatCell.updateAvatarPosition(bubbleStyle: viewModel.bubbleStyle)
-
-        // Update style for
-        switch viewModel.bubbleStyle {
-        case .facebook:
-            chatCell.roundViewWithStyle(style)
-        }
+        chatCell.roundViewWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
     }
 
     override func didPressSendButton(_ sender: Any?) {
@@ -177,7 +167,7 @@ extension MessageViewController {
         case .facebook:
             if viewModel.messages.count <= 1 { return }
             reloadLastMessageCell()
-
+        default: break
         }
     }
 
@@ -218,8 +208,8 @@ extension MessageViewController {
         let lastIndexPath = IndexPath(row: 1, section: 0)
         let cell = tableView.cellForRow(at: lastIndexPath) as! MessageCell
         let style = viewModel.getRoundStyleForMessageAtIndex(lastIndexPath.row)
-        cell.updateLayoutForGroupMessage(style: style)
-        cell.roundViewWithStyle(style)
+        cell.updateLayoutForGroupMessage(style: style, bubbleStyle: viewModel.bubbleStyle)
+        cell.roundViewWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
         tableView.endUpdates()
     }
 }
