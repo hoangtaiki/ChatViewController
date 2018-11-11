@@ -198,6 +198,7 @@ extension ChatBarView {
     fileprivate func setUI() {
         backgroundColor = .white
         textView.keyboardType = .default
+        clipsToBounds = true
         topBorderLine.backgroundColor = UIColor.lightGray
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
@@ -248,6 +249,16 @@ extension ChatBarView {
             leading: stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
             trailing: stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -trailingConstant)
         )
+        
+        centerStackViewLayoutSet?.top?.priority = .defaultHigh
+        centerStackViewLayoutSet?.bottom?.priority = .defaultHigh
+        centerStackViewLayoutSet?.leading?.priority = .defaultHigh
+        centerStackViewLayoutSet?.trailing?.priority = .defaultHigh
+        
+        topBorderLayoutSet?.top?.priority = .defaultHigh
+        topBorderLayoutSet?.leading?.priority = .defaultHigh
+        topBorderLayoutSet?.trailing?.priority = .defaultHigh
+        topBorderLayoutSet?.height?.priority = .defaultHigh
 
         textView.setContentHuggingPriority(.defaultLow - 1, for: .vertical)
         textView.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)

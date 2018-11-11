@@ -56,6 +56,10 @@ extension ChatViewController {
 
     /// Hide all keyboard and then resignFirstResponse for TextView to call Keyboard appear
     @objc fileprivate func handleTapTableView(recognizer: UITapGestureRecognizer) {
+        dismissKeyboard()
+    }
+
+    func dismissKeyboard() {
         switch currentKeyboardType {
         case .default:
             chatBarView.textView.resignFirstResponderTimeAnimate = 0.25
@@ -65,11 +69,9 @@ extension ChatViewController {
             animateHideImagePicker()
             currentKeyboardType = .none
         default:
-
             break
         }
     }
-
 }
 
 
