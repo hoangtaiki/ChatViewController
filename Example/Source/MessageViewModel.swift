@@ -40,8 +40,10 @@ class MessageViewModel {
     var messages: [Message] = []
     var currentUser: User?
     var pagination: Pagination?
+    var bubbleStyle: BubbleStyle = .facebook
 
-    init() {
+    init(bubbleStyle: BubbleStyle) {
+        self.bubbleStyle = bubbleStyle
         currentUser = User(id: 2, name: "Harry Tran", avatarURL: URL(string: "https://i.imgur.com/LIe72Gc.png"))
         getUserData()
     }
@@ -67,8 +69,7 @@ class MessageViewModel {
         }
     }
 
-
-    func getUserData() {
+    fileprivate func getUserData() {
         DispatchQueue.global(qos: .background).async { [weak self] in
             self?.getDataFromFile(fileName: "user") { (userResponse: [User], _) in
                 self?.users = userResponse
@@ -76,7 +77,7 @@ class MessageViewModel {
         }
     }
 
-    func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination) -> ()) where T: Mappable {
+    fileprivate func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination) -> ()) where T: Mappable {
         guard let jsonData = Data.dataFromJSONFile(fileName) else { return }
 
         do {
