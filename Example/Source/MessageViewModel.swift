@@ -105,21 +105,21 @@ extension MessageViewModel {
         return users[index!]
     }
 
-    func getRoundStyleForMessageAtIndex(_ index: Int) -> RoundedViewType {
+    func getPositionInBlockForMessageAtIndex(_ index: Int) -> PositionInBlock {
         let message = messages[index]
         if let beforeItemMessage = messages.item(before: index),
             let afterItemMessage = messages.item(after: index) {
             if beforeItemMessage.isOutgoing == message.isOutgoing
                 && message.isOutgoing == afterItemMessage.isOutgoing {
-                return .centerGroup
+                return .center
             }
 
             if beforeItemMessage.isOutgoing == message.isOutgoing {
-                return .bottomGroup
+                return .bottom
             }
 
             if message.isOutgoing == afterItemMessage.isOutgoing {
-                return .topGroup
+                return .top
             }
 
             return .single
@@ -127,14 +127,14 @@ extension MessageViewModel {
 
         if let beforeItemMessage = messages.item(before: index) {
             if beforeItemMessage.isOutgoing == message.isOutgoing {
-                return .bottomGroup
+                return .bottom
             }
             return .single
         }
 
         if let afterItemMessage = messages.item(after: index) {
             if afterItemMessage.isOutgoing == message.isOutgoing {
-                return .topGroup
+                return .top
             }
 
             return .single
