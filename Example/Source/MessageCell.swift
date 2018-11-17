@@ -10,10 +10,12 @@ import UIKit
 import Kingfisher
 import ChatViewController
 
-enum RoundedViewType {
-    case topGroup
-    case centerGroup
-    case bottomGroup
+/// Incoming and outgoing message is is divided into different blocks
+/// A Block is a continuous sequence message from sender or receiver.
+enum PositionInBlock {
+    case top
+    case center
+    case bottom
     case single
 }
 
@@ -141,11 +143,11 @@ class MessageCell: UITableViewCell {
 
     /// Update UI depend on RoundedViewType and BubbleStyle
     /// With Facebook Messenger they only show avatar for .bottomGroup and .single
-    func showHideUIWithStyle(_ style: RoundedViewType, bubbleStyle: BubbleStyle) {
-        switch (style, bubbleStyle) {
-        case (.bottomGroup, .facebook), (.single, _), (.topGroup, .instagram):
+    func showHideUIWithBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) {
+        switch (bubbleStyle, positionInBlock) {
+        case (.facebook, .bottom), (_, .single), (.instagram, .top):
             avatarImageView.isHidden = false
-        case (.topGroup, .facebook), (.centerGroup, _), (.bottomGroup, .instagram):
+        case (.facebook, .top), (_, .center), (.instagram, .bottom):
             avatarImageView.isHidden = true
         }
     }
@@ -211,5 +213,71 @@ extension MessageCell {
         statusStackView.isHidden  = true
         statusSpaceView.isHidden = true
         avatarContainerView.isHidden = true
+    }
+    
+    /// Mask `roundedView` by an CAShapeLayer with a rectangle
+    func roundViewWithBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) {
+        let bounds = roundedView.bounds
+        var roundRadius: (tl: CGFloat, tr: CGFloat, bl: CGFloat, br: CGFloat)
+        roundRadius = getRoundRadiusForBubbleStyle(bubbleStyle, positionInBlock: positionInBlock)
+        let path = UIBezierPath(roundedRect: bounds,
+                                topLeftRadius: roundRadius.tl,
+                                topRightRadius: roundRadius.tr,
+                                bottomLeftRadius: roundRadius.bl,
+                                bottomRightRadius: roundRadius.br)
+        path.lineJoinStyle = .round
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = path.cgPath
+        
+        roundedView.layer.mask = maskLayer
+    }
+    
+    /// Get radius value for four corners
+    func getRoundRadiusForBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) -> (CGFloat, CGFloat, CGFloat, CGFloat) {
+        switch bubbleStyle {
+        // For instagram
+        case .instagram:
+            return (16, 16, 16, 16)
+            
+        // For facebook bubble style
+        case .facebook:
+            switch positionInBlock {
+            case .top:
+                return (16, 16, 4, 16)
+            case .center:
+                return (4, 16, 4, 16)
+            case .bottom:
+                return (4, 16, 16, 16)
+            case .single:
+                return (16, 16, 16, 16)
+            }
+        }
+    }
+    
+    /// Update space between message inside a group.
+    func updateLayoutForBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) {
+        switch bubbleStyle {
+        case .instagram:
+            topAnchorContentView.constant = instaContentInset.top
+            bottomAnchorContentView.constant = -instaContentInset.bottom
+            
+        // For Facebook
+        // Message in group should be closer
+        case .facebook:
+            switch positionInBlock {
+            case .top:
+                bottomAnchorContentView.constant = -spaceInsideGroup
+            case .center:
+                topAnchorContentView.constant = spaceInsideGroup
+                bottomAnchorContentView.constant = -spaceInsideGroup
+            case .bottom:
+                topAnchorContentView.constant = spaceInsideGroup
+            default:
+                topAnchorContentView.constant = contentInset.top
+                bottomAnchorContentView.constant = -contentInset.bottom
+            }
+        }
     }
 }

@@ -40,26 +40,26 @@ class MessageViewController: ChatViewController {
         let cellIdentifer = message.cellIdentifer()
         let user = viewModel.getUserFromID(message.sendByID)
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifer, for: indexPath) as! MessageCell
-        let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
+        let positionInBlock = viewModel.getPositionInBlockForMessageAtIndex(indexPath.row)
 
         cell.transform = tableView.transform
         cell.bind(withMessage: viewModel.messages[indexPath.row], user: user)
         cell.updateUIWithBubbleStyle(viewModel.bubbleStyle, isOutgoingMessage: message.isOutgoing)
-        cell.updateLayoutForGroupMessage(style: style, bubbleStyle: viewModel.bubbleStyle)
+        cell.updateLayoutForBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let chatCell = cell as! MessageCell
-        let style = viewModel.getRoundStyleForMessageAtIndex(indexPath.row)
+        let positionInBlock = viewModel.getPositionInBlockForMessageAtIndex(indexPath.row)
 
         chatCell.layoutIfNeeded()
         
         // Update UI for cell
-        chatCell.showHideUIWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
+        chatCell.showHideUIWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         chatCell.updateAvatarPosition(bubbleStyle: viewModel.bubbleStyle)
-        chatCell.roundViewWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
+        chatCell.roundViewWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
     }
 
     override func didPressSendButton(_ sender: Any?) {
@@ -207,9 +207,9 @@ extension MessageViewController {
         tableView.beginUpdates()
         let lastIndexPath = IndexPath(row: 1, section: 0)
         let cell = tableView.cellForRow(at: lastIndexPath) as! MessageCell
-        let style = viewModel.getRoundStyleForMessageAtIndex(lastIndexPath.row)
-        cell.updateLayoutForGroupMessage(style: style, bubbleStyle: viewModel.bubbleStyle)
-        cell.roundViewWithStyle(style, bubbleStyle: viewModel.bubbleStyle)
+        let positionInBlock = viewModel.getPositionInBlockForMessageAtIndex(lastIndexPath.row)
+        cell.updateLayoutForBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
+        cell.roundViewWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         tableView.endUpdates()
     }
 }

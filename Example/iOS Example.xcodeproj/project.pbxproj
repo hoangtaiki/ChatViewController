@@ -33,7 +33,6 @@
 		4DCF30CB20D25B1600454E7A /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCF30CA20D25B1600454E7A /* FileInfo.swift */; };
 		4DCF30CD20D2691600454E7A /* MessageImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCF30CC20D2691600454E7A /* MessageImageCell.swift */; };
 		4DCF30D120D360F100454E7A /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCF30D020D360F100454E7A /* Kingfisher.swift */; };
-		4DE837A421988038002CE189 /* MessageCell+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE837A321988038002CE189 /* MessageCell+Facebook.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,7 +64,6 @@
 		4DCF30CA20D25B1600454E7A /* FileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInfo.swift; sourceTree = "<group>"; };
 		4DCF30CC20D2691600454E7A /* MessageImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageCell.swift; sourceTree = "<group>"; };
 		4DCF30D020D360F100454E7A /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
-		4DE837A321988038002CE189 /* MessageCell+Facebook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageCell+Facebook.swift"; sourceTree = "<group>"; };
 		554F7467F51B1472276E0C82 /* Pods_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A72CEE999F8CCAC116ED4C9 /* Pods-iOS Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Example.debug.xcconfig"; path = "Target Support Files/Pods-iOS Example/Pods-iOS Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,7 +87,6 @@
 				4DCF30CC20D2691600454E7A /* MessageImageCell.swift */,
 				4D47559E20CE3138005B9493 /* MessageTextCell.swift */,
 				4D61393A211EE26C00ACB492 /* SelectionStyleCell.swift */,
-				4DE837A321988038002CE189 /* MessageCell+Facebook.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -364,7 +361,6 @@
 				4D613939211EE10F00ACB492 /* ConfigChatStyleViewController.swift in Sources */,
 				4DCF30CD20D2691600454E7A /* MessageImageCell.swift in Sources */,
 				4DBFF6E420ADE04E00D2799A /* AppDelegate.swift in Sources */,
-				4DE837A421988038002CE189 /* MessageCell+Facebook.swift in Sources */,
 				4D605BDA20F8983000402847 /* Data.swift in Sources */,
 				4D47559C20CE305E005B9493 /* MessageViewModel.swift in Sources */,
 				4DBFF6E320ADE04E00D2799A /* MessageViewController.swift in Sources */,
