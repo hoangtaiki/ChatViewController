@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.platform = :ios, "10.0"
+  s.swift_version = '4.2'
 
   s.source_files = 'Source/**/*.swift'
   s.resource_bundles = {'ChatViewController' => ['Source/Resources/**/*.{png,xcassets,xib}']}
