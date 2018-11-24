@@ -8,10 +8,25 @@
 
 import UIKit
 
-public class ImagePickerHelper: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+/// Protocol use to specify standard for ImagePickerHelper
+public protocol ImagePickerHelperable {
+    // We new a variable to store parent view controller to present ImagePickerController
+    var parentViewController: UIViewController? { get set }
+    // Open camera
+    func accessCamera()
+    // Open photo library
+    func accessLibrary()
+}
 
-    weak var parentViewController: UIViewController?
-    var pickImageResult: ((_ image: UIImage?, _ imagePath: URL?, _ error: Error?) -> ())?
+/// Image picker result
+public protocol ImagePickerHelperResultDelegate {
+    func didFinishPickingMediaWithInfo(_ image: UIImage?, _ imagePath: URL?, _ error: Error?)
+}
+
+public class ImagePickerHelper: NSObject, ImagePickerHelperable, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    public weak var parentViewController: UIViewController?
+    public var delegate: ImagePickerHelperResultDelegate?
 
     public func accessPhoto(from sourceType: UIImagePickerController.SourceType) {
         let imagePicker = UIImagePickerController()
@@ -21,7 +36,7 @@ public class ImagePickerHelper: NSObject, UIImagePickerControllerDelegate, UINav
 
         parentViewController?.present(imagePicker, animated: true, completion: nil)
     }
-
+    
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         defer {
             picker.dismiss(animated: true, completion: nil)
@@ -32,13 +47,21 @@ public class ImagePickerHelper: NSObject, UIImagePickerControllerDelegate, UINav
                 return
             }
 
-            originalImage.storeToTemporaryDirectory(completion: { (imagePath, error) in
+            originalImage.storeToTemporaryDirectory(completion: { [weak self] (imagePath, error) in
                 if error != nil {
-                    self.pickImageResult?(nil, nil, error!)
+                    self?.delegate?.didFinishPickingMediaWithInfo(nil, nil, error!)
                     return
                 }
-                self.pickImageResult?(originalImage, imagePath!, nil)
+                self?.delegate?.didFinishPickingMediaWithInfo(originalImage, imagePath!, nil)
             })
         }
+    }
+    
+    public func accessCamera() {
+        accessPhoto(from: .camera)
+    }
+    
+    public func accessLibrary() {
+        accessPhoto(from: .photoLibrary)
     }
 }

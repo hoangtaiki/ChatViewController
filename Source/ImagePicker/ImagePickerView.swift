@@ -9,12 +9,20 @@
 import UIKit
 import Photos
 
-public final class ImagePickerView: UIView {
-
+open class ImagePickerView: UIView {
+    
+    /// Image Picker Helper
+    open lazy var imagePickerHelper: ImagePickerHelperable = {
+        let imagePickerHelper = ImagePickerHelper()
+        
+        return imagePickerHelper
+    }()
+    
     public var pickImageResult: ((_ image: UIImage?, _ imagePath: URL?, _ error: Error?) -> ())?
 
-    var collectionView: ImagePickerCollectionView!
-    var imagePickerHelper: ImagePickerHelper!
+    public var collectionView: ImagePickerCollectionView!
+    
+    /// Parent View Controller
     weak var parentViewController: UIViewController? {
         didSet {
             imagePickerHelper.parentViewController = parentViewController
@@ -33,8 +41,20 @@ public final class ImagePickerView: UIView {
 
         setUI()
     }
-
-    func setUI() {
+    
+    open func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePickerHelper.accessCamera()
+        }
+    }
+    
+    open func openLibrary() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePickerHelper.accessLibrary()
+        }
+    }
+    
+    private func setUI() {
         backgroundColor = UIColor.black.withAlphaComponent(0.87)
 
         collectionView = ImagePickerCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -46,26 +66,14 @@ public final class ImagePickerView: UIView {
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-
-        imagePickerHelper = ImagePickerHelper()
+        
+        // Pass actions to collection view
         collectionView.takePhoto = { [weak self] in
-            if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                self?.imagePickerHelper.accessPhoto(from: .camera)
-            }
+            self?.openCamera()
         }
 
         collectionView.showCollection = { [weak self] in
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                self?.imagePickerHelper.accessPhoto(from: .photoLibrary)
-            }
-        }
-
-        imagePickerHelper.pickImageResult = { [weak self] image, imagePath, error in
-            if error != nil {
-                self?.pickImageResult?(nil, nil, error!)
-                return
-            }
-            self?.pickImageResult?(image, imagePath!, nil)
+            self?.openLibrary()
         }
     }
 }
@@ -86,5 +94,16 @@ extension ImagePickerView: ImagePickerCollectionViewDelegate {
                 })
             }
         }
+    }
+}
+
+extension ImagePickerView: ImagePickerHelperResultDelegate {
+    
+    public func didFinishPickingMediaWithInfo(_ image: UIImage?, _ imagePath: URL?, _ error: Error?) {
+        if error != nil {
+            pickImageResult?(nil, nil, error!)
+            return
+        }
+        pickImageResult?(image, imagePath!, nil)
     }
 }

@@ -13,7 +13,7 @@ import Photos
     @objc optional func didSelectImage(with localIdentifer: String)
 }
 
-final class ImagePickerCollectionView: UICollectionView {
+public final class ImagePickerCollectionView: UICollectionView {
 
     var takePhoto: (() -> ())?
     var showCollection: (() -> ())?
@@ -95,19 +95,19 @@ final class ImagePickerCollectionView: UICollectionView {
 
 extension ImagePickerCollectionView: UICollectionViewDataSource {
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photoDataManager.photoCount()
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionCell.reuseIdentifier, for: indexPath)
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                          withReuseIdentifier: ImagePickerCollectionHeader.reuseIdentifier,
                                                                          for: indexPath) as! ImagePickerCollectionHeader
@@ -119,7 +119,7 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
         return headerView
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         photoDataManager.requestImage(for: indexPath) { (image, indexPath) in
             guard let image = image else { return }
             guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
@@ -132,19 +132,19 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
 
 extension ImagePickerCollectionView: UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    private func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return cellSize
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    private func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: 90, height: bounds.height)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    private func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return spacing
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    private func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return nColumns == 2 ? spacing : 0
     }
 
@@ -152,7 +152,7 @@ extension ImagePickerCollectionView: UICollectionViewDelegateFlowLayout {
 
 extension ImagePickerCollectionView: UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    private func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let localIdentifer = photoDataManager.photoIdentifier(for: indexPath.row)
 
         pickerDelegate?.didSelectImage?(with: localIdentifer)
@@ -162,11 +162,11 @@ extension ImagePickerCollectionView: UICollectionViewDelegate {
 
 extension ImagePickerCollectionView: UIScrollViewDelegate {
 
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    private func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         startCacheImages()
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    private func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard decelerate != true else {
             return
         }
