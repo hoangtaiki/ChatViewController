@@ -1,0 +1,11 @@
+platform :ios, '10.0'
+
+target 'iOS Example' do
+  use_frameworks!
+
+  pod 'ChatViewController', :path => ".."
+  pod 'Kingfisher'
+  pod 'ObjectMapper'
+  pod 'SwiftyJSON'
+  
+end

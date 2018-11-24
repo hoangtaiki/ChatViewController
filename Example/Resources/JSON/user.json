@@ -1,0 +1,23 @@
+{
+	"data": [
+		{
+			"id": 1,
+			"name": "Harry Tran",
+			"avatar_url": "https://i.imgur.com/LIe72Gc.png"
+		}, 
+		{
+			"id": 2,
+			"name": "Liliana Nguyen",
+			"avatar_url": "https://i.imgur.com/9Npck7Z.png"
+		}
+	],
+	"meta": {
+		"custom": [],
+		"pagination": {
+			"page": 1,
+			"pages": 1,
+			"total": 2
+		},
+		"include": []
+	}
+}
