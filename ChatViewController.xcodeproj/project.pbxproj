@@ -27,6 +27,7 @@
 		4D4755BF20CF62BD005B9493 /* Userable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755BE20CF62BD005B9493 /* Userable.swift */; };
 		4D4755C120CF62DD005B9493 /* TypingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755C020CF62DD005B9493 /* TypingIndicatorView.swift */; };
 		4D4755C320CF6316005B9493 /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755C220CF6316005B9493 /* NSMutableAttributedString+Extensions.swift */; };
+		4D51A13E21AC58BA00D5AA75 /* AdvancedUsage.md in Resources */ = {isa = PBXBuildFile; fileRef = 4D51A13D21AC58BA00D5AA75 /* AdvancedUsage.md */; };
 		4D613927211D7A3E00ACB492 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D613926211D7A3E00ACB492 /* Utils.swift */; };
 		4D61392A211D7A5200ACB492 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D613928211D7A5200ACB492 /* UIDevice.swift */; };
 		4D61392B211D7A5200ACB492 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D613929211D7A5200ACB492 /* UITableView.swift */; };
@@ -64,6 +65,7 @@
 		4D4755BE20CF62BD005B9493 /* Userable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Userable.swift; sourceTree = "<group>"; };
 		4D4755C020CF62DD005B9493 /* TypingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicatorView.swift; sourceTree = "<group>"; };
 		4D4755C220CF6316005B9493 /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
+		4D51A13D21AC58BA00D5AA75 /* AdvancedUsage.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = AdvancedUsage.md; sourceTree = "<group>"; };
 		4D613926211D7A3E00ACB492 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		4D613928211D7A5200ACB492 /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		4D613929211D7A5200ACB492 /* UITableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		4D2E8E6F20ADCFF900DC178E /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				4D51A13D21AC58BA00D5AA75 /* AdvancedUsage.md */,
 				4D47558220CE2075005B9493 /* CHANGELOG.md */,
 				4D47558320CE2075005B9493 /* README.md */,
 			);
@@ -280,6 +283,7 @@
 			files = (
 				4D47558120CE1D27005B9493 /* LICENSE in Resources */,
 				4D47558420CE2075005B9493 /* CHANGELOG.md in Resources */,
+				4D51A13E21AC58BA00D5AA75 /* AdvancedUsage.md in Resources */,
 				4D47558520CE2075005B9493 /* README.md in Resources */,
 				4D47558020CE1D27005B9493 /* ChatViewController.podspec in Resources */,
 				4D47558E20CE27D7005B9493 /* Assets.xcassets in Resources */,
