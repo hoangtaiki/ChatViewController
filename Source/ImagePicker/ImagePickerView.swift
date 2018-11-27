@@ -14,6 +14,7 @@ open class ImagePickerView: UIView {
     /// Image Picker Helper
     open lazy var imagePickerHelper: ImagePickerHelperable = {
         let imagePickerHelper = ImagePickerHelper()
+        imagePickerHelper.delegate = self
         
         return imagePickerHelper
     }()
