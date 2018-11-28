@@ -73,6 +73,11 @@ class MessageViewController: ChatViewController {
         super.didPressSendButton(sender)
     }
 
+    override func didPressGalleryButton(_ sender: Any?) {
+        if configuration.imagePickerType != .actionSheet {
+            super.didPressGalleryButton(sender)
+        }
+    }
 }
 
 extension MessageViewController {
@@ -134,7 +139,7 @@ extension MessageViewController {
 
     fileprivate func bindViewModel() {
         /// Image Picker Result closure
-        imagePickerView.pickImageResult = { image, url, error in
+        imagePickerView?.pickImageResult = { image, url, error in
             if error != nil {
                 return
             }

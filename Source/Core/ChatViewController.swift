@@ -45,6 +45,8 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
     }
+    
+    /// Store last keyboard type. Initialize value is .none
     public var lastKeyboardType: KeyboardType = .none
 
     /// Tableview
@@ -71,16 +73,16 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     /// ChatBarView
     open var chatBarView: ChatBarView!
     /// ImagePickerView
-    public var imagePickerView: ImagePickerView!
+    public var imagePickerView: ImagePickerView?
 
     /// Bottom constraint of ChatBarView and view
     public var chatBarBottomConstraint: NSLayoutConstraint!
     /// Height constraint for ChatBarView
     public var chatBarHeightConstraint: NSLayoutConstraint!
     /// Top contraint between ChatImagePicker and ChatBarView.bottomAnchor
-    public var imagePickerTopContraint: NSLayoutConstraint!
+    public var imagePickerTopContraint: NSLayoutConstraint?
     /// Height contraint of ImagePickerView
-    public var imagePickerHeightContraint: NSLayoutConstraint!
+    public var imagePickerHeightContraint: NSLayoutConstraint?
     /// Observe `isVisible` key for TypingIndicatorView
     public var observation: NSKeyValueObservation?
     /// TypingIndicator height contraint
@@ -112,15 +114,18 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        imagePickerHeightContraint.constant = customKeyboardHeight
-        imagePickerView.collectionView.updateUI()
+        imagePickerHeightContraint?.constant = customKeyboardHeight
+        imagePickerView?.collectionView.updateUI()
     }
 
     open func setupSubviews() {
         setupChatBar()
         setupTypingIndicator()
         initTableView()
-        initImagePickerView()
+        
+        if configuration.imagePickerType != .actionSheet {
+            initImagePickerView()
+        }
     }
 
     /// Setup for ChatBarView
@@ -189,10 +194,13 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
             animateShowImagePicker()
         case .default:
             currentKeyboardType = .image
-            imagePickerView.isHidden = false
             chatBarView.textView.resignFirstResponderTimeAnimate = 0.0
             _ = chatBarView.textView.resignFirstResponder()
-            view.bringSubviewToFront(imagePickerView)
+            guard let impkView = imagePickerView else {
+                return
+            }
+            impkView.isHidden = false
+            view.bringSubviewToFront(impkView)
         default:
             break
         }
