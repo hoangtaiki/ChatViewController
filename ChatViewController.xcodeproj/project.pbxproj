@@ -36,6 +36,7 @@
 		4D613935211D7F6C00ACB492 /* FooterRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D613934211D7F6C00ACB492 /* FooterRefreshAnimator.swift */; };
 		4D613937211D7F9200ACB492 /* UIScrollView+Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D613936211D7F9200ACB492 /* UIScrollView+Refreshable.swift */; };
 		4D62994B20ADDBB9008CE39D /* ChatViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D62994920ADDB61008CE39D /* ChatViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D92F6DA21AF192F00E0A241 /* Usage.md in Resources */ = {isa = PBXBuildFile; fileRef = 4D92F6D921AF192F00E0A241 /* Usage.md */; };
 		4DBFF70B20AE8B2200D2799A /* LayoutConstraintSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF70A20AE8B2200D2799A /* LayoutConstraintSet.swift */; };
 		4DBFF70E20AEBDFE00D2799A /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */; };
 		4DBFF71720AED7E400D2799A /* ChatViewController+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */; };
@@ -73,6 +74,7 @@
 		4D613934211D7F6C00ACB492 /* FooterRefreshAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterRefreshAnimator.swift; sourceTree = "<group>"; };
 		4D613936211D7F9200ACB492 /* UIScrollView+Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Refreshable.swift"; sourceTree = "<group>"; };
 		4D62994920ADDB61008CE39D /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		4D92F6D921AF192F00E0A241 /* Usage.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Usage.md; sourceTree = "<group>"; };
 		4DBFF70A20AE8B2200D2799A /* LayoutConstraintSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstraintSet.swift; sourceTree = "<group>"; };
 		4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Subviews.swift"; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				4D51A13D21AC58BA00D5AA75 /* AdvancedUsage.md */,
 				4D47558220CE2075005B9493 /* CHANGELOG.md */,
 				4D47558320CE2075005B9493 /* README.md */,
+				4D92F6D921AF192F00E0A241 /* Usage.md */,
 			);
 			path = Documentation;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				4D47558520CE2075005B9493 /* README.md in Resources */,
 				4D47558020CE1D27005B9493 /* ChatViewController.podspec in Resources */,
 				4D47558E20CE27D7005B9493 /* Assets.xcassets in Resources */,
+				4D92F6DA21AF192F00E0A241 /* Usage.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
