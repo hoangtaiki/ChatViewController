@@ -179,23 +179,6 @@ extension ChatViewController {
         imagePickerHeightContraint = imagePickerView.heightAnchor.constraint(equalToConstant: customKeyboardHeight)
         imagePickerHeightContraint.isActive = true
     }
-
-    /// Gallery button
-    @objc open func didPressGalleryButton(_ sender: Any?) {
-        switch currentKeyboardType {
-        case .none:
-            currentKeyboardType = .image
-            animateShowImagePicker()
-        case .default:
-            currentKeyboardType = .image
-            imagePickerView.isHidden = false
-            chatBarView.textView.resignFirstResponderTimeAnimate = 0.0
-            _ = chatBarView.textView.resignFirstResponder()
-            view.bringSubviewToFront(imagePickerView)
-        default:
-            break
-        }
-    }
     
     func handleShowImagePicker() {
         switch currentKeyboardType {

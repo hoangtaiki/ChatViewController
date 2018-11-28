@@ -181,6 +181,23 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         controlExpandableInputView(showExpandable: true, from: 0, to: 0)
     }
     
+    /// Gallery button
+    @objc open func didPressGalleryButton(_ sender: Any?) {
+        switch currentKeyboardType {
+        case .none:
+            currentKeyboardType = .image
+            animateShowImagePicker()
+        case .default:
+            currentKeyboardType = .image
+            imagePickerView.isHidden = false
+            chatBarView.textView.resignFirstResponderTimeAnimate = 0.0
+            _ = chatBarView.textView.resignFirstResponder()
+            view.bringSubviewToFront(imagePickerView)
+        default:
+            break
+        }
+    }
+    
     /// Set hide/show for ChatBarView
     open func setChatBarHidden(_ hidden: Bool, animated: Bool) {
         if _isChatBarHidden == hidden { return }
