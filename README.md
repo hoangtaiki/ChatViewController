@@ -16,7 +16,7 @@
 
 ### Additional
 * Support chat bar view with Default style and Slack style
-* Image picker
+* [Image Picker](/Documentation/Usage.md#image-picker) 
 * Typing Indicator display
 * Show/hide chat bar view
 * Pull to refresh and load more feature
