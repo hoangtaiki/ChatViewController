@@ -44,15 +44,11 @@ open class ImagePickerView: UIView {
     }
     
     open func openCamera() {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePickerHelper.accessCamera()
-        }
+        imagePickerHelper.accessCamera()
     }
     
     open func openLibrary() {
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            imagePickerHelper.accessLibrary()
-        }
+        imagePickerHelper.accessLibrary()
     }
     
     private func setUI() {
