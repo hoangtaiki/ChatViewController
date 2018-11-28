@@ -85,7 +85,7 @@ extension ChatViewController {
         case .image:
             chatBarView.textView.becomeFirstResponderTimeAnimate = 0
             currentKeyboardType = .default
-            imagePickerView.isHidden = true
+            imagePickerView?.isHidden = true
         default:
             break
         }
@@ -167,17 +167,17 @@ extension ChatViewController {
     /// Setup for ImagePicker
     func initImagePickerView() {
         imagePickerView = ImagePickerView()
-        imagePickerView.isHidden = true
-        imagePickerView.parentViewController = self
-        imagePickerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imagePickerView)
+        imagePickerView!.isHidden = true
+        imagePickerView!.parentViewController = self
+        imagePickerView!.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imagePickerView!)
 
-        imagePickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imagePickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imagePickerTopContraint = imagePickerView.topAnchor.constraint(equalTo: chatBarView.bottomAnchor)
-        imagePickerTopContraint.isActive = true
-        imagePickerHeightContraint = imagePickerView.heightAnchor.constraint(equalToConstant: customKeyboardHeight)
-        imagePickerHeightContraint.isActive = true
+        imagePickerView!.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imagePickerView!.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imagePickerTopContraint = imagePickerView!.topAnchor.constraint(equalTo: chatBarView.bottomAnchor)
+        imagePickerTopContraint!.isActive = true
+        imagePickerHeightContraint = imagePickerView!.heightAnchor.constraint(equalToConstant: customKeyboardHeight)
+        imagePickerHeightContraint!.isActive = true
     }
     
     func handleShowImagePicker() {
@@ -210,9 +210,9 @@ extension ChatViewController {
 
         DispatchQueue.main.async {
             /// Temporary update UI for ImagePicker
-            self.imagePickerHeightContraint.constant = self.customKeyboardHeight
-            self.imagePickerView.layoutSubviews()
-            self.imagePickerView.collectionView.updateUI()
+            self.imagePickerHeightContraint?.constant = self.customKeyboardHeight
+            self.imagePickerView?.layoutSubviews()
+            self.imagePickerView?.collectionView.updateUI()
         }
     }
 
@@ -221,8 +221,8 @@ extension ChatViewController {
     /// -parameter isNeedScrollTable: Need update tableview content offset or not
     func animateShowImagePicker() {
         tableView.stopScrolling()
-        imagePickerView.isHidden = false
-        imagePickerView.collectionView.resetUI()
+        imagePickerView?.isHidden = false
+        imagePickerView?.collectionView.resetUI()
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = -self.customKeyboardHeight
@@ -235,11 +235,11 @@ extension ChatViewController {
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = 0
-            self.imagePickerView.alpha = 0.0
+            self.imagePickerView?.alpha = 0.0
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            self.imagePickerView.isHidden = true
-            self.imagePickerView.alpha = 1.0
+            self.imagePickerView?.isHidden = true
+            self.imagePickerView?.alpha = 1.0
         })
     }
 }
