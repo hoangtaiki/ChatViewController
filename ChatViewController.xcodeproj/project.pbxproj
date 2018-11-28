@@ -16,7 +16,6 @@
 		4D47558B20CE25F0005B9493 /* ChatBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47558820CE25F0005B9493 /* ChatBarView.swift */; };
 		4D47558E20CE27D7005B9493 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D47558D20CE27D7005B9493 /* Assets.xcassets */; };
 		4D47559020CE292B005B9493 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47558F20CE292B005B9493 /* Bundle.swift */; };
-		4D47559220CE2DBD005B9493 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D47559120CE2DBD005B9493 /* PlaceHolderTextView.swift */; };
 		4D4755AA20CE859C005B9493 /* PhotoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755A920CE859C005B9493 /* PhotoDataManager.swift */; };
 		4D4755AC20CE87D4005B9493 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755AB20CE87D4005B9493 /* UIImage+Extensions.swift */; };
 		4D4755B020CE8F33005B9493 /* ImagePickerCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755AF20CE8F33005B9493 /* ImagePickerCollectionHeader.swift */; };
@@ -54,7 +53,6 @@
 		4D47558820CE25F0005B9493 /* ChatBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBarView.swift; sourceTree = "<group>"; };
 		4D47558D20CE27D7005B9493 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D47558F20CE292B005B9493 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
-		4D47559120CE2DBD005B9493 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		4D4755A920CE859C005B9493 /* PhotoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDataManager.swift; sourceTree = "<group>"; };
 		4D4755AB20CE87D4005B9493 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4D4755AF20CE8F33005B9493 /* ImagePickerCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionHeader.swift; sourceTree = "<group>"; };
@@ -206,7 +204,6 @@
 				4D47558720CE25F0005B9493 /* ChatStackView.swift */,
 				4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */,
 				4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */,
-				4D47559120CE2DBD005B9493 /* PlaceHolderTextView.swift */,
 				4D613926211D7A3E00ACB492 /* Utils.swift */,
 			);
 			path = Core;
@@ -322,7 +319,6 @@
 				4D613927211D7A3E00ACB492 /* Utils.swift in Sources */,
 				4D4755C320CF6316005B9493 /* NSMutableAttributedString+Extensions.swift in Sources */,
 				4DBFF71720AED7E400D2799A /* ChatViewController+Subviews.swift in Sources */,
-				4D47559220CE2DBD005B9493 /* PlaceHolderTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
