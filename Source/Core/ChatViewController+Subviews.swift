@@ -59,7 +59,7 @@ extension ChatViewController {
         dismissKeyboard()
     }
 
-    func dismissKeyboard() {
+    public func dismissKeyboard() {
         switch currentKeyboardType {
         case .default:
             chatBarView.textView.resignFirstResponderTimeAnimate = 0.25
@@ -145,7 +145,7 @@ extension ChatViewController {
         }
 
         // Everytime keyboard show. We will check keyboard height change or not to update image picker view size
-        if isShowing {
+        if isShowing && configuration.imagePickerType != .actionSheet {
             updateHeightForImagePicker(keyboardHeight: heightOffset)
         }
 

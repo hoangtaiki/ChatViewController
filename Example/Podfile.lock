@@ -1,8 +1,8 @@
 PODS:
   - ChatViewController (0.0.1):
     - PlaceholderUITextView
-  - Kingfisher (4.10.0)
-  - ObjectMapper (3.3.0)
+  - Kingfisher (4.10.1)
+  - ObjectMapper (3.4.1)
   - PlaceholderUITextView (1.0.1)
   - SwiftyJSON (4.2.0)
 
@@ -25,8 +25,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   ChatViewController: eadb3260a69fbb21cf5019e33982aef5cd6076cc
-  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
-  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  ObjectMapper: 5311bd50ca732930959e7ca1a2de43ab823a5ced
   PlaceholderUITextView: c199eb40f4a55d8be4d67492d6ed1ef67b8d8811
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
