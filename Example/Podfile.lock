@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  ChatViewController: 65cb3fe741d7e34badbaf3feb2c433234e76c5f4
+  ChatViewController: eadb3260a69fbb21cf5019e33982aef5cd6076cc
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   PlaceholderUITextView: c199eb40f4a55d8be4d67492d6ed1ef67b8d8811
