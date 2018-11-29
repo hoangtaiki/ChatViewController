@@ -21,7 +21,7 @@ class ConfigChatStyleViewController: UIViewController {
             chatBarStyleButton.setTitle(chatBarStyle.description, for: .normal)
         }
     }
-    var imagePickerType: ImagePickerType = .insideChatBar {
+    var imagePickerType: ImagePickerType = .slack {
         didSet {
             imagePickerTypeButton.setTitle(imagePickerType.description, for: .normal)
         }
@@ -70,8 +70,11 @@ class ConfigChatStyleViewController: UIViewController {
         let sheet = UIAlertController(title: "Choose a type",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "Default", style: .default, handler: { [weak self] _ in
-            self?.imagePickerType = .insideChatBar
+        sheet.addAction(UIAlertAction(title: ImagePickerType.slack.description, style: .default, handler: { [weak self] _ in
+            self?.imagePickerType = .slack
+        }))
+        sheet.addAction(UIAlertAction(title: ImagePickerType.actionSheet.description, style: .default, handler: { [weak self] _ in
+            self?.imagePickerType = .actionSheet
         }))
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
@@ -99,6 +102,7 @@ class ConfigChatStyleViewController: UIViewController {
         messageVC.viewModel = MessageViewModel(bubbleStyle: bubbleImageStyle)
         var configuration = ChatViewConfiguration.default
         configuration.chatBarStyle = chatBarStyle
+        configuration.imagePickerType = imagePickerType
         messageVC.configuration = configuration
 
         navigationController?.pushViewController(messageVC, animated: true)

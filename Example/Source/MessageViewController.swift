@@ -12,12 +12,14 @@ import ChatViewController
 class MessageViewController: ChatViewController {
 
     var viewModel: MessageViewModel!
+    var imagePickerHelper: ImagePickerHelper?
     var numberUserTypings = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        setupData()
         bindViewModel()
 
         viewModel.firstLoadData { [weak self] in
@@ -73,6 +75,19 @@ class MessageViewController: ChatViewController {
         super.didPressSendButton(sender)
     }
 
+    override func didPressGalleryButton(_ sender: Any?) {
+        guard configuration.imagePickerType == .actionSheet else {
+            super.didPressGalleryButton(sender)
+            return
+        }
+
+        /// Dismiss keyboard if keyboard is showing
+        if currentKeyboardType == .default {
+            dismissKeyboard()
+        }
+        
+        imagePickerHelper?.takeOrChoosePhoto()
+    }
 }
 
 extension MessageViewController {
@@ -132,9 +147,9 @@ extension MessageViewController {
         }
     }
 
-    fileprivate func bindViewModel() {
+    private func bindViewModel() {
         /// Image Picker Result closure
-        imagePickerView.pickImageResult = { image, url, error in
+        imagePickerView?.pickImageResult = { image, url, error in
             if error != nil {
                 return
             }
@@ -147,14 +162,24 @@ extension MessageViewController {
         }
 
     }
+    
+    private func setupData() {
+        guard configuration.imagePickerType == .actionSheet else {
+            return
+        }
+        
+        imagePickerHelper = ImagePickerHelper()
+        imagePickerHelper?.delegate = self
+        imagePickerHelper?.parentViewController = self
+    }
 
-    fileprivate func updateUI() {
+    private func updateUI() {
         tableView.reloadData { [weak self] in
             self?.viewModel.isRefreshing = false
         }
     }
 
-    fileprivate func addMessage(_ message: Message) {
+    private func addMessage(_ message: Message) {
         viewModel.messages.insert(message, at: 0)
 
         // Insert new message cell
@@ -171,7 +196,7 @@ extension MessageViewController {
         }
     }
 
-    @objc fileprivate func handleTypingButton() {
+    @objc private func handleTypingButton() {
         switch numberUserTypings {
         case 0, 1, 2:
             var user: User
@@ -195,15 +220,15 @@ extension MessageViewController {
         }
     }
     
-    @objc fileprivate func handleShowHideChatBar() {
+    @objc private func handleShowHideChatBar() {
         setChatBarHidden(!isCharBarHidden, animated: true)
     }
 
-    fileprivate func updateLoadMoreAble() {
+    private func updateLoadMoreAble() {
         tableView.setLoadMoreEnable(viewModel.pagination?.hasMore() ?? false)
     }
     
-    fileprivate func reloadLastMessageCell() {
+    private func reloadLastMessageCell() {
         tableView.beginUpdates()
         let lastIndexPath = IndexPath(row: 1, section: 0)
         let cell = tableView.cellForRow(at: lastIndexPath) as! MessageCell
@@ -211,5 +236,20 @@ extension MessageViewController {
         cell.updateLayoutForBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         cell.roundViewWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         tableView.endUpdates()
+    }
+}
+
+extension ChatViewController: ImagePickerHelperResultDelegate {
+    
+    public func didFinishPickingMediaWithInfo(_ image: UIImage?, _ imagePath: URL?, _ error: Error?) {
+        if error != nil {
+            return
+        }
+        
+        guard let _ = image, let _ = imagePath else {
+            return
+        }
+        
+        print("Pick image successfully")
     }
 }

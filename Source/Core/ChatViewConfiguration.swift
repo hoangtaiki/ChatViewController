@@ -11,22 +11,21 @@ public enum ChatBarStyle {
     case `default`
     case slack
     case other
+}
 
-    public var description: String {
-        switch self {
-        case .default:
-            return "Default"
-        case .slack:
-            return "Slack"
-        default:
-            return ""
-        }
-    }
+/// Image Picker Type
+/// We support Slack type and ActionSheet type
+public enum ImagePickerType {
+    case slack
+    case actionSheet
 }
 
 public struct ChatViewConfiguration {
 
     public var chatBarStyle: ChatBarStyle = .default
+    // Use Image Picker or not. Default value is true
+    public var imagePickerType: ImagePickerType = .slack
+    // Max Chat Bar height
     public var maxChatBarHeight: CGFloat = 200
     // Selected color for send button
     public var sendButtonSelectedColor = UIColor(red: 45/255, green: 158/255, blue: 224/255, alpha: 1)
@@ -38,6 +37,6 @@ public struct ChatViewConfiguration {
     public var textInputBarBorderColor: UIColor = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
     // Background color for chat bar
     public var chatBarBackgroundColor: UIColor = UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
-
+    
     public static var `default`: ChatViewConfiguration { return ChatViewConfiguration() }
 }
