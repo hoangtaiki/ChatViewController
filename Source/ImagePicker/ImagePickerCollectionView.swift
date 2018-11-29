@@ -215,7 +215,7 @@ extension ImagePickerCollectionView: ImagePickerCollectionHeaderDelegate {
 
 extension ImagePickerCollectionView {
 
-    fileprivate func calculateProperties() {
+    private func calculateProperties() {
         if Utils.shared.isGreaterThanMaxHeight {
             nColumns = 2
             let cellWidth = (bounds.height - spacing) / CGFloat(nColumns)
