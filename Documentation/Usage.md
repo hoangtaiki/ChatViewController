@@ -5,13 +5,13 @@ Currently, we support two style for ImagePicker. First one is Slack style and se
 
 #### Slack style
 
-<img src="/images/slack-image-picker-one-row.png" width="33%">
-<img src="/images/slack-image-picker-two-rows.png" width="33%">
+<img src="/images/slack-image-picker-one-row.jpg" width="33%">
+<img src="/images/slack-image-picker-two-rows.jpg" width="33%">
 
 One or two rows depend on device and user turn on/off `predictive mode` for keyboard. To understand more clearly about how we implement it, see the [Image Picker](AdvancedUsage.md#image-picker) 
 
 #### Action Sheet style
-<img src="/images/action-sheet-image-picker.png" width="33%">
+<img src="/images/action-sheet-image-picker.jpg" width="33%">
 
 Action Sheet is the simplest way to pick an image.
 
