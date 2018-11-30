@@ -14,12 +14,14 @@ ChatViewController is a library designed to simplify the development of UI for s
 - [Migration Guides](#migration-guides)
 - [Installation](#installation)
 - [Usage](/Documentation/Usage.md)
-	- Subclassing
+	- [Subclassing](/Documentation/Usage.md#subclassing)
 	- [Image Picker](/Documentation/Usage.md#image-picker)
-	- Typing Indicator display
-	- Show/hide chat bar view
-	- Pull to refresh and load more feature
+	- [Typing Indicator display](/Documentation/Usage.md#typing-indicator)
+	- [Show/hide chat bar view](/Documentation/Usage.md#chat-bar-visible)
+	- [Pull to refresh and load more feature](/Documentation/Usage.md#pull-to-refresh-and-load-more)
 - [Example](/Documentation/Example.md)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 - [x] Growing Text View from UIPlaceholderTextView
@@ -42,13 +44,13 @@ ChatViewController is a library designed to simplify the development of UI for s
 - [ ] Example: Custom Image Picker
 - [ ] [Complete Documentation](/Documentation/Usage.md)
 
-### Compatibility
+## Compatibility
 * CocoaPods
 * Swift 4.2 or later
 * iOS 10 or later
 * iPhone & iPad
 
-### CocoaPods
+## CocoaPods
 
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
 
@@ -73,6 +75,10 @@ Then, run the following command:
 ```bash
 $ pod install
 ```
+
+## Contributing
+
+Please feel free to help out with this project! If you see something that could be made better or want a new feature, open up an issue or send a Pull Request! 
 
 ## License
 
