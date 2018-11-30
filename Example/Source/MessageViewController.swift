@@ -22,13 +22,17 @@ class MessageViewController: ChatViewController {
         setupData()
         bindViewModel()
 
+        // Get user data firstly
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel.getUserData()
+        }
         viewModel.firstLoadData { [weak self] in
             DispatchQueue.main.async {
                 self?.updateUI()
             }
         }
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -92,7 +96,7 @@ class MessageViewController: ChatViewController {
 
 extension MessageViewController {
 
-    fileprivate func setupUI() {
+    private func setupUI() {
         title = "Liliana"
         addBackBarButton()
 
@@ -103,16 +107,19 @@ extension MessageViewController {
         tableView.register(MessageImageCell.self, forCellReuseIdentifier: MessageImageCell.reuseIdentifier)
 
         // Set buttons
-        let typingButton = UIButton(type: .custom)
+        let typingButton = UIButton(type: .system)
         typingButton.setImage(UIImage(named: "ic_typing"), for: .normal)
+        typingButton.adjustsImageWhenHighlighted = false
         typingButton.addTarget(self, action:#selector(handleTypingButton), for:.touchUpInside)
         typingButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let typingButtonBarItem = UIBarButtonItem(customView: typingButton)
         
-        let hideChatBarButton = UIButton(type: .custom)
+        let hideChatBarButton = UIButton(type: .system)
         hideChatBarButton.setImage(UIImage(named: "ic_keyboard"), for: .normal)
-        hideChatBarButton.addTarget(self, action:#selector(handleShowHideChatBar), for:.touchUpInside)
+        hideChatBarButton.adjustsImageWhenHighlighted = false
+        hideChatBarButton.addTarget(self, action:#selector(handleShowHideChatBar(_:)), for:.touchUpInside)
         hideChatBarButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        hideChatBarButton.transform = CGAffineTransform(rotationAngle: .pi)
         let hideChatBarButtonItem = UIBarButtonItem(customView: hideChatBarButton)
         
         navigationItem.rightBarButtonItems = [typingButtonBarItem, hideChatBarButtonItem]
@@ -220,10 +227,12 @@ extension MessageViewController {
         }
     }
     
-    @objc private func handleShowHideChatBar() {
+    @objc private func handleShowHideChatBar(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.5) {
+            sender.imageView?.transform = sender.imageView?.transform.rotated(by: CGFloat.pi) ?? CGAffineTransform.identity
+        }
         setChatBarHidden(!isCharBarHidden, animated: true)
     }
-
     private func updateLoadMoreAble() {
         tableView.setLoadMoreEnable(viewModel.pagination?.hasMore() ?? false)
     }

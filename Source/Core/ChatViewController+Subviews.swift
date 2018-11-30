@@ -48,10 +48,17 @@ extension ChatViewController {
         view.addSubview(tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: typingIndicatorView.topAnchor).isActive = true        
+        if #available(iOS 11.0, *) {
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        } else {
+            tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        }
+        tableViewBottomConstraint = tableView.bottomAnchor.constraint(equalTo: typingIndicatorView.topAnchor, constant: -8)
+        tableViewBottomConstraint.isActive = true
     }
 
     /// Hide all keyboard and then resignFirstResponse for TextView to call Keyboard appear

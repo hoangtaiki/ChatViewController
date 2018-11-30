@@ -60,16 +60,19 @@ class MessageViewModel {
         }
     }
 
-    fileprivate func getUserData() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
+    func getUserData() {
+        DispatchQueue.global(qos: .default).async { [weak self] in
             self?.getDataFromFile(fileName: "user") { (userResponse: [User], _) in
                 self?.users = userResponse
             }
         }
     }
 
-    fileprivate func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination) -> ()) where T: Mappable {
-        guard let jsonData = Data.dataFromJSONFile(fileName) else { return }
+    private func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination?) -> ()) where T: Mappable {
+        guard let jsonData = Data.dataFromJSONFile(fileName) else {
+            completion([], nil)
+            return
+        }
 
         do {
             let jsonObj = try JSON(data: jsonData)
@@ -79,9 +82,10 @@ class MessageViewModel {
                 return
             }
 
-            completion(listReponse.data, listReponse.pagination!)
+            completion(listReponse.data, listReponse.pagination)
         } catch {
             print("Error \(error)")
+            completion([], nil)
             return
         }
     }
@@ -132,7 +136,7 @@ extension MessageViewModel {
         return .single
     }
 
-    fileprivate func handleDataSource(messages: [Message]) -> [Message] {
+    private func handleDataSource(messages: [Message]) -> [Message] {
         let modifiedArray = messages.map { msg -> Message in
             var m = msg
             m.isOutgoing = self.isOutgoingMessage(m)
@@ -142,7 +146,7 @@ extension MessageViewModel {
         return modifiedArray
     }
 
-    fileprivate func isOutgoingMessage(_ message: Message) -> Bool {
+    private func isOutgoingMessage(_ message: Message) -> Bool {
         guard let user = currentUser else {
             return false
         }
@@ -150,7 +154,7 @@ extension MessageViewModel {
         return message.sendByID == user.id
     }
 
-    fileprivate func getIndexPathWillAdds(newDataSize: Int) -> [IndexPath] {
+    private func getIndexPathWillAdds(newDataSize: Int) -> [IndexPath] {
         let currentNumberMessage = messages.count
         let newNumberMessage = messages.count + newDataSize
         var indexPathWillAdds: [IndexPath] = []
