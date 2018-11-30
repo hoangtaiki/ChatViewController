@@ -44,6 +44,7 @@ class MessageTextCell: MessageCell {
         super.prepareForReuse()
 
         messageLabel.text = ""
+        messageLabel.textColor  = .black
     }
 
     override func bind(withMessage message: Message, user: User) {
@@ -59,4 +60,11 @@ class MessageTextCell: MessageCell {
         messageLabel.transform = contentTranform
     }
 
+    override func updateUIWithBubbleStyle(_ bubbleStyle: BubbleStyle, isOutgoingMessage: Bool) {
+        super.updateUIWithBubbleStyle(bubbleStyle, isOutgoingMessage: isOutgoingMessage)
+        
+        if isOutgoingMessage && bubbleStyle == .facebook {
+            messageLabel.textColor = .white
+        }
+    }
 }

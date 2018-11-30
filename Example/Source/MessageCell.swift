@@ -154,7 +154,7 @@ class MessageCell: UITableViewCell {
     
     func updateUIWithBubbleStyle(_ bubbleStyle: BubbleStyle, isOutgoingMessage: Bool) {
         let fbIncomingBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 0.88)
-        let fbOutgoingBubbleColor = UIColor(red: 179/255, green: 145/255, blue: 181/255, alpha: 0.66)
+        let fbOutgoingBubbleColor = UIColor(red: 40/255, green: 124/255, blue: 247/255, alpha: 1)
         let instaBorderIncomingBubbleColor = UIColor(red: 219/255, green: 219/255, blue: 219/255, alpha: 1)
         let instaOutgoingBubbleColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1)
 
