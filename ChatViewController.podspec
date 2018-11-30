@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'ChatViewController'
-  s.version = '0.0.1'
+  s.version = '1.0.0'
   s.license = 'MIT'
   s.summary = 'ChatViewController, ChatBar, ImagePicker like Slack Application.'
   s.homepage = 'https://github.com/hoangtaiki/ChatViewController'
