@@ -1,4 +1,5 @@
-# ChatViewController
+<img src="/images/presenter.jpg" width="100%">
+
 [![Version](https://img.shields.io/cocoapods/v/ChatViewController.svg?style=flat)](http://cocoapods.org/pods/ChatViewController)
 [![License](https://img.shields.io/cocoapods/l/ChatViewController.svg?style=flat)](http://cocoapods.org/pods/ChatViewController)
 [![Platform](https://img.shields.io/cocoapods/p/ChatViewController.svg?style=flat)](http://cocoapods.org/pods/ChatViewController)
@@ -8,23 +9,38 @@
 
 ChatViewController is a library designed to simplify the development of UI for such a trivial task as chat. It has flexible possibilities for styling, customizing. It is also contains example for Facebook Messager and Instagram Chat.
 
-<img src="/images/presenter.jpg" width="100%">
+- [Features](#features)
+- [Compatibility](#compatibility)
+- [Migration Guides](#migration-guides)
+- [Installation](#installation)
+- [Usage](/Documentation/Usage.md)
+	- Subclassing
+	- [Image Picker](/Documentation/Usage.md#image-picker)
+	- Typing Indicator display
+	- Show/hide chat bar view
+	- Pull to refresh and load more feature
+- [Example](/Documentation/Example.md)
 
-## Feature List
-### Core
-* Works out of the box with UITableView
-* Growing Text View from UIPlaceholderTextView
-* Flexible UI built with Auto Layout
-* Customizable: change chat bar view layout style
-* Tap gesture for dismissing the keyboard
-* Inverted Mode for displaying cells upside-down (using CATransform)
-
-### Additional
-* Support chat bar view with Default style and Slack style
-* [Image Picker](/Documentation/Usage.md#image-picker) 
-* Typing Indicator display
-* Show/hide chat bar view
-* Pull to refresh and load more feature
+## Features
+- [x] Growing Text View from UIPlaceholderTextView
+- [x] Flexible UI built with Auto Layout
+- [x] Inverted Mode for displaying cells upside-down (using CATransform)
+- [x] Customizable: change chat bar view layout style
+- [x] Tap gesture for dismissing the keyboard
+- [x] Slack Image Picker
+- [x] Typing Indicator display
+- [x] Show/hide chat bar view
+- [x] Pull to refresh and load more feature
+- [x] Example: Facebook Bubble style
+- [x] Example: Instagram Bubble style
+- [x] Example: Text chat cell
+- [x] Example: Image chat cell
+- [ ] Example: Link chat cell
+- [ ] Example: Document chat cell
+- [ ] Example: Image Viewer
+- [ ] Example: Document Viewer
+- [ ] Example: Custom Image Picker
+- [ ] [Complete Documentation](/Documentation/Usage.md)
 
 ### Compatibility
 * CocoaPods
@@ -32,21 +48,32 @@ ChatViewController is a library designed to simplify the development of UI for s
 * iOS 10 or later
 * iPhone & iPad
 
-## Example
-### Feature List
-* Chat Text Cell, Chat Image Cell with Facebook and Instagram style
-* Simulate typing indicator
-* Simulate show/hide chat bar view
-### Run example
-Run pod install
-```
-cd path/to/project
-pod install
-```
-Open `iOS Example.xcworkspace` by Xcode and run
+### CocoaPods
 
-## Installation
-##### With [CocoaPods](https://cocoapods.org/):
-```ruby
-pod "ChatViewController"
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+
+```bash
+$ gem install cocoapods
 ```
+
+To integrate ChatViewController into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+    pod 'ChatViewController'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
+## License
+
+ChatViewController is released under the MIT license. [See LICENSE](LICENSE) for details.
