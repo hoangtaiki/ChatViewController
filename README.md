@@ -5,6 +5,11 @@
 ![Language](https://img.shields.io/badge/Language-%20swift%20%20-blue.svg)
 [![Build Status](https://travis-ci.org/hoangtaiki/ChatViewController.svg)](https://travis-ci.org/hoangtaiki/ChatViewController)
 
+
+ChatViewController is a library designed to simplify the development of UI for such a trivial task as chat. It has flexible possibilities for styling, customizing. It is also contains example for Facebook Messager and Instagram Chat.
+
+<img src="/images/presenter.jpg" width="100%">
+
 ## Feature List
 ### Core
 * Works out of the box with UITableView
