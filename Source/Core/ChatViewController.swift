@@ -75,6 +75,8 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
     /// ImagePickerView
     public var imagePickerView: ImagePickerView?
 
+    /// Bottom constraint of UITableView and TypingIdicator
+    public var tableViewBottomConstraint: NSLayoutConstraint!
     /// Bottom constraint of ChatBarView and view
     public var chatBarBottomConstraint: NSLayoutConstraint!
     /// Height constraint for ChatBarView
@@ -104,7 +106,9 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        }
         customKeyboardHeight = Utils.shared.getCacheKeyboardHeight()
 
         setupSubviews()

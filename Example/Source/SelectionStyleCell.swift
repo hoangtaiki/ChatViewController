@@ -23,7 +23,5 @@ class SelectionStyleCell: UITableViewCell {
 
         selectionStyle = .none
         contentView.backgroundColor = .white
-
-        
     }
 }
