@@ -22,13 +22,17 @@ class MessageViewController: ChatViewController {
         setupData()
         bindViewModel()
 
+        // Get user data firstly
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel.getUserData()
+        }
         viewModel.firstLoadData { [weak self] in
             DispatchQueue.main.async {
                 self?.updateUI()
             }
         }
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
