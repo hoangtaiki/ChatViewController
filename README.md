@@ -1,4 +1,4 @@
-<img src="/images/presenter.jpg" width="100%">
+<img src="https://github.com/hoangtaiki/ChatViewController/blob/master/images/presenter.jpg" width="100%">
 
 [![Version](https://img.shields.io/cocoapods/v/ChatViewController.svg?style=flat)](http://cocoapods.org/pods/ChatViewController)
 [![License](https://img.shields.io/cocoapods/l/ChatViewController.svg?style=flat)](http://cocoapods.org/pods/ChatViewController)
@@ -13,13 +13,13 @@ ChatViewController is a library designed to simplify the development of UI for s
 - [Compatibility](#compatibility)
 - [Migration Guides](#migration-guides)
 - [Installation](#installation)
-- [Usage](/Documentation/Usage.md)
-	- [Subclassing](/Documentation/Usage.md#subclassing)
-	- [Image Picker](/Documentation/Usage.md#image-picker)
-	- [Typing Indicator display](/Documentation/Usage.md#typing-indicator)
-	- [Show/hide chat bar view](/Documentation/Usage.md#chat-bar-visible)
-	- [Pull to refresh and load more feature](/Documentation/Usage.md#pull-to-refresh-and-load-more)
-- [Example](/Documentation/Example.md)
+- [Usage](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Usage.md)
+	- [Subclassing](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Usage.md#subclassing)
+	- [Image Picker](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Usage.md#image-picker)
+	- [Typing Indicator display](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Usage.md#typing-indicator)
+	- [Show/hide chat bar view](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Usage.md#chat-bar-visible)
+	- [Pull to refresh and load more feature](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Usage.md#pull-to-refresh-and-load-more)
+- [Example](https://github.com/hoangtaiki/ChatViewController/blob/master/Documentation/Example.md)
 - [Contributing](#contributing)
 - [License](#license)
 
