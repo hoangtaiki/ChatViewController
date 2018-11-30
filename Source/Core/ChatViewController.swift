@@ -104,7 +104,9 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        }
         customKeyboardHeight = Utils.shared.getCacheKeyboardHeight()
 
         setupSubviews()
