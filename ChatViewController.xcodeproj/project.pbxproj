@@ -40,6 +40,8 @@
 		4DBFF70B20AE8B2200D2799A /* LayoutConstraintSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF70A20AE8B2200D2799A /* LayoutConstraintSet.swift */; };
 		4DBFF70E20AEBDFE00D2799A /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */; };
 		4DBFF71720AED7E400D2799A /* ChatViewController+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */; };
+		4DFEB7C421B8217400A3E66D /* PlaceholderUITextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFEB7C221B81FA100A3E66D /* PlaceholderUITextView.framework */; };
+		4DFEB7C821B906E600A3E66D /* ChatViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFEB7C721B906E600A3E66D /* ChatViewConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		4DBFF70A20AE8B2200D2799A /* LayoutConstraintSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstraintSet.swift; sourceTree = "<group>"; };
 		4DBFF70D20AEBDFE00D2799A /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Subviews.swift"; sourceTree = "<group>"; };
+		4DFEB7C221B81FA100A3E66D /* PlaceholderUITextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlaceholderUITextView.framework; path = Carthage/Build/iOS/PlaceholderUITextView.framework; sourceTree = "<group>"; };
+		4DFEB7C721B906E600A3E66D /* ChatViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DFEB7C421B8217400A3E66D /* PlaceholderUITextView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +103,7 @@
 				4D2E8E6F20ADCFF900DC178E /* Documentation */,
 				4D2E8E5F20ADC1FF00DC178E /* Products */,
 				4D2E8E6A20ADCFE800DC178E /* Source */,
+				4DFEB7C121B81FA000A3E66D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,6 +208,7 @@
 		4DBFF70C20AEBD8300D2799A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4DFEB7C721B906E600A3E66D /* ChatViewConfiguration.swift */,
 				4D47558820CE25F0005B9493 /* ChatBarView.swift */,
 				4D47558620CE25F0005B9493 /* ChatButton.swift */,
 				4D47558720CE25F0005B9493 /* ChatStackView.swift */,
@@ -210,6 +217,14 @@
 				4D613926211D7A3E00ACB492 /* Utils.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		4DFEB7C121B81FA000A3E66D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4DFEB7C221B81FA100A3E66D /* PlaceholderUITextView.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +336,7 @@
 				4D4755AA20CE859C005B9493 /* PhotoDataManager.swift in Sources */,
 				4DBFF70E20AEBDFE00D2799A /* ChatViewController.swift in Sources */,
 				4D613927211D7A3E00ACB492 /* Utils.swift in Sources */,
+				4DFEB7C821B906E600A3E66D /* ChatViewConfiguration.swift in Sources */,
 				4D4755C320CF6316005B9493 /* NSMutableAttributedString+Extensions.swift in Sources */,
 				4DBFF71720AED7E400D2799A /* ChatViewController+Subviews.swift in Sources */,
 			);
@@ -460,6 +476,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -488,6 +508,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
