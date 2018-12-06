@@ -5,7 +5,10 @@
 [![Platform](https://img.shields.io/cocoapods/p/ChatViewController.svg?style=flat)](http://cocoapods.org/pods/ChatViewController)
 ![Language](https://img.shields.io/badge/Language-%20swift%20%20-blue.svg)
 [![Build Status](https://travis-ci.org/hoangtaiki/ChatViewController.svg)](https://travis-ci.org/hoangtaiki/ChatViewController)
-
+<a href="https://github.com/hoangtaiki/ChatViewController/issues">
+   <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"
+        alt="Contributions Welcome">
+</a>
 
 ChatViewController is a library designed to simplify the development of UI for such a trivial task as chat. It has flexible possibilities for styling, customizing. It is also contains example for Facebook Messager and Instagram Chat.
 
@@ -45,12 +48,14 @@ ChatViewController is a library designed to simplify the development of UI for s
 - [ ] [Complete Documentation](/Documentation/Usage.md)
 
 ## Compatibility
-* CocoaPods
+* CocoaPods, Carthage and Swift Package Manager
 * Swift 4.2 or later
 * iOS 10 or later
 * iPhone & iPad
 
-## CocoaPods
+## Installation
+
+### CocoaPods
 
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
 
@@ -74,6 +79,36 @@ Then, run the following command:
 
 ```bash
 $ pod install
+```
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+You can install Carthage with [Homebrew](https://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate ChatViewController into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```
+github "hoangtaiki/ChatViewController" ~> 1.1
+```
+
+Run `carthage update` to build the framework and drag the built `ChatViewController.framework` and `PlaceholderUITextView.framework` into your Xcode project.
+
+
+### Swift Package Manager
+
+Install with [Swift Package Manager](https://github.com/apple/swift-package-manager) by adding the following to your `Package.swift`:
+
+```swift
+dependencies: [
+	.package(url: "https://github.com/hoangtaiki/ChatViewController", from: "1.1.0"),
+],
 ```
 
 ## Contributing
