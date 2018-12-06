@@ -1,5 +1,5 @@
 PODS:
-  - ChatViewController (0.0.1):
+  - ChatViewController (1.0.0):
     - PlaceholderUITextView
   - Kingfisher (4.10.1)
   - ObjectMapper (3.4.1)
@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  ChatViewController: eadb3260a69fbb21cf5019e33982aef5cd6076cc
+  ChatViewController: ce15bb2de6f5dd5e19f5cc2ec2ed45e25a7a0aea
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   ObjectMapper: 5311bd50ca732930959e7ca1a2de43ab823a5ced
   PlaceholderUITextView: c199eb40f4a55d8be4d67492d6ed1ef67b8d8811
