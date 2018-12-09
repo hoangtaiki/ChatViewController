@@ -126,7 +126,7 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
             return
         }
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [unowned self] in
             self.photoDataManager.requestImage(for: asset, at: indexPath) { (image, indexPath) in
                 guard let image = image else { return }
                 guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
@@ -135,16 +135,15 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
             }
         }
         
-        switch asset.mediaType {
-        case .video:
-            DispatchQueue.main.async {
-                MediaProcesser.getVideoLength(videoAsset: asset) { (length, error) in
-                    if let videoLength = length {
-                        print("Video length = \(videoLength)")
+        if asset.mediaType == .video {
+            MediaProcesser.getVideoDuration(videoAsset: asset) { (duration, error) in
+                if let videoDuration = duration {
+                    DispatchQueue.main.async {
+                        guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
+                        cell.bindVideoDuration(duration: videoDuration)
                     }
                 }
             }
-        default: break
         }
     }
 
