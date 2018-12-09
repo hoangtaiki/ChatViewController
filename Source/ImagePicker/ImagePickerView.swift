@@ -19,10 +19,10 @@ open class ImagePickerView: UIView {
         return imagePickerHelper
     }()
     
-    public var pickImageResult: ((_ image: UIImage?, _ imagePath: URL?, _ error: Error?) -> ())?
-
     public var collectionView: ImagePickerCollectionView!
     
+    public weak var pickerDelegate: ImagePickerResultDelegate?
+
     /// Parent View Controller
     weak var parentViewController: UIViewController? {
         didSet {
@@ -75,32 +75,13 @@ open class ImagePickerView: UIView {
     }
 }
 
-extension ImagePickerView: ImagePickerCollectionViewDelegate {
-
-    func didSelectImage(with localIdentifer: String) {
-        guard let asset = PhotoDataManager.fetchAsset(with: localIdentifer) else { return }
-
-        PhotoDataManager.requestImage(with: asset) { [weak self] image in
-            DispatchQueue.global().async {
-                image?.storeToTemporaryDirectory(completion: { (imagePath, error) in
-                    if error != nil {
-                        self?.pickImageResult?(nil, nil, error!)
-                        return
-                    }
-                    self?.pickImageResult?(image, imagePath!, nil)
-                })
-            }
-        }
-    }
-}
-
-extension ImagePickerView: ImagePickerHelperResultDelegate {
+extension ImagePickerView: ImagePickerResultDelegate {
     
-    public func didFinishPickingMediaWithInfo(_ image: UIImage?, _ imagePath: URL?, _ error: Error?) {
-        if error != nil {
-            pickImageResult?(nil, nil, error!)
-            return
-        }
-        pickImageResult?(image, imagePath!, nil)
+    public func didSelectImage(url: URL?) {
+        pickerDelegate?.didSelectImage?(url: url)
+    }
+    
+    public func didSelectVideo(url: URL?) {
+        pickerDelegate?.didSelectVideo?(url: url)
     }
 }
