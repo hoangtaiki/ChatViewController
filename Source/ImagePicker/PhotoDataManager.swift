@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 /// PhotoDataManagerDelegate
-protocol PhotoDataManagerDelegate: class {
+public protocol PhotoDataManagerDelegate: class {
     // Trigger whenever PhotoDataManager update
     func photoDataManagerDidUpdate()
     // Image size need export
@@ -18,7 +18,7 @@ protocol PhotoDataManagerDelegate: class {
 }
 
 /// Options for PhotoDataManager
-struct PhotoDataManagerOptions {
+public struct PhotoDataManagerOptions {
     // Content mode for Image
     let contentMode: PHImageContentMode
     let requestOption: PHImageRequestOptions?
@@ -26,16 +26,16 @@ struct PhotoDataManagerOptions {
     let preloadLength: Int
 }
 
-final class PhotoDataManager: NSObject {
+public final class PhotoDataManager: NSObject {
 
+    // Photo Data Manager Delegate
     weak var delegate: PhotoDataManagerDelegate?
-
+    // Photo Caching Image Manager
     private let imageManager: PHCachingImageManager
+    // Options for
     private let options: PhotoDataManagerOptions
-    // Array to store PHImage is being requested
-    // We store to can cancel everytime we need
-    private var requestIDs = [PHImageRequestID]()
-    fileprivate var photoAssets: PHFetchResult<PHAsset>? {
+    // Photo Asset Result For PHCachingImageManager
+    private var photoAssets: PHFetchResult<PHAsset>? {
         didSet {
             DispatchQueue.main.async {
                 self.delegate?.photoDataManagerDidUpdate()
@@ -43,7 +43,7 @@ final class PhotoDataManager: NSObject {
         }
     }
 
-    init(with options: PhotoDataManagerOptions, delegate: PhotoDataManagerDelegate) {
+    public init(with options: PhotoDataManagerOptions, delegate: PhotoDataManagerDelegate) {
         self.options = options
         imageManager = PHCachingImageManager()
         self.delegate = delegate
@@ -64,7 +64,8 @@ final class PhotoDataManager: NSObject {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
 
-    func cacheImage(for indexPath: IndexPath) {
+    /// Cache image for index path with target size from delegate
+    public func cacheImage(for indexPath: IndexPath) {
         guard
             let photoAssets = photoAssets,
             let targetSize = delegate?.targetSize(for: indexPath)
@@ -80,88 +81,81 @@ final class PhotoDataManager: NSObject {
         let assets = photoAssets.objects(at: indexSet)
         imageManager.startCachingImages(for: assets, targetSize: targetSize, contentMode: options.contentMode, options: options.requestOption)
     }
+    
+    /// Stop caching and cancel all image request
+    public func stopRequestAndCaching() {
+        imageManager.stopCachingImagesForAllAssets()
+    }
 
-    func requestImage(for indexPath: IndexPath, completion: @escaping (UIImage?, IndexPath) -> ()) {
+    /// Request Image for a PHAsset at index path
+    /// We use index path to get target size from delegate
+    /// - Parameters:
+    ///   - asset: PHAsset
+    ///   - indexPath: index path for item in stream line
+    /// - Callbacks: Return an optional image and index path
+    public func requestImage(for asset: PHAsset, at indexPath: IndexPath, completion: @escaping (UIImage?, IndexPath) -> ()) {
         guard
-            let photoAssets = photoAssets,
-            indexPath.row < photoAssets.count,
             let targetSize = delegate?.targetSize(for: indexPath)
             else {
                 completion(nil, indexPath)
                 return
         }
-
-        let asset = photoAssets.object(at: indexPath.row)
-        let requestID = imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: options.contentMode, options: options.requestOption) { (image, _) in
+        imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: options.contentMode, options: options.requestOption) { (image, _) in
             completion(image, indexPath)
         }
-
-        requestIDs.append(requestID)
     }
 
-    func stopRequestAndCaching() {
-        requestIDs.forEach { [unowned self] requestID in
-            self.imageManager.cancelImageRequest(requestID)
-        }
-
-        imageManager.stopCachingImagesForAllAssets()
-    }
-
-    func photoCount() -> Int {
+    public func photoCount() -> Int {
         return photoAssets?.count ?? 0
     }
+}
 
-    func photoIdentifier(for index: Int) -> String {
-        guard
-            let photoAssets = photoAssets,
-            index < photoAssets.count else { return "" }
-        let asset = photoAssets.object(at: index)
-        return asset.localIdentifier
-    }
-
+extension PhotoDataManager {
+    
     private func loadAssets() {
         imageManager.allowsCachingHighQualityImages = true
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         photoAssets = PHAsset.fetchAssets(with: options)
     }
-
-    private func removeRequestID(_ requestID: PHImageRequestID) {
-        if let index = requestIDs.index(where: { $0 == requestID }) {
-            requestIDs.remove(at: index)
-        }
-    }
 }
 
 extension PhotoDataManager {
 
+    public func getAsset(for indexPath: IndexPath) -> PHAsset? {
+        guard
+            let photoAssets = photoAssets,
+            indexPath.row < photoAssets.count else { return nil }
+        return photoAssets.object(at: indexPath.row)
+    }
+    
     // Request UIImage with PHAsset
-    class func requestImage(with asset: PHAsset, completion: @escaping (_ image: UIImage?) -> Void) {
-        let manager = PHImageManager.default()
+    public func requestImage(with asset: PHAsset, completion: @escaping (_ image: UIImage?) -> Void) {
         let options = PHImageRequestOptions()
         options.resizeMode = .fast
         options.deliveryMode = .fastFormat
-        manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize,
-                             contentMode: .aspectFill, options: options) { (image, info) in
+        imageManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize,
+                                  contentMode: .aspectFill, options: options) { (image, info) in
             completion(image)
         }
     }
-
-    // Get PHAsset from localIdentifer
-    class func fetchAsset(with localIdentifer: String ) -> PHAsset? {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifer], options: options).firstObject else {
-            return nil
-        }
-
-        return asset
+    
+    // Request player item for video PHAsset
+    public func fetchPlayerItem(for video: PHAsset, callback: @escaping (AVPlayerItem) -> Void) {
+        let videosOptions = PHVideoRequestOptions()
+        videosOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.automatic
+        videosOptions.isNetworkAccessAllowed = true
+        imageManager.requestPlayerItem(forVideo: video, options: videosOptions, resultHandler: { playerItem, _ in
+            if let playerItem = playerItem {
+                callback(playerItem)
+            }
+        })
     }
 }
 
 extension PhotoDataManager: PHPhotoLibraryChangeObserver {
 
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
+    public func photoLibraryDidChange(_ changeInstance: PHChange) {
         guard
             let photoAssets = photoAssets,
             let changeDetails = changeInstance.changeDetails(for: photoAssets)

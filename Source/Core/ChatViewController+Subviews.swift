@@ -175,6 +175,7 @@ extension ChatViewController {
     func initImagePickerView() {
         imagePickerView = ImagePickerView()
         imagePickerView!.isHidden = true
+        imagePickerView!.pickerDelegate = self
         imagePickerView!.parentViewController = self
         imagePickerView!.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imagePickerView!)

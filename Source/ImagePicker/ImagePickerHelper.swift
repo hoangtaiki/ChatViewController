@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 /// Protocol use to specify standard for ImagePickerHelper
 public protocol ImagePickerHelperable {
@@ -18,21 +19,17 @@ public protocol ImagePickerHelperable {
     func accessLibrary()
 }
 
-/// Image picker result
-public protocol ImagePickerHelperResultDelegate {
-    func didFinishPickingMediaWithInfo(_ image: UIImage?, _ imagePath: URL?, _ error: Error?)
-}
-
 public class ImagePickerHelper: NSObject, ImagePickerHelperable, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     public weak var parentViewController: UIViewController?
-    public var delegate: ImagePickerHelperResultDelegate?
+    public weak var delegate: ImagePickerResultDelegate?
 
     public func accessPhoto(from sourceType: UIImagePickerController.SourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = sourceType
+        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
 
         parentViewController?.present(imagePicker, animated: true, completion: nil)
     }
@@ -60,18 +57,34 @@ public class ImagePickerHelper: NSObject, ImagePickerHelperable, UIImagePickerCo
             picker.dismiss(animated: true, completion: nil)
         }
 
-        DispatchQueue.global(qos: .userInitiated).async {
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! CFString
+        switch mediaType {
+        case kUTTypeImage:
             guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
                 return
             }
-
-            originalImage.storeToTemporaryDirectory(completion: { [weak self] (imagePath, error) in
-                if error != nil {
-                    self?.delegate?.didFinishPickingMediaWithInfo(nil, nil, error!)
+            if #available(iOS 11.0, *) {
+                guard let imagePath = info[UIImagePickerController.InfoKey.imageURL] as? String else {
                     return
                 }
-                self?.delegate?.didFinishPickingMediaWithInfo(originalImage, imagePath!, nil)
-            })
+                delegate?.didSelectImage?(url: URL(string: imagePath))
+            } else {
+                DispatchQueue.main.async {
+                    originalImage.storeToTemporaryDirectory(completion: { [weak self] (imagePath, error) in
+                        guard let imageURL = imagePath else {
+                            return
+                        }
+                        self?.delegate?.didSelectImage?(url: imageURL)
+                    })
+                }
+            }
+            
+        case kUTTypeMovie:
+            guard let videoPath = info[UIImagePickerController.InfoKey.mediaURL] as? String else {
+                return
+            }
+            delegate?.didSelectVideo?(url: URL(string: videoPath))
+        default: break
         }
     }
     
@@ -86,4 +99,5 @@ public class ImagePickerHelper: NSObject, ImagePickerHelperable, UIImagePickerCo
             accessPhoto(from: .photoLibrary)
         }
     }
+    
 }
