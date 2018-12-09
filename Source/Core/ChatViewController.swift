@@ -14,7 +14,7 @@ public enum KeyboardType {
     case none
 }
 
-open class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+open class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, ImagePickerResultDelegate {
 
     open var minimumChatBarHeight: CGFloat = 50
     open var customKeyboardHeight: CGFloat = 0
@@ -309,6 +309,14 @@ open class ChatViewController: UIViewController, UITableViewDataSource, UITableV
         textView.scrollRangeToVisible(range)
         UIView.setAnimationsEnabled(true)
         return true
+    }
+    
+    open func didSelectImage(url: URL?) {
+        
+    }
+    
+    open func didSelectVideo(url: URL?) {
+        
     }
     
     deinit {

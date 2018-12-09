@@ -92,6 +92,14 @@ class MessageViewController: ChatViewController {
         
         imagePickerHelper?.takeOrChoosePhoto()
     }
+    
+    override func didSelectVideo(url: URL?) {
+        print("URL \(url!)")
+    }
+    
+    override func didSelectImage(url: URL?) {
+        print("URL \(url!)")
+    }
 }
 
 extension MessageViewController {
@@ -155,19 +163,7 @@ extension MessageViewController {
     }
 
     private func bindViewModel() {
-        /// Image Picker Result closure
-        imagePickerView?.pickImageResult = { image, url, error in
-            if error != nil {
-                return
-            }
-
-            guard let _ = image, let _ = url else {
-                return
-            }
-
-            print("Pick image successfully")
-        }
-
+    
     }
     
     private func setupData() {
@@ -245,20 +241,5 @@ extension MessageViewController {
         cell.updateLayoutForBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         cell.roundViewWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         tableView.endUpdates()
-    }
-}
-
-extension ChatViewController: ImagePickerHelperResultDelegate {
-    
-    public func didFinishPickingMediaWithInfo(_ image: UIImage?, _ imagePath: URL?, _ error: Error?) {
-        if error != nil {
-            return
-        }
-        
-        guard let _ = image, let _ = imagePath else {
-            return
-        }
-        
-        print("Pick image successfully")
     }
 }
