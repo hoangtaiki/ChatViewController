@@ -9,8 +9,10 @@
 import UIKit
 import Photos
 
-@objc protocol ImagePickerCollectionViewDelegate {
-    @objc optional func didSelectImage(with localIdentifer: String)
+/// Image picker result
+@objc public protocol ImagePickerResultDelegate {
+    @objc optional func didSelectImage(url: URL?)
+    @objc optional func didSelectVideo(url: URL?)
 }
 
 public final class ImagePickerCollectionView: UICollectionView {
@@ -18,7 +20,7 @@ public final class ImagePickerCollectionView: UICollectionView {
     var takePhoto: (() -> ())?
     var showCollection: (() -> ())?
 
-    weak var pickerDelegate: ImagePickerCollectionViewDelegate?
+    weak var pickerDelegate: ImagePickerResultDelegate?
 
     fileprivate var nColumns = 1
     fileprivate var spacing: CGFloat = 2
@@ -120,11 +122,28 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        photoDataManager.requestImage(for: indexPath) { (image, indexPath) in
-            guard let image = image else { return }
-            guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
-
-            cell.imageView.image = image
+        guard let asset = photoDataManager.getAsset(for: indexPath) else {
+            return
+        }
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.photoDataManager.requestImage(for: asset, at: indexPath) { (image, indexPath) in
+                guard let image = image else { return }
+                guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
+                
+                cell.imageView.image = image
+            }
+        }
+        
+        if asset.mediaType == .video {
+            MediaProcesser.getVideoDuration(videoAsset: asset) { (duration, error) in
+                if let videoDuration = duration {
+                    DispatchQueue.main.async {
+                        guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionCell else { return }
+                        cell.bindVideoDuration(duration: videoDuration)
+                    }
+                }
+            }
         }
     }
 
@@ -152,10 +171,22 @@ extension ImagePickerCollectionView: UICollectionViewDelegateFlowLayout {
 
 extension ImagePickerCollectionView: UICollectionViewDelegate {
 
-    private func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let localIdentifer = photoDataManager.photoIdentifier(for: indexPath.row)
-
-        pickerDelegate?.didSelectImage?(with: localIdentifer)
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let asset = photoDataManager.getAsset(for: indexPath) else {
+            return
+        }
+        
+        switch asset.mediaType {
+        case .video:
+            MediaProcesser.storeVideoToURL(videoAsset: asset) { [weak self] (url, error) in
+                self?.pickerDelegate?.didSelectVideo?(url: url)
+            }
+        case .image:
+            MediaProcesser.storeImage(imageAsset: asset) { [weak self] (url, error) in
+                self?.pickerDelegate?.didSelectImage?(url: url)
+            }
+        default: break
+        }
     }
 
 }
@@ -187,13 +218,13 @@ extension ImagePickerCollectionView {
 
 extension ImagePickerCollectionView: PhotoDataManagerDelegate {
 
-    func photoDataManagerDidUpdate() {
+    public func photoDataManagerDidUpdate() {
         performBatchUpdates({ [weak self] in
             self?.reloadSections(IndexSet(integer: 0))
             }, completion: nil)
     }
 
-    func targetSize(for indexPath: IndexPath) -> CGSize {
+    public func targetSize(for indexPath: IndexPath) -> CGSize {
         let cell = cellForItem(at: indexPath)
         let height = cell?.bounds.size.height ?? bounds.height
         return CGSize(width: height * UIScreen.main.scale,
