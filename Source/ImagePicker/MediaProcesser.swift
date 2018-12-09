@@ -34,7 +34,6 @@ class MediaProcesser {
     }
     
     static func storeVideoToURL(videoAsset: PHAsset, completion: @escaping (_ videoPath: URL?, _ error: Error?) -> Void) {
-        
         let options = PHVideoRequestOptions()
         options.version = .current
         options.isNetworkAccessAllowed = true
@@ -87,7 +86,7 @@ class MediaProcesser {
         }
     }
     
-    static func getVideoLength(videoAsset: PHAsset, completion: @escaping (_ length: Int?, _ error: Error?) -> Void) {
+    static func getVideoDuration(videoAsset: PHAsset, completion: @escaping (_ duration: Double?, _ error: Error?) -> Void) {
         let options = PHVideoRequestOptions()
         options.version = .current
         options.isNetworkAccessAllowed = true
@@ -100,7 +99,7 @@ class MediaProcesser {
                 completion(nil, error)
                 return
             }
-            completion(Int(CMTimeGetSeconds(duration)), nil)
+            completion(Double(CMTimeGetSeconds(duration)), nil)
         }
     }
 
