@@ -10,6 +10,8 @@
         alt="Contributions Welcome">
 </a>
 
+## ChatViewController [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Boost%20up%20your%20iOS%20Messaging%20Application%20with%20Awesome%20Open%20Source%20Library&url=https://github.com/hoangtaiki/ChatViewController&hashtags=chat,messaging,ios)
+
 ChatViewController is a library designed to simplify the development of UI for such a trivial task as chat. It has flexible possibilities for styling, customizing. It is also contains example for Facebook Messager and Instagram Chat.
 
 - [Features](#features)
@@ -107,7 +109,7 @@ Install with [Swift Package Manager](https://github.com/apple/swift-package-mana
 
 ```swift
 dependencies: [
-	.package(url: "https://github.com/hoangtaiki/ChatViewController", from: "1.1.0"),
+    .package(url: "https://github.com/hoangtaiki/ChatViewController", from: "1.1.0"),
 ],
 ```
 
