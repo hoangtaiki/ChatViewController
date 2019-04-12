@@ -87,7 +87,7 @@ class MessageViewModel {
 extension MessageViewModel {
 
     func getUserFromID(_ id: Int) -> User {
-        let index = users.index(where: { $0.id == id })
+        let index = users.firstIndex(where: { $0.id == id })
         return users[index!]
     }
 

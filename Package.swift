@@ -11,7 +11,7 @@ import PackageDescription
 let package = Package(
     name: "ChatViewController"
     dependencies: [
-    	.package(url: "git@github.com:hoangtaiki/PlaceholderUITextView.git", from: "1.1.0")
+    	.package(url: "git@github.com:hoangtaiki/PlaceholderUITextView.git", from: "1.2.0")
     ],
     targets: [
     	.target(
