@@ -5,7 +5,5 @@ target 'iOS Example' do
 
   pod 'ChatViewController', :path => ".."
   pod 'Kingfisher'
-  pod 'ObjectMapper'
-  pod 'SwiftyJSON'
-  
+  pod 'SwiftyJSON'  
 end

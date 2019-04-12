@@ -79,7 +79,6 @@ public final class ImagePickerCollectionCell: UICollectionViewCell {
         videoDurationLabel.textColor = .white
         videoDurationLabel.text = "0:00:00"
         videoDurationLabel.isHidden = true
-
         
         let stackView = UIStackView(arrangedSubviews: [videoDurationLabel, iconVideo])
         stackView.translatesAutoresizingMaskIntoConstraints = false

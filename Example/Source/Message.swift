@@ -6,41 +6,32 @@
 //  Copyright © 2018 toprating. All rights reserved.
 //
 
-import UIKit
-import ObjectMapper
+import Foundation
 
-enum MessageType: Int {
+enum MessageType: Int, Decodable {
     case text = 0
     case file
 }
 
-struct Message: Mappable {
+struct Message: Decodable {
 
-    var id: String!
-    var type: MessageType = .text
+    let id: String!
+    let type: MessageType
     var text: String?
     var file: FileInfo?
-    var sendByID: Int!
-    var createdAt: Date!
-    var updatedAt: Date?
+    let sendByID: Int!
+    let createdAt: Date!
+    let updatedAt: Date?
     var isOutgoing: Bool = true
 
-    init?(map: Map) {
-        if map.JSON["id"] == nil
-            || map.JSON["sender_id"] == nil
-            || map.JSON["created_at"] == nil {
-            return
-        }
-    }
-
-    mutating func mapping(map: Map) {
-        id <- map["id"]
-        type <- (map["type"], EnumTransform<MessageType>())
-        text <- map["text"]
-        file <- map["file"]
-        sendByID <- map["sender_id"]
-        createdAt <- (map["created_at"], RFC3339DateTransform2())
-        updatedAt <- (map["updated_at"], RFC3339DateTransform2())
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case type
+        case text
+        case file
+        case sendByID = "sender_id"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
     }
 
     init(id: String, type: MessageType, sendByID: Int, createdAt: Date) {
@@ -48,6 +39,7 @@ struct Message: Mappable {
         self.type = type
         self.sendByID = sendByID
         self.createdAt = createdAt
+        self.updatedAt = createdAt
     }
 
     /// Initialize outgoing text message
