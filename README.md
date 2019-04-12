@@ -97,7 +97,7 @@ $ brew install carthage
 To integrate ChatViewController into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```
-github "hoangtaiki/ChatViewController" ~> 1.1
+github "hoangtaiki/ChatViewController" ~> 1.2.0
 ```
 
 Run `carthage update` to build the framework and drag the built `ChatViewController.framework` and `PlaceholderUITextView.framework` into your Xcode project.
@@ -109,7 +109,7 @@ Install with [Swift Package Manager](https://github.com/apple/swift-package-mana
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/hoangtaiki/ChatViewController", from: "1.1.0"),
+    .package(url: "https://github.com/hoangtaiki/ChatViewController", from: "1.2.0"),
 ],
 ```
 
