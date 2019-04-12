@@ -6,39 +6,33 @@
 //  Copyright © 2018 toprating. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import ObjectMapper
 
-enum FileType: Int {
+enum FileType: Int, Decodable {
     case image = 0
     case attachment
 }
 
-struct FileInfo: Mappable {
+struct FileInfo: Decodable {
 
-    private(set) var id: String!
-    private(set) var type: FileType = .image
-    private(set) var originalURL: URL?
-    private(set) var previewURL: URL?
-    private(set) var createdAt: Date!
-    private(set) var width: CGFloat!
-    private(set) var height: CGFloat!
-    private(set) var caption: String = ""
+    let id: String
+    let type: FileType
+    let originalURL: URL?
+    let previewURL: URL?
+    let createdAt: Date
+    let width: CGFloat
+    let height: CGFloat
+    let caption: String
 
-    init?(map: Map) {
-        if map.JSON["id"] == nil {
-            return nil
-        }
-    }
-
-    public mutating func mapping(map: Map) {
-        id <- map["id"]
-        type <- (map["type"], EnumTransform<FileType>())
-        originalURL <- (map["url"], URLTransform())
-        previewURL <- (map["thumb_url"], URLTransform())
-        createdAt <- (map["created_at"], RFC3339DateTransform2())
-        width <- map["width"]
-        height <- map["height"]
-        caption <- map["caption"]
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case type
+        case originalURL = "url"
+        case previewURL = "thumb_url"
+        case createdAt = "created_at"
+        case width
+        case height
+        case caption
     }
 }

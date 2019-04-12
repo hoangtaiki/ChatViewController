@@ -11,10 +11,9 @@ import Kingfisher
 extension UIImageView {
 
     func setImage(with resource: URL?, placeholder: UIImage? = nil) {
-
         let optionInfo: KingfisherOptionsInfo = [
-            .transition(.fade(0.5)),
-            .backgroundDecode
+            .transition(.fade(0.25)),
+            .cacheOriginalImage
         ]
 
         kf.setImage(with: resource, placeholder: placeholder, options: optionInfo)

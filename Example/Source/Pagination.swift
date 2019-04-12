@@ -6,22 +6,18 @@
 //  Copyright © 2018 toprating. All rights reserved.
 //
 
-import ObjectMapper
+import Foundation
 
-struct Pagination: Mappable {
+struct Pagination: Decodable {
 
-    private(set) var page: Int = 0
-    private(set) var pageSize: Int = 0
-    private(set) var total: Int = 0
+    let page: Int
+    let pageSize: Int
+    let total: Int
 
-    public init?(map: Map) {
-
-    }
-
-    mutating public func mapping(map: Map) {
-        page <- map["page"]
-        pageSize <- map["page_size"]
-        total <- map["total"]
+    private enum CodingKeys: String, CodingKey {
+        case page
+        case pageSize = "page_size"
+        case total
     }
 
     func hasMore() -> Bool {
