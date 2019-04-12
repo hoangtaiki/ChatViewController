@@ -28,7 +28,7 @@ public extension UIScrollView {
     }
 
     // Add load more view with default animator
-    public func addLoadMore(action: @escaping (() -> ())) {
+    func addLoadMore(action: @escaping (() -> ())) {
         let size = CGSize(width: self.frame.size.width, height: headerRefreshDefaultHeight)
         let frame = CGRect(origin: .zero, size: size)
         headerRefreshView = HeaderRefreshView(action: action, frame: frame)
@@ -38,17 +38,17 @@ public extension UIScrollView {
     }
 
     // Start load more
-    public func startLoadMore() {
+    func startLoadMore() {
         headerRefreshView?.isLoading = true
     }
 
     // Stop load more
-    public func stopLoadMore() {
+    func stopLoadMore() {
         headerRefreshView?.isLoading = false
     }
 
     // Set enable/disable for loading more
-    public func setLoadMoreEnable(_ enable: Bool) {
+    func setLoadMoreEnable(_ enable: Bool) {
         headerRefreshView?.isEnabled = enable
     }
 }
@@ -68,7 +68,7 @@ public extension UIScrollView {
     }
 
     // Add pull to refresh view with default animator
-    public func addFooterRefresh(action: @escaping (() -> ())) {
+    func addFooterRefresh(action: @escaping (() -> ())) {
         let origin = CGPoint(x: 0, y: -footerRefreshDefaultHeight)
         let size = CGSize(width: self.frame.size.width, height: footerRefreshDefaultHeight)
         let frame = CGRect(origin: origin, size: size)
@@ -78,12 +78,12 @@ public extension UIScrollView {
     }
 
     // Start pull to refresh
-    public func startFooterRefresh() {
+    func startFooterRefresh() {
         footerRefreshView?.isLoading = true
     }
 
     // Stop pull to refresh
-    public func stopFooterRefresh() {
+    func stopFooterRefresh() {
         footerRefreshView?.isLoading = false
     }
 }
