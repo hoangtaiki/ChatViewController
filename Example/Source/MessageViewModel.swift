@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ObjectMapper
 import SwiftyJSON
 
 enum BubbleStyle {
@@ -68,26 +67,20 @@ class MessageViewModel {
         }
     }
 
-    private func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination?) -> ()) where T: Mappable {
+    private func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination?) -> ()) where T: Decodable {
         guard let jsonData = Data.dataFromJSONFile(fileName) else {
             completion([], nil)
             return
         }
 
-        do {
-            let jsonObj = try JSON(data: jsonData)
-            guard let dictionObject = jsonObj.dictionaryObject else { return }
-
-            guard let listReponse = Mapper<ListResponseObject<T>>().map(JSON: dictionObject) else {
-                return
-            }
-
-            completion(listReponse.data, listReponse.pagination)
-        } catch {
-            print("Error \(error)")
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        
+        guard let listResponse = try? decoder.decode(ListResponseObject<T>.self, from: jsonData) else {
             completion([], nil)
             return
         }
+        completion(listResponse.data, listResponse.pagination)
     }
 }
 
@@ -164,5 +157,16 @@ extension MessageViewModel {
 
         return indexPathWillAdds
     }
+}
 
+extension DateFormatter {
+    
+    static let iso8601Full: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
 }

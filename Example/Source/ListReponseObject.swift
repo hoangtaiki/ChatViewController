@@ -7,18 +7,25 @@
 //
 
 import Foundation
-import ObjectMapper
 
-struct ListResponseObject<T: Mappable>: Mappable {
+struct ListResponseObject<T: Decodable>: Decodable {
 
-    private(set) var data: [T] = []
-    private(set) var pagination: Pagination?
-
-    init?(map: Map) {
+    var data: [T]
+    var pagination: Pagination?
+    
+    enum CodingKeys: String, CodingKey {
+        case data
+        case meta
     }
-
-    mutating func mapping(map: Map) {
-        data <- map["data"]
-        pagination <- map["meta.pagination"]
+    
+    enum MetaKeys: String, CodingKey {
+        case pagination
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        data = try values.decode([T].self, forKey: .data)
+        let meta = try values.nestedContainer(keyedBy: MetaKeys.self, forKey: .meta)
+        pagination = try meta.decode(Pagination.self, forKey: .pagination)
     }
 }

@@ -14,10 +14,10 @@
 	"meta": {
 		"custom": [],
 		"pagination": {
-			"page": 1,
-			"pages": 1,
-			"total": 2
-		},
+            "page": 1,
+            "page_size": 20,
+            "total": 2
+        },
 		"include": []
 	}
 }

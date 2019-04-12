@@ -193,11 +193,11 @@ extension ImagePickerCollectionView: UICollectionViewDelegate {
 
 extension ImagePickerCollectionView: UIScrollViewDelegate {
 
-    private func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         startCacheImages()
     }
 
-    private func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard decelerate != true else {
             return
         }

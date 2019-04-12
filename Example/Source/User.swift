@@ -6,14 +6,13 @@
 //  Copyright © 2018 toprating. All rights reserved.
 //
 
-import ObjectMapper
 import ChatViewController
 
-struct User: Userable, Mappable {
+struct User: Userable, Decodable {
 
-    var id: Int!
-    var name: String = ""
-    var avatarURL: URL?
+    let id: Int
+    let name: String
+    let avatarURL: URL?
 
     var idNumber: String {
         get {
@@ -27,22 +26,15 @@ struct User: Userable, Mappable {
         }
     }
 
-
-    init?(map: Map) {
-        if map.JSON["id"] == nil {
-            return nil
-        }
-    }
-
     init(id: Int, name: String, avatarURL: URL? = nil) {
         self.id = id
         self.name = name
         self.avatarURL = avatarURL
     }
-
-    mutating func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        avatarURL <- (map["avatar_url"], URLTransform())
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case avatarURL = "avatar_url"
     }
 }

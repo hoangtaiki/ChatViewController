@@ -14,7 +14,6 @@
 		4D4755C620CF6A36005B9493 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4755C520CF6A36005B9493 /* User.swift */; };
 		4D605BD520F860F300402847 /* conversation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D605BD320F860F300402847 /* conversation.json */; };
 		4D605BD620F860F300402847 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D605BD420F860F300402847 /* user.json */; };
-		4D605BD820F8721300402847 /* ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BD720F8721300402847 /* ObjectMapper.swift */; };
 		4D605BDA20F8983000402847 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BD920F8983000402847 /* Data.swift */; };
 		4D605BDC20F8A5DD00402847 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BDB20F8A5DD00402847 /* Pagination.swift */; };
 		4D605BDE20F8A66B00402847 /* ListReponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D605BDD20F8A66B00402847 /* ListReponseObject.swift */; };
@@ -45,7 +44,6 @@
 		4D4755C520CF6A36005B9493 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4D605BD320F860F300402847 /* conversation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = conversation.json; sourceTree = "<group>"; };
 		4D605BD420F860F300402847 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
-		4D605BD720F8721300402847 /* ObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
 		4D605BD920F8983000402847 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		4D605BDB20F8A5DD00402847 /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		4D605BDD20F8A66B00402847 /* ListReponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListReponseObject.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 			children = (
 				4DCF30C620D16F7200454E7A /* Array.swift */,
 				4DCF30D020D360F100454E7A /* Kingfisher.swift */,
-				4D605BD720F8721300402847 /* ObjectMapper.swift */,
 				4DCF30C420D0B95200454E7A /* UIBezierPath.swift */,
 				4D605BD920F8983000402847 /* Data.swift */,
 				4D61393C211F1B7400ACB492 /* UIViewController.swift */,
@@ -330,7 +327,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-iOS Example/Pods-iOS Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChatViewController/ChatViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PlaceholderUITextView/PlaceholderUITextView.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
@@ -340,7 +336,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlaceholderUITextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -375,7 +370,6 @@
 				4DCF30C920D2538700454E7A /* MessageCell.swift in Sources */,
 				4D92F6D821AEF0F500E0A241 /* ImagePickerType.swift in Sources */,
 				4D605BDC20F8A5DD00402847 /* Pagination.swift in Sources */,
-				4D605BD820F8721300402847 /* ObjectMapper.swift in Sources */,
 				4DCF30CB20D25B1600454E7A /* FileInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,8 +516,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BZ938KC628;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -543,8 +537,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BZ938KC628;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
