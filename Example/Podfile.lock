@@ -1,21 +1,18 @@
 PODS:
-  - ChatViewController (1.0.0):
+  - ChatViewController (1.1.0):
     - PlaceholderUITextView
-  - Kingfisher (4.10.1)
-  - ObjectMapper (3.4.1)
-  - PlaceholderUITextView (1.0.1)
-  - SwiftyJSON (4.2.0)
+  - Kingfisher (5.3.1)
+  - PlaceholderUITextView (1.2.0)
+  - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
   - ChatViewController (from `..`)
   - Kingfisher
-  - ObjectMapper
   - SwiftyJSON
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Kingfisher
-    - ObjectMapper
     - PlaceholderUITextView
     - SwiftyJSON
 
@@ -24,12 +21,11 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  ChatViewController: ce15bb2de6f5dd5e19f5cc2ec2ed45e25a7a0aea
-  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
-  ObjectMapper: 5311bd50ca732930959e7ca1a2de43ab823a5ced
-  PlaceholderUITextView: c199eb40f4a55d8be4d67492d6ed1ef67b8d8811
-  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  ChatViewController: e2ab18e0a4910cce0544773239ba1549a9afe4b9
+  Kingfisher: d9e7e0b209b59b8f9873aa2f37654e81a7beea51
+  PlaceholderUITextView: a2158e51dc0a3217ecca2d879bbe59372292d391
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: d779e327654b3ad61badf7cba2ebd44c2e838f08
+PODFILE CHECKSUM: dca9be4f0f56343a982263e8bd7d779297a35449
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.6.0

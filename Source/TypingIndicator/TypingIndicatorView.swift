@@ -96,7 +96,7 @@ public class TypingIndicatorView: UIView {
 
     // Remove an typing's user
     open func removeUser(_ user: Userable) {
-        guard let index = users.index(where: { $0.idNumber == user.idNumber }) else {
+        guard let index = users.firstIndex(where: { $0.idNumber == user.idNumber }) else {
             return
         }
 

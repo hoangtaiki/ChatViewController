@@ -205,7 +205,7 @@ extension MessageViewController {
             var user: User
             switch numberUserTypings {
             case 0:
-                user = User(id: 1, name: "Harry")
+                user = User (id: 1, name: "Harry")
             case 1:
                 user = User(id: 2, name: "Bob")
             default:

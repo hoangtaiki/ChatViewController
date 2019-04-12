@@ -17,7 +17,7 @@ public extension UITableView {
         })
     }
     
-    public func scrollToFirstCell() {
+    func scrollToFirstCell() {
         if numberOfSections > 0 {
             if numberOfRows(inSection: 0) > 0 {
                 scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
@@ -25,7 +25,7 @@ public extension UITableView {
         }
     }
 
-    public func scrollToLastCell(animated: Bool) {
+    func scrollToLastCell(animated: Bool) {
         if numberOfSections > 0 {
             let nRows = numberOfRows(inSection: numberOfSections - 1)
             if nRows > 0 {
@@ -34,7 +34,7 @@ public extension UITableView {
         }
     }
 
-    public func stopScrolling() {
+    func stopScrolling() {
         guard isDragging else {
             return
         }
@@ -46,7 +46,7 @@ public extension UITableView {
         setContentOffset(offset, animated: false)
     }
 
-    public func scrolledToBottom() -> Bool {
+    func scrolledToBottom() -> Bool {
         return contentOffset.y >= (contentSize.height - bounds.size.height)
     }
 }
