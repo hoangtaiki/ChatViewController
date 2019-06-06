@@ -14,7 +14,7 @@ class MessageViewController: ChatViewController {
     var viewModel: MessageViewModel!
     var imagePickerHelper: ImagePickerHelper?
     var numberUserTypings = 0
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -236,10 +236,11 @@ extension MessageViewController {
     private func reloadLastMessageCell() {
         tableView.beginUpdates()
         let lastIndexPath = IndexPath(row: 1, section: 0)
-        let cell = tableView.cellForRow(at: lastIndexPath) as! MessageCell
+        let cell = tableView.cellForRow(at: lastIndexPath) as? MessageCell
         let positionInBlock = viewModel.getPositionInBlockForMessageAtIndex(lastIndexPath.row)
-        cell.updateLayoutForBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
-        cell.roundViewWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
+        cell?.updateLayoutForBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
+        cell?.roundViewWithBubbleStyle(viewModel.bubbleStyle, positionInBlock: positionInBlock)
         tableView.endUpdates()
+        tableView.scrollToFirstCell()
     }
 }

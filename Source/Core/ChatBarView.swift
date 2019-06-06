@@ -9,7 +9,7 @@
 import UIKit
 import PlaceholderUITextView
 
-open class ChatBarView: UIView {
+public class ChatBarView: UIView {
 
     /// Height of TextView
     public var textViewCurrentHeight: CGFloat = 0
@@ -25,15 +25,15 @@ open class ChatBarView: UIView {
     public var maxChatBarHeight: CGFloat = 0
 
     /// Leading constraint constant value for leftStackView
-    open var leadingConstant: CGFloat = 6.0
+    public var leadingConstant: CGFloat = 6.0
     /// Trailing constraint constant value for rightStackView
-    open var trailingConstant: CGFloat = 6.0
+    public var trailingConstant: CGFloat = 6.0
     /// Top constraint constant value for topStackView
-    open var topConstant: CGFloat = 6.0
+    public var topConstant: CGFloat = 6.0
     /// Bottom constraint constant value for bottomStackView
-    open var bottomConstant: CGFloat = 6.0
+    public var bottomConstant: CGFloat = 6.0
 
-    open lazy var textView: PlaceholderUITextView = {
+    public lazy var textView: PlaceholderUITextView = {
         let textView = PlaceholderUITextView()
         textView.placeholder = "Type a message"
         textView.font = UIFont.systemFont(ofSize: 15)
@@ -43,7 +43,7 @@ open class ChatBarView: UIView {
         return textView
     }()
 
-    open var sendButton: ChatButton = {
+    public var sendButton: ChatButton = {
         let sendButton = ChatButton()
         sendButton.isEnabled = false
         sendButton.setTitle("Send", for: .normal)
@@ -51,7 +51,7 @@ open class ChatBarView: UIView {
         return sendButton
     }()
 
-    open var galleryButton: ChatButton = {
+    public var galleryButton: ChatButton = {
         let galleryButton = ChatButton()
         galleryButton.isEnabled = true
         var image = UIImage(named: "ic_gallery", in: Bundle.chatBundle, compatibleWith: nil)
@@ -71,8 +71,8 @@ open class ChatBarView: UIView {
     public var topStackView = ChatStackView(axis: .horizontal, spacing: 0)
     public var bottomStackView = ChatStackView(axis: .horizontal, spacing: 0)
 
-    fileprivate var topBorderLayoutSet: LayoutConstraintSet?
-    fileprivate var centerStackViewLayoutSet: LayoutConstraintSet?
+    private var topBorderLayoutSet: LayoutConstraintSet?
+    private var centerStackViewLayoutSet: LayoutConstraintSet?
 
     // The InputBarItems
     public private(set) var leftStackViewItems: [ChatButton] = []
@@ -191,12 +191,11 @@ open class ChatBarView: UIView {
 
         return height
     }
-
 }
 
 extension ChatBarView {
 
-    fileprivate func setUI() {
+    private func setUI() {
         backgroundColor = .white
         textView.keyboardType = .default
         clipsToBounds = true
@@ -234,7 +233,7 @@ extension ChatBarView {
     }
 
     /// Sets up the initial constraints of each subview
-    fileprivate func setupConstraints() {
+    private func setupConstraints() {
         // LayoutConstraint for topBorderLine
         topBorderLayoutSet = LayoutConstraintSet(
             top: topBorderLine.topAnchor.constraint(equalTo: topAnchor),
@@ -267,24 +266,14 @@ extension ChatBarView {
     }
 
     /// Activates the NSLayoutConstraintSet's
-    fileprivate func activateConstraints() {
+    private func activateConstraints() {
         topBorderLayoutSet?.activate()
         centerStackViewLayoutSet?.activate()
     }
 
     /// Deactivates the NSLayoutConstraintSet's
-    fileprivate func deactivateConstraints() {
+    private func deactivateConstraints() {
         topBorderLayoutSet?.deactivate()
         centerStackViewLayoutSet?.deactivate()
-    }
-
-    fileprivate func textViewHeightForLines(_ numberOfLines: Int) -> CGFloat {
-        var height = textView.intrinsicContentSize.height
-        if let font = textView.font {
-            height -= font.lineHeight
-            height += CGFloat(roundf(Float(font.lineHeight) * Float(numberOfLines)))
-        }
-
-        return height
     }
 }
