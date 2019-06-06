@@ -19,7 +19,7 @@ public class ChatButton: UIButton {
     public typealias ChatButtonAction = ((ChatButton) -> Void)
     
     /// Determind spacing. Depend on ContentHuggingPriority
-    open var spacing: Spacing = .none {
+    public var spacing: Spacing = .none {
         didSet {
             switch spacing {
             case .flexible:
@@ -46,7 +46,7 @@ public class ChatButton: UIButton {
         return item
     }
     
-    open var size: CGSize? = CGSize(width: 20, height: 20) {
+    public var size: CGSize? = CGSize(width: 20, height: 20) {
         didSet {
             invalidateIntrinsicContentSize()
         }
@@ -185,5 +185,4 @@ public class ChatButton: UIButton {
         onDisabledAction = action
         return self
     }
-    
 }

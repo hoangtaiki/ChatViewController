@@ -45,5 +45,4 @@ open class ChatStackView: UIStackView {
         distribution = .fill
         alignment = .bottom
     }
-
 }
