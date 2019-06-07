@@ -43,6 +43,7 @@
 		4DBFF71720AED7E400D2799A /* ChatViewController+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */; };
 		4DFEB7C421B8217400A3E66D /* PlaceholderUITextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFEB7C221B81FA100A3E66D /* PlaceholderUITextView.framework */; };
 		4DFEB7C821B906E600A3E66D /* ChatViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFEB7C721B906E600A3E66D /* ChatViewConfiguration.swift */; };
+		998CC54822AA1D4600343B56 /* MediaProcesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998CC54722AA1D4600343B56 /* MediaProcesser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		4DBFF71620AED7E400D2799A /* ChatViewController+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Subviews.swift"; sourceTree = "<group>"; };
 		4DFEB7C221B81FA100A3E66D /* PlaceholderUITextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlaceholderUITextView.framework; path = Carthage/Build/iOS/PlaceholderUITextView.framework; sourceTree = "<group>"; };
 		4DFEB7C721B906E600A3E66D /* ChatViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewConfiguration.swift; sourceTree = "<group>"; };
+		998CC54722AA1D4600343B56 /* MediaProcesser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaProcesser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				4D4755B520CE9027005B9493 /* ImagePickerCollectionView.swift */,
 				4D4755B320CE9005005B9493 /* ImagePickerHelper.swift */,
 				4D4755B720CE91C1005B9493 /* ImagePickerView.swift */,
+				998CC54722AA1D4600343B56 /* MediaProcesser.swift */,
 				4D4755A920CE859C005B9493 /* PhotoDataManager.swift */,
 				4D4755AB20CE87D4005B9493 /* UIImage+Extensions.swift */,
 			);
@@ -329,6 +332,7 @@
 				4D613931211D7EB200ACB492 /* FooterRefreshView.swift in Sources */,
 				4D613935211D7F6C00ACB492 /* FooterRefreshAnimator.swift in Sources */,
 				4D47559020CE292B005B9493 /* Bundle.swift in Sources */,
+				998CC54822AA1D4600343B56 /* MediaProcesser.swift in Sources */,
 				4D4755B020CE8F33005B9493 /* ImagePickerCollectionHeader.swift in Sources */,
 				4D61392F211D7EA300ACB492 /* HeaderRefreshView.swift in Sources */,
 				4D4755AC20CE87D4005B9493 /* UIImage+Extensions.swift in Sources */,
