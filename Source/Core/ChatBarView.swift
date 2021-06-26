@@ -59,6 +59,7 @@ public class ChatBarView: UIView {
         image = tempImage
         galleryButton.image = image
         galleryButton.tintColor = UIColor.gray
+        galleryButton.isHidden = true
         return galleryButton
     }()
 
@@ -214,7 +215,7 @@ extension ChatBarView {
         centerStackView.distribution = .fill
         centerStackView.axis = .horizontal
         centerStackView.translatesAutoresizingMaskIntoConstraints = false
-        centerStackView.addArrangedSubview(leftStackView)
+//        centerStackView.addArrangedSubview(leftStackView)
         centerStackView.addArrangedSubview(textView)
         centerStackView.addArrangedSubview(rightStackView)
 

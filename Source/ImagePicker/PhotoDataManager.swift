@@ -49,15 +49,15 @@ public final class PhotoDataManager: NSObject {
         self.delegate = delegate
         super.init()
 
-        PHPhotoLibrary.requestAuthorization { (status) in
-            switch status {
-            case .authorized:
-                self.loadAssets()
-                PHPhotoLibrary.shared().register(self)
-            default:
-                break
-            }
-        }
+//        PHPhotoLibrary.requestAuthorization { (status) in
+//            switch status {
+//            case .authorized:
+//                self.loadAssets()
+//                PHPhotoLibrary.shared().register(self)
+//            default:
+//                break
+//            }
+//        }
     }
 
     deinit {
