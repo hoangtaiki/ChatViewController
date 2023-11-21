@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 
 enum BubbleStyle {
     case facebook
@@ -38,7 +37,7 @@ class MessageViewModel {
         getUserData()
     }
 
-    func firstLoadData(completion: @escaping (() -> ())) {
+    func firstLoadData(completion: @escaping (() -> Void)) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             self?.getDataFromFile(fileName: "conversation") { (messageResponse: [Message], pagi) in
                 self?.messages = self!.handleDataSource(messages: messageResponse).reversed()
@@ -47,8 +46,7 @@ class MessageViewModel {
             }
         }
     }
-
-    func loadMoreData(completion: @escaping ((_ indexPathWillAdds: [IndexPath]) -> ())) {
+    func loadMoreData(completion: @escaping ((_ indexPathWillAdds: [IndexPath]) -> Void) ) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             self?.getDataFromFile(fileName: "conversation_older") { (messageResponse: [Message], pagi) in
                 let indexPathWillAdds = self!.getIndexPathWillAdds(newDataSize: messageResponse.count)
@@ -67,7 +65,7 @@ class MessageViewModel {
         }
     }
 
-    private func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination?) -> ()) where T: Decodable {
+    private func getDataFromFile<T>(fileName: String, completion: (_ data: [T], _ pagination: Pagination?) -> Void) where T: Decodable {
         guard let jsonData = Data.dataFromJSONFile(fileName) else {
             completion([], nil)
             return

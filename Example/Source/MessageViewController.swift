@@ -45,7 +45,13 @@ class MessageViewController: ChatViewController {
         let message = viewModel.messages[indexPath.row]
         let cellIdentifer = message.cellIdentifer()
         let user = viewModel.getUserFromID(message.sendByID)
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifer, for: indexPath) as! MessageCell
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: cellIdentifer,
+            for: indexPath) as? MessageCell
+        else {
+            fatalError("DequeueReusableCell failed while casting")
+        }
+        
         let positionInBlock = viewModel.getPositionInBlockForMessageAtIndex(indexPath.row)
 
         cell.transform = tableView.transform
@@ -57,7 +63,10 @@ class MessageViewController: ChatViewController {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let chatCell = cell as! MessageCell
+        guard let chatCell = cell as? MessageCell else {
+            return
+        }
+        
         let positionInBlock = viewModel.getPositionInBlockForMessageAtIndex(indexPath.row)
 
         chatCell.layoutIfNeeded()
@@ -118,14 +127,14 @@ extension MessageViewController {
         let typingButton = UIButton(type: .system)
         typingButton.setImage(UIImage(named: "ic_typing"), for: .normal)
         typingButton.adjustsImageWhenHighlighted = false
-        typingButton.addTarget(self, action:#selector(handleTypingButton), for:.touchUpInside)
+        typingButton.addTarget(self, action: #selector(handleTypingButton), for: .touchUpInside)
         typingButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let typingButtonBarItem = UIBarButtonItem(customView: typingButton)
         
         let hideChatBarButton = UIButton(type: .system)
         hideChatBarButton.setImage(UIImage(named: "ic_keyboard"), for: .normal)
         hideChatBarButton.adjustsImageWhenHighlighted = false
-        hideChatBarButton.addTarget(self, action:#selector(handleShowHideChatBar(_:)), for:.touchUpInside)
+        hideChatBarButton.addTarget(self, action: #selector(handleShowHideChatBar(_:)), for: .touchUpInside)
         hideChatBarButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         hideChatBarButton.transform = CGAffineTransform(rotationAngle: .pi)
         let hideChatBarButtonItem = UIBarButtonItem(customView: hideChatBarButton)
@@ -192,10 +201,11 @@ extension MessageViewController {
         
         // Check if we have more than one message
         switch viewModel.bubbleStyle {
-        case .facebook:
-            if viewModel.messages.count <= 1 { return }
-            reloadLastMessageCell()
-        default: break
+            case .facebook:
+                if viewModel.messages.count <= 1 { return }
+                reloadLastMessageCell()
+            default: 
+                break
         }
     }
 
@@ -204,12 +214,12 @@ extension MessageViewController {
         case 0, 1, 2:
             var user: User
             switch numberUserTypings {
-            case 0:
-                user = User (id: 1, name: "Harry")
-            case 1:
-                user = User(id: 2, name: "Bob")
-            default:
-                user = User(id: 3, name: "Liliana")
+                case 0:
+                    user = User(id: 1, name: "Harry")
+                case 1:
+                    user = User(id: 2, name: "Bob")
+                default:
+                    user = User(id: 3, name: "Liliana")
             }
             viewModel.users.append(user)
             typingIndicatorView.insertUser(user)
@@ -219,7 +229,6 @@ extension MessageViewController {
                 typingIndicatorView.removeUser(user)
             }
             numberUserTypings = 0
-            break
         }
     }
     

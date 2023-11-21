@@ -5,6 +5,7 @@
 //  Created by Hoangtaiki on 6/12/18.
 //  Copyright © 2018 toprating. All rights reserved.
 //
+// swiftlint:disable implicit_getter
 
 import ChatViewController
 
@@ -38,3 +39,4 @@ struct User: Userable, Decodable {
         case avatarURL = "avatar_url"
     }
 }
+// swiftlint:enable implicit_getter

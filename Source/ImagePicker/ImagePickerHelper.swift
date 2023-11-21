@@ -52,12 +52,13 @@ public class ImagePickerHelper: NSObject, ImagePickerHelperable, UIImagePickerCo
         parentViewController?.present(alert, animated: true, completion: nil)
     }
     
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         defer {
             picker.dismiss(animated: true, completion: nil)
         }
 
-        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! CFString
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! CFString 
+        
         switch mediaType {
         case kUTTypeImage:
             guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {

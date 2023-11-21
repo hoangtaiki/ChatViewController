@@ -43,7 +43,7 @@ public final class ImagePickerCollectionView: UICollectionView {
 
         commonInit()
     }
-
+    
     func resetUI() {
         if photoDataManager.photoCount() > 0 {
             scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
@@ -57,6 +57,10 @@ public final class ImagePickerCollectionView: UICollectionView {
             layoutSubviews()
             reloadData()
         }
+    }
+    
+    func requestPHAuthorization() {
+        photoDataManager?.requestPHAuthorization()
     }
 
     fileprivate func commonInit() {
@@ -109,16 +113,22 @@ extension ImagePickerCollectionView: UICollectionViewDataSource {
         return dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionCell.reuseIdentifier, for: indexPath)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, 
+                               viewForSupplementaryElementOfKind kind: String,
+                               at indexPath: IndexPath) -> UICollectionReusableView {
+        let reuseIdentifier = ImagePickerCollectionHeader.reuseIdentifier
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                         withReuseIdentifier: ImagePickerCollectionHeader.reuseIdentifier,
-                                                                         for: indexPath) as! ImagePickerCollectionHeader
+                                                                         withReuseIdentifier: reuseIdentifier,
+                                                                         for: indexPath)
+        guard let header = headerView as? ImagePickerCollectionHeader else {
+            fatalError("DequeueReusableCell failed while casting")
+        }
 
-        headerView.delegate = self
-        headerView.spaceBetweenButtons = 60
-        headerView.layoutIfNeeded()
+        header.delegate = self
+        header.spaceBetweenButtons = 60
+        header.layoutIfNeeded()
 
-        return headerView
+        return header
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

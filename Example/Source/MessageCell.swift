@@ -5,6 +5,7 @@
 //  Created by Hoangtaiki on 6/14/18.
 //  Copyright © 2018 toprating. All rights reserved.
 //
+// swiftlint:disable function_body_length
 
 import UIKit
 import Kingfisher
@@ -218,13 +219,12 @@ extension MessageCell {
     /// Mask `roundedView` by an CAShapeLayer with a rectangle
     func roundViewWithBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) {
         let bounds = roundedView.bounds
-        var roundRadius: (tl: CGFloat, tr: CGFloat, bl: CGFloat, br: CGFloat)
-        roundRadius = getRoundRadiusForBubbleStyle(bubbleStyle, positionInBlock: positionInBlock)
+        let cornerRadius = getRoundRadiusForBubbleStyle(bubbleStyle, positionInBlock: positionInBlock)
         let path = UIBezierPath(roundedRect: bounds,
-                                topLeftRadius: roundRadius.tl,
-                                topRightRadius: roundRadius.tr,
-                                bottomLeftRadius: roundRadius.bl,
-                                bottomRightRadius: roundRadius.br)
+                                topLeftRadius: cornerRadius.topLeft,
+                                topRightRadius: cornerRadius.topRight,
+                                bottomLeftRadius: cornerRadius.bottomLeft,
+                                bottomRightRadius: cornerRadius.bottomRight)
         path.lineJoinStyle = .round
         
         let maskLayer = CAShapeLayer()
@@ -234,24 +234,30 @@ extension MessageCell {
         roundedView.layer.mask = maskLayer
     }
     
+    struct CornerRadius {
+        let topLeft: CGFloat
+        let topRight: CGFloat
+        let bottomLeft: CGFloat
+        let bottomRight: CGFloat
+    }
+    
     /// Get radius value for four corners
-    func getRoundRadiusForBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) -> (CGFloat, CGFloat, CGFloat, CGFloat) {
+    func getRoundRadiusForBubbleStyle(_ bubbleStyle: BubbleStyle, positionInBlock: PositionInBlock) -> CornerRadius {
         switch bubbleStyle {
         // For instagram
         case .instagram:
-            return (16, 16, 16, 16)
-            
+                return CornerRadius(topLeft: 16, topRight: 16, bottomLeft: 16, bottomRight: 16)
         // For facebook bubble style
         case .facebook:
             switch positionInBlock {
-            case .top:
-                return (16, 16, 4, 16)
-            case .center:
-                return (4, 16, 4, 16)
-            case .bottom:
-                return (4, 16, 16, 16)
-            case .single:
-                return (16, 16, 16, 16)
+                case .top:
+                    return CornerRadius(topLeft: 16, topRight: 16, bottomLeft: 4, bottomRight: 16)
+                case .center:
+                    return CornerRadius(topLeft: 4, topRight: 16, bottomLeft: 4, bottomRight: 16)
+                case .bottom:
+                    return CornerRadius(topLeft: 4, topRight: 16, bottomLeft: 16, bottomRight: 16)
+                case .single:
+                    return CornerRadius(topLeft: 16, topRight: 16, bottomLeft: 16, bottomRight: 16)
             }
         }
     }
@@ -281,3 +287,5 @@ extension MessageCell {
         }
     }
 }
+
+// swiftlint:enable function_body_length

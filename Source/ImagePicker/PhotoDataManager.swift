@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 /// PhotoDataManagerDelegate
-public protocol PhotoDataManagerDelegate: class {
+public protocol PhotoDataManagerDelegate: AnyObject {
     // Trigger whenever PhotoDataManager update
     func photoDataManagerDidUpdate()
     // Image size need export
@@ -42,28 +42,30 @@ public final class PhotoDataManager: NSObject {
             }
         }
     }
-
+    
     public init(with options: PhotoDataManagerOptions, delegate: PhotoDataManagerDelegate) {
         self.options = options
         imageManager = PHCachingImageManager()
         self.delegate = delegate
         super.init()
-
-        PHPhotoLibrary.requestAuthorization { (status) in
-            switch status {
-            case .authorized:
-                self.loadAssets()
-                PHPhotoLibrary.shared().register(self)
-            default:
-                break
-            }
-        }
     }
 
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
-
+    
+    public func requestPHAuthorization() {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            switch status {
+                case .authorized:
+                    self.loadAssets()
+                    PHPhotoLibrary.shared().register(self)
+                default:
+                    break
+            }
+        }
+    }
+    
     /// Cache image for index path with target size from delegate
     public func cacheImage(for indexPath: IndexPath) {
         guard

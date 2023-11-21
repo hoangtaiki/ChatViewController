@@ -15,7 +15,6 @@ enum FileType: Int, Decodable {
 }
 
 struct FileInfo: Decodable {
-
     let id: String
     let type: FileType
     let originalURL: URL?

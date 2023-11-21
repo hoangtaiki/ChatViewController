@@ -120,7 +120,7 @@ extension ChatViewController {
     /// Show keyboard from nothing
     // Handle keyboard show/hide notification to animation show ChatBarView
     func animateKeyboard(notification: Notification, isShowing: Bool) {
-        var userInfo = notification.userInfo!
+        let userInfo = notification.userInfo!
         let keyboardRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue
         let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
 
@@ -231,6 +231,7 @@ extension ChatViewController {
         tableView.stopScrolling()
         imagePickerView?.isHidden = false
         imagePickerView?.collectionView.resetUI()
+        imagePickerView?.collectionView.requestPHAuthorization()
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = -self.customKeyboardHeight
