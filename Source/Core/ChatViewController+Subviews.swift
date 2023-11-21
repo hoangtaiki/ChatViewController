@@ -231,6 +231,7 @@ extension ChatViewController {
         tableView.stopScrolling()
         imagePickerView?.isHidden = false
         imagePickerView?.collectionView.resetUI()
+        imagePickerView?.collectionView.requestPHAuthorization()
 
         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.chatBarBottomConstraint.constant = -self.customKeyboardHeight

@@ -43,7 +43,7 @@ public final class ImagePickerCollectionView: UICollectionView {
 
         commonInit()
     }
-
+    
     func resetUI() {
         if photoDataManager.photoCount() > 0 {
             scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
@@ -57,6 +57,10 @@ public final class ImagePickerCollectionView: UICollectionView {
             layoutSubviews()
             reloadData()
         }
+    }
+    
+    func requestPHAuthorization() {
+        photoDataManager?.requestPHAuthorization()
     }
 
     fileprivate func commonInit() {
