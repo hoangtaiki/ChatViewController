@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 /// PhotoDataManagerDelegate
-public protocol PhotoDataManagerDelegate: class {
+public protocol PhotoDataManagerDelegate: AnyObject {
     // Trigger whenever PhotoDataManager update
     func photoDataManagerDidUpdate()
     // Image size need export

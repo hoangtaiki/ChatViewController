@@ -120,7 +120,7 @@ extension ChatViewController {
     /// Show keyboard from nothing
     // Handle keyboard show/hide notification to animation show ChatBarView
     func animateKeyboard(notification: Notification, isShowing: Bool) {
-        var userInfo = notification.userInfo!
+        let userInfo = notification.userInfo!
         let keyboardRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue
         let curve = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).uint32Value
 

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 
 enum BubbleStyle {
     case facebook
