@@ -9,14 +9,14 @@ import UIKit
 
 public extension UITableView {
 
-    func reloadData(completion: @escaping () -> ()) {
+    func reloadData(completion: @escaping () -> Void) {
         UIView.animate(withDuration: 0, animations: {
             self.reloadData()
         }, completion: { _ in
             completion()
         })
     }
-    
+
     func scrollToFirstCell() {
         if numberOfSections > 0 {
             if numberOfRows(inSection: 0) > 0 {
@@ -27,9 +27,9 @@ public extension UITableView {
 
     func scrollToLastCell(animated: Bool) {
         if numberOfSections > 0 {
-            let nRows = numberOfRows(inSection: numberOfSections - 1)
-            if nRows > 0 {
-                scrollToRow(at: IndexPath(row: nRows - 1, section: numberOfSections - 1), at: .bottom, animated: animated)
+            let rows = numberOfRows(inSection: numberOfSections - 1)
+            if rows > 0 {
+                scrollToRow(at: IndexPath(row: rows - 1, section: numberOfSections - 1), at: .bottom, animated: animated)
             }
         }
     }

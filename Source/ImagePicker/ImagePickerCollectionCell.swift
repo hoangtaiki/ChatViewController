@@ -33,7 +33,7 @@ public final class ImagePickerCollectionCell: UICollectionViewCell {
 
         setupUI()
     }
-    
+
     public override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -51,7 +51,7 @@ public final class ImagePickerCollectionCell: UICollectionViewCell {
                           Int(duration.truncatingRemainder(dividingBy: 60)))
         videoDurationLabel.text = text
     }
-    
+
     private func setupUI() {
         imageView = UIImageView()
         imageView.clipsToBounds = true
@@ -63,7 +63,7 @@ public final class ImagePickerCollectionCell: UICollectionViewCell {
         imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
+
         iconVideo = UIImageView()
         iconVideo.clipsToBounds = true
         iconVideo.contentMode = .scaleAspectFit
@@ -79,14 +79,14 @@ public final class ImagePickerCollectionCell: UICollectionViewCell {
         videoDurationLabel.textColor = .white
         videoDurationLabel.text = "0:00:00"
         videoDurationLabel.isHidden = true
-        
+
         let stackView = UIStackView(arrangedSubviews: [videoDurationLabel, iconVideo])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.spacing = 3
         addSubview(stackView)
-        
+
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
     }

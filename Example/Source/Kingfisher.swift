@@ -19,5 +19,3 @@ extension UIImageView {
         kf.setImage(with: resource, placeholder: placeholder, options: optionInfo)
     }
 }
-
-
